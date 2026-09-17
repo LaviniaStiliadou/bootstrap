@@ -26,32 +26,40 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
         run: npm install
+        env:
+          NODE_ENV: production
 
+      # Generates the repository's dist/css and dist/js
       - name: Build Bootstrap assets
-        run: npm run test
-        continue-on-error: true
+        run: npm run dist
         env:
           NODE_ENV: production
 
-      - name: Build Astro site
-        run: npm run build
+      # Build the actual Astro documentation site
+      - name: Build documentation
+        run: npm run docs-build
         env:
           NODE_ENV: production
 
-      - name: Inspect dist
+      # Show exactly what will be deployed
+      - name: Inspect generated site
         run: |
-          echo "Generated files:"
-          find dist -type f | sort
+          echo "=== Bootstrap assets ==="
+          find dist -maxdepth 2 -type f | sort | head -50
 
-      - name: Upload GitHub Pages artifact
+          echo ""
+          echo "=== Documentation site ==="
+          find _site -type f | sort | head -200
+
+      - name: Upload documentation site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./_site
 
   deploy:
     needs: build

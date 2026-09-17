@@ -9,12 +9,11 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const site = isDev
   ? 'http://localhost:9001'
-  : process.env.GITHUB_PAGES_URL ??
-    getConfig().baseURL
+  : 'https://laviniastiliadou.github.io/bootstrap'
 
 export default defineConfig({
   site,
-  base: new URL(site).pathname,
+  base: isDev ? '/' : '/bootstrap/',
 
   build: {
     assets: `docs/${getConfig().docs_version}/assets`

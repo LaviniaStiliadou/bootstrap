@@ -34,12 +34,6 @@ jobs:
         env:
           NODE_ENV: production
 
-      # Generates the repository's dist/css and dist/js
-      - name: Build Bootstrap assets
-        run: npm run dist
-        env:
-          NODE_ENV: production
-
       # Build the actual Astro documentation site
       - name: Build documentation
         run: npm run docs-build

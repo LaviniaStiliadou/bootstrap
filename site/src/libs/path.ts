@@ -21,17 +21,6 @@ export function getVersionedDocsPath(docsPath: string): string {
   return `${import.meta.env.BASE_URL}docs/${docs_version}/${sanitizedDocsPath}`
 }
 
-export function getVersionedBlogsPath(docsPath: string): string {
-  const { docs_version } = getConfig()
-  const sanitizedDocsPath = docsPath.replace(/^\/+/, '')
-
-  if (import.meta.env.PROD) {
-    generatedVersionedDocsPaths.push(sanitizedDocsPath)
-  }
-
-  return `${import.meta.env.BASE_URL}blog/${docs_version}/${sanitizedDocsPath}`
-}
-
 // Validate that all the generated versioned docs paths point to an existing page or asset.
 // This is useful to catch typos in docs paths.
 //

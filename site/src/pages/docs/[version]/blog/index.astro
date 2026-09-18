@@ -1,31 +1,184 @@
 ---
+
 import SingleLayout from '@layouts/SingleLayout.astro'
 import { getConfig } from '@libs/config'
-import ExamplesMain from '@layouts/partials/ExamplesMain.astro'
+
 export function getStaticPaths() {
-  return [
-    {
-      params: { version: getConfig().docs_version }
-    }
-  ]
+return [
+{
+params: { version: getConfig().docs_version }
 }
----
+]
+}
+
+const posts = [
+{
+title: 'QUANCOM 2026 - Prototype',
+date: 'September 18, 2026',
+author: 'IAAS',
+description:
+'A collaborative low-code platform for quantum computing that enables users with different levels of expertise to work together in a shared environment.',
+url: 'https://github.com/UST-QuAntiL/QuantME-UseCases#quancom-2026---prototype'
+},
+{
+title: 'QUANTICS 2026 - Prototype',
+date: 'September 18, 2026',
+author: 'UST QuAntiL',
+description:
+'An AI-assisted approach to quantum application development using domain blocks and domain profiles to connect domain expertise with quantum algorithms and services.',
+url: 'https://github.com/UST-QuAntiL/QuantME-UseCases#quantics-2026---prototype'
+}
+]
+-
 
 <SingleLayout
-  title="Examples"
-  description="Quickly get a project started with any of our examples ranging from using parts of the framework to custom components and layouts."
+title="Blog"
+description="News, prototypes, research, and updates from the QuAntiL project."
+
 >
-  <div class="d-flex flex-column flex-md-row gap-3" slot="header-content">
-    <a
-      href={getConfig().download.dist_examples}
-      class="btn btn-lg bd-btn-lg btn-bd-primary d-flex align-items-center justify-content-center fw-semibold"
-    >
-      <svg class="bi me-2" aria-hidden="true"><use xlink:href="#box-seam"></use></svg>
-      Download examples
-    </a>
-    <a href={getConfig().download.source} class="btn btn-lg bd-btn-lg btn-outline-secondary"> Download source code</a>
-  </div>
+
   <Fragment slot="main-content">
-    <ExamplesMain />
+    <main class="container py-5">
+
+```
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+
+      {posts.map((post) => (
+        <article class="mb-5 pb-5 border-bottom">
+
+          <h2 class="display-6 fw-semibold mb-3">
+            <a
+              href={post.url}
+              class="text-decoration-none link-body-emphasis"
+            >
+              {post.title}
+            </a>
+          </h2>
+
+          <div class="d-flex align-items-center gap-2 text-body-secondary mb-4">
+            <div
+              class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
+              style="width: 32px; height: 32px;"
+              aria-hidden="true"
+            >
+              <span class="small fw-semibold">Q</span>
+            </div>
+
+            <span>{post.author}</span>
+            <span aria-hidden="true">·</span>
+            <time>{post.date}</time>
+          </div>
+
+          <p class="lead">
+            {post.description}
+          </p>
+
+          {post.title.includes('QUANCOM') ? (
+            <>
+              <p>
+                Quantum computing is becoming increasingly relevant across
+                research and industry, but developing quantum applications
+                often requires specialized knowledge of quantum algorithms,
+                programming models, and hardware constraints.
+              </p>
+
+              <p>
+                <strong>QUANCOM</strong> presents a collaborative low-code
+                platform designed to bring together users with different
+                levels of quantum-computing expertise. The platform provides
+                accessible abstractions and a shared workspace where quantum
+                experts, developers, and domain experts can work together.
+              </p>
+
+              <p>
+                By reducing the need to interact directly with low-level
+                quantum constructs, QUANCOM aims to lower the entry barrier
+                for quantum application development while supporting
+                knowledge exchange within interdisciplinary teams.
+              </p>
+
+              <h3 class="h4 mt-4">Key ideas</h3>
+
+              <ul>
+                <li>Collaborative quantum application development</li>
+                <li>Low-code abstractions for quantum computing</li>
+                <li>Shared workspaces for experts and non-experts</li>
+                <li>Knowledge exchange between different disciplines</li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <p>
+                Developing quantum applications remains challenging for
+                domain experts because quantum algorithms, hardware
+                constraints, and implementation-specific requirements can
+                make the development process difficult to navigate.
+              </p>
+
+              <p>
+                <strong>QUANTICS</strong> addresses this challenge through
+                the concepts of <strong>domain blocks</strong> and
+                <strong> domain profiles</strong>. These abstractions allow
+                domain experts to describe their problems using
+                domain-specific concepts rather than low-level quantum
+                constructs.
+              </p>
+
+              <p>
+                Based on these abstractions, the platform supports
+                AI-assisted selection and composition of suitable quantum
+                algorithms and services. This helps bridge the gap between
+                domain-specific problems and available quantum technologies.
+              </p>
+
+              <h3 class="h4 mt-4">Key ideas</h3>
+
+              <ul>
+                <li>Domain-specific abstractions</li>
+                <li>Domain blocks and domain profiles</li>
+                <li>AI-assisted algorithm selection</li>
+                <li>Composition of quantum algorithms and services</li>
+              </ul>
+            </>
+          )}
+
+          <div class="mt-4">
+            <a
+              href={post.url}
+              class="btn btn-outline-primary"
+            >
+              Read the prototype
+            </a>
+          </div>
+
+        </article>
+      ))}
+
+      <nav
+        class="d-flex justify-content-between align-items-center mt-5"
+        aria-label="Blog pagination"
+      >
+        <a
+          href="/blog/page/2/"
+          class="btn btn-outline-secondary"
+        >
+          ← Older
+        </a>
+
+        <a
+          href="/blog/"
+          class="btn btn-outline-secondary"
+        >
+          Newer →
+        </a>
+      </nav>
+
+    </div>
+  </div>
+
+</main>
+```
+
   </Fragment>
 </SingleLayout>

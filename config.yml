@@ -15,6 +15,7 @@ github_org:             "https://github.com/twbs"
 repo:                   "https://github.com/twbs/bootstrap"
 x:                      "getbootstrap"
 opencollective:         "https://opencollective.com/bootstrap"
+blog:                   "https://blog.getbootstrap.com/"
 icons:                  "https://icons.getbootstrap.com/"
 swag:                   "https://cottonbureau.com/people/bootstrap"
 

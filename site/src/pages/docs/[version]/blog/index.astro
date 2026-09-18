@@ -1,219 +1,269 @@
 ---
-
 import SingleLayout from '@layouts/SingleLayout.astro'
 import { getConfig } from '@libs/config'
 
 export function getStaticPaths() {
-return [
-{
-params: {
-version: getConfig().docs_version
+  return [
+    {
+      params: { version: getConfig().docs_version }
+    }
+  ]
 }
-}
-]
-}
--
+---
 
 <SingleLayout
-title="Blog"
-description="News, prototypes, research, and updates from the QuAntiL project."
-
+  title="Qonstruct Papers & Tutorials"
+  description="Research papers, tutorials and presentations from Qonstruct."
 >
-
   <Fragment slot="main-content">
-    <main class="container py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
 
-```
-  <div class="row justify-content-center">
-    <div class="col-lg-9">
+          <!-- QUANCOM 2026 - Paper -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              QUANCOM 2026
+            </h1>
 
-      <!-- QUANCOM -->
+            <p class="text-body-secondary mb-4">
+              Paper · To be published
+            </p>
 
-      <article class="mb-5 pb-5 border-bottom">
-        <h2 class="display-6 fw-semibold mb-3">
-          <a
-            href="https://github.com/UST-QuAntiL/QuantME-UseCases#quancom-2026---prototype"
-            class="text-decoration-none link-body-emphasis"
+            <p>
+              QUANCOM 2026 presents a collaborative low-code approach
+              to quantum computing. The work explores how users with
+              different levels of expertise can collaborate within a
+              shared environment.
+            </p>
+
+            <p>
+              The approach aims to reduce the steep learning curve of
+              quantum computing by providing accessible abstractions
+              and a common workspace. This enables users to exchange
+              knowledge and collaborate while developing quantum
+              computing solutions.
+            </p>
+
+            <p>
+              The paper discusses how such an environment can support
+              collaboration between team members with different
+              backgrounds and levels of expertise.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                disabled
+              >
+                Paper to be published
+              </button>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- QUANTICS 2026 - Paper -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              QUANTICS 2026
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Paper · To be published
+            </p>
+
+            <p>
+              QUANTICS 2026 investigates approaches for making quantum
+              application development more accessible to domain experts.
+            </p>
+
+            <p>
+              The work introduces the concepts of
+              <strong>domain blocks</strong> and
+              <strong>domain profiles</strong>, allowing domain experts
+              to describe problems using concepts and terminology from
+              their own domain rather than low-level quantum constructs.
+            </p>
+
+            <p>
+              The approach further explores AI-assisted support for
+              selecting and composing suitable quantum algorithms and
+              services based on domain-specific problem descriptions.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                disabled
+              >
+                Paper to be published
+              </button>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- ICSOFT 2026 - Paper -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              ICSOFT 2026
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Paper
+            </p>
+
+            <p>
+              Research paper presented at ICSOFT 2026.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <a href="#" class="btn btn-outline-primary">
+                Read paper
+              </a>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- QUANTICS 2026 - Tutorial -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              QUANTICS 2026
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Tutorial
+            </p>
+
+            <p>
+              Tutorial presented at QUANTICS 2026.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <a href="#" class="btn btn-outline-primary">
+                View tutorial
+              </a>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- ICSOFT 2026 - Tutorial -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              ICSOFT 2026
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Tutorial
+            </p>
+
+            <p>
+              Tutorial presented at ICSOFT 2026.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <a href="#" class="btn btn-outline-primary">
+                View tutorial
+              </a>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- DH 2026 - Paper -->
+          <article class="blog-post mb-5 pb-5 border-bottom">
+            <h1 class="display-5 fw-bold mb-3">
+              DH 2026
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Paper
+            </p>
+
+            <p>
+              Research paper presented at DH 2026.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <a href="#" class="btn btn-outline-primary">
+                Read paper
+              </a>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- CLOSER 2025 - Paper -->
+          <article class="blog-post mb-5">
+            <h1 class="display-5 fw-bold mb-3">
+              CLOSER 2025
+            </h1>
+
+            <p class="text-body-secondary mb-4">
+              Paper
+            </p>
+
+            <p>
+              Research paper presented at CLOSER 2025.
+            </p>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <a href="#" class="btn btn-outline-primary">
+                Read paper
+              </a>
+
+              <a href="#" class="btn btn-outline-secondary">
+                Slides
+              </a>
+            </div>
+          </article>
+
+
+          <!-- Older / Newer navigation -->
+          <nav
+            class="d-flex justify-content-between border-top pt-4"
+            aria-label="Publication navigation"
           >
-            QUANCOM 2026 - Prototype
-          </a>
-        </h2>
+            <a
+              href="#"
+              class="btn btn-outline-secondary"
+            >
+              ← Older
+            </a>
 
-        <div class="d-flex align-items-center gap-2 text-body-secondary mb-4">
-          <div
-            class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
-            style="width: 32px; height: 32px;"
-            aria-hidden="true"
-          >
-            <span class="small fw-semibold">Q</span>
-          </div>
+            <a
+              href="#"
+              class="btn btn-outline-secondary"
+            >
+              Newer →
+            </a>
+          </nav>
 
-          <span>UST QuAntiL</span>
-          <span aria-hidden="true">·</span>
-          <time datetime="2026-09-18">September 18, 2026</time>
         </div>
-
-        <p class="lead">
-          A collaborative low-code platform for quantum computing that
-          enables users with different levels of expertise to work together
-          in a shared environment.
-        </p>
-
-        <p>
-          Quantum computing is becoming increasingly relevant across
-          research and industry, but developing quantum applications often
-          requires specialized knowledge of quantum algorithms, programming
-          models, and hardware constraints.
-        </p>
-
-        <p>
-          <strong>QUANCOM</strong> presents a collaborative low-code
-          platform designed to bring together users with different levels
-          of quantum-computing expertise.
-        </p>
-
-        <p>
-          The platform provides accessible abstractions and a shared
-          workspace where quantum experts, developers, and domain experts
-          can work together.
-        </p>
-
-        <p>
-          By reducing the need to interact directly with low-level quantum
-          constructs, QUANCOM aims to lower the entry barrier for quantum
-          application development while supporting knowledge exchange within
-          interdisciplinary teams.
-        </p>
-
-        <h3 class="h4 mt-4">Key ideas</h3>
-
-        <ul>
-          <li>Collaborative quantum application development</li>
-          <li>Low-code abstractions for quantum computing</li>
-          <li>Shared workspaces for experts and non-experts</li>
-          <li>Knowledge exchange between different disciplines</li>
-        </ul>
-
-        <div class="mt-4">
-          <a
-            href="https://github.com/UST-QuAntiL/QuantME-UseCases#quancom-2026---prototype"
-            class="btn btn-outline-primary"
-          >
-            View QUANCOM prototype
-          </a>
-        </div>
-      </article>
-
-
-      <!-- QUANTICS -->
-
-      <article class="mb-5 pb-5 border-bottom">
-        <h2 class="display-6 fw-semibold mb-3">
-          <a
-            href="https://github.com/UST-QuAntiL/QuantME-UseCases#quantics-2026---prototype"
-            class="text-decoration-none link-body-emphasis"
-          >
-            QUANTICS 2026 - Prototype
-          </a>
-        </h2>
-
-        <div class="d-flex align-items-center gap-2 text-body-secondary mb-4">
-          <div
-            class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
-            style="width: 32px; height: 32px;"
-            aria-hidden="true"
-          >
-            <span class="small fw-semibold">Q</span>
-          </div>
-
-          <span>UST QuAntiL</span>
-          <span aria-hidden="true">·</span>
-          <time datetime="2026-09-18">September 18, 2026</time>
-        </div>
-
-        <p class="lead">
-          An AI-assisted approach to quantum application development using
-          domain blocks and domain profiles to connect domain expertise with
-          quantum algorithms and services.
-        </p>
-
-        <p>
-          Developing quantum applications remains challenging for domain
-          experts because quantum algorithms, hardware constraints, and
-          implementation-specific requirements can make the development
-          process difficult to navigate.
-        </p>
-
-        <p>
-          <strong>QUANTICS</strong> addresses this challenge through the
-          concepts of <strong>domain blocks</strong> and
-          <strong>domain profiles</strong>.
-        </p>
-
-        <p>
-          These abstractions allow domain experts to describe their
-          problems using domain-specific concepts rather than low-level
-          quantum constructs.
-        </p>
-
-        <p>
-          Based on these abstractions, the platform supports AI-assisted
-          selection and composition of suitable quantum algorithms and
-          services.
-        </p>
-
-        <p>
-          This approach helps bridge the gap between domain-specific
-          problems and available quantum technologies, making the
-          development process more accessible to domain experts.
-        </p>
-
-        <h3 class="h4 mt-4">Key ideas</h3>
-
-        <ul>
-          <li>Domain-specific abstractions</li>
-          <li>Domain blocks and domain profiles</li>
-          <li>AI-assisted algorithm selection</li>
-          <li>Composition of quantum algorithms and services</li>
-        </ul>
-
-        <div class="mt-4">
-          <a
-            href="https://github.com/UST-QuAntiL/QuantME-UseCases#quantics-2026---prototype"
-            class="btn btn-outline-primary"
-          >
-            View QUANTICS prototype
-          </a>
-        </div>
-      </article>
-
-
-      <!-- PAGINATION -->
-
-      <nav
-        class="d-flex justify-content-between align-items-center mt-5"
-        aria-label="Blog pagination"
-      >
-        <a
-          href="/docs/{getConfig().docs_version}/blog/page/2/"
-          class="btn btn-outline-secondary"
-        >
-          ← Older
-        </a>
-
-        <a
-          href="/docs/{getConfig().docs_version}/blog/"
-          class="btn btn-outline-secondary"
-        >
-          Newer →
-        </a>
-      </nav>
-
+      </div>
     </div>
-  </div>
-
-</main>
-```
-
   </Fragment>
 </SingleLayout>

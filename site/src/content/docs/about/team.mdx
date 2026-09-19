@@ -1,23 +1,49 @@
 ---
+
 title: Team
-description: An overview of the founding team and core contributors to Bootstrap.
----
+description: An overview of the team and contributors behind Qonstruct.
+-----------------------------------------------------------------------
 
 import { getData } from '@libs/data'
 
-Bootstrap is maintained by the founding team and a small group of invaluable core contributors, with the massive support and involvement of our community.
+Qonstruct is developed and maintained by the team at the **Institute of Architecture of Application at the University of Stuttgart**, together with a growing group of contributors, researchers, students, and collaborators from academia and industry.
 
 <div class="list-group mb-3">
-  {getData('core-team').map((member) => {
+  {[
+    { name: 'Lavinia Stiliadou', user: 'LaviniaStiliadou' },
+    { name: 'Sharon-Naemi Stiliadou', user: 'SharonNaemi' },
+    { name: 'Alina Mürwald', user: 'alina-m' },
+    { name: 'Moritz Dallinger', user: 'MP-DG' },
+    { name: 'Emre Celikkaya', user: 'Emreeceli' },
+    { name: 'Michael Kica', user: 'Michael819-prog' },
+    { name: 'Maurice Kutscha', user: 'MaxSilvesterQWE' },
+    { name: 'Selin Tursu', user: 'Sudotoyou' },
+    { name: 'Chanelle Schulte-Holthaus', user:'ccslimy' },
+    { name: 'Lukas Maier', user: 'Ryukasuhub' },
+    { name: 'Mai Linh Dang', user: 'MxLinh' },
+    { name: 'Serhat Ceri', user: 'stceri' }
+  ].map((member) => {
     return (
-      <a class="list-group-item list-group-item-action d-flex align-items-center" href={`https://github.com/${member.user}`}>
-        <img src={`https://github.com/${member.user}.png`} alt={`@${member.user}`} width="32" height="32" class="rounded me-2" loading="lazy"/>
-        <span>
-          <strong>{member.name}</strong> @{member.user}
-        </span>
-      </a>
+      member.user
+        ? (
+          <a class="list-group-item list-group-item-action d-flex align-items-center" href={`https://github.com/${member.user}`}>
+            <img src={`https://github.com/${member.user}.png`} alt={`@${member.user}`} width="32" height="32" class="rounded me-2" loading="lazy"/>
+            <span>
+              <strong>{member.name}</strong> @{member.user}
+            </span>
+          </a>
+        )
+        : (
+          <div class="list-group-item d-flex align-items-center">
+            <span>
+              <strong>{member.name}</strong>
+            </span>
+          </div>
+        )
     )
   })}
 </div>
 
-Get involved with Bootstrap development by [opening an issue]([[config:repo]]/issues/new/choose) or submitting a pull request. Read our [contributing guidelines]([[config:repo]]/blob/v[[config:current_version]]/.github/CONTRIBUTING.md) for information on how we develop.
+Qonstruct is developed through continuous experimentation across research, teaching, and industry collaboration.
+
+Get involved with Qonstruct by contributing ideas, experiments, code, or research. We welcome contributions from students, researchers, developers, designers, and industry partners interested in exploring new approaches to application architecture and accessible technology.

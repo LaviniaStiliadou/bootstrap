@@ -1,70 +1,46 @@
 ---
+
 title: Qunicorn
-description: Use Bootstrap’s CSS custom properties for fast and forward-looking design and development.
+description: Qunicorn is a unification middleware for accessing heterogeneous quantum cloud offerings.
 toc: true
----
+---------
 
-Bootstrap includes many [CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) in its compiled CSS for real-time customization without the need to recompile Sass. These provide easy access to commonly used values like our theme colors, breakpoints, and primary font stacks when working in your browser’s inspector, a code sandbox, or general prototyping.
+## Qunicorn
 
-**All our custom properties are prefixed with `bs-`** to avoid conflicts with third party CSS.
+Qunicorn is a **unification middleware** for accessing quantum computers through different quantum cloud offerings.
 
-## Root variables
+Quantum cloud providers differ in their interfaces, supported programming languages, circuit formats, result formats, hardware, and access models. Qunicorn abstracts these differences and provides a common layer between quantum applications and the underlying quantum cloud infrastructure.
 
-Here are the variables we include (note that the `:root` is required) that can be accessed anywhere Bootstrap’s CSS is loaded. They’re located in our `_root.scss` file and included in our compiled dist files.
+A central feature of Qunicorn is the automatic translation between different quantum circuit and result formats. This allows quantum applications to interact with different quantum cloud offerings without having to be rewritten for every individual provider.
 
-### Default
+Qunicorn therefore helps reduce dependencies on specific quantum programming languages and cloud providers and provides a more flexible way of working with heterogeneous quantum computing resources.
 
-These CSS variables are available everywhere, regardless of color mode.
-
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch=":(root,\n\[data-bs-theme=light\] {[^}]*})" />
-
-### Dark mode
-
-These variables are scoped to our built-in dark mode.
-
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch="(\[data-bs-theme=dark\] {[^}]*})" />
-
-## Component variables
-
-Bootstrap 5 is increasingly making use of custom properties as local variables for various components. This way we reduce our compiled CSS, ensure styles aren’t inherited in places like nested tables, and allow some basic restyling and extending of Bootstrap components after Sass compilation.
-
-Have a look at our table documentation for some [insight into how we’re using CSS variables]([[docsref:/content/tables#how-do-the-variants-and-accented-tables-work]]). Our [navbars also use CSS variables]([[docsref:/components/navbar#css]]) as of v5.2.0. We’re also using CSS variables across our grids—primarily for gutters the [new opt-in CSS grid]([[docsref:/layout/css-grid]])—with more component usage coming in the future.
-
-Whenever possible, we'll assign CSS variables at the base component level (e.g., `.navbar` for navbar and its sub-components). This reduces guessing on where and how to customize, and allows for easy modifications by our team in future updates.
-
-## Prefix
-
-Most CSS variables use a prefix to avoid collisions with your own codebase. This prefix is in addition to the `--` that’s required on every CSS variable.
-
-Customize the prefix via the `$prefix` Sass variable. By default, it’s set to `bs-` (note the trailing dash).
-
-## Examples
-
-CSS variables offer similar flexibility to Sass’s variables, but without the need for compilation before being served to the browser. For example, here we’re resetting our page’s font and link styles with CSS variables.
-
-```css
-body {
-  font: 1rem/1.5 var(--bs-font-sans-serif);
-}
-a {
-  color: var(--bs-blue);
-}
+```text
+Quantum Application
+        │
+        ▼
+     Qunicorn
+        │
+   ┌────┼────┐
+   ▼    ▼    ▼
+ Cloud  Cloud  Cloud
+   A      B      C
+   │      │      │
+   ▼      ▼      ▼
+Quantum Quantum Quantum
+Computer Computer Computer
 ```
 
-## Focus variables
+The project explores how a middleware architecture can simplify access to quantum computing resources and reduce **vendor lock-in** by separating quantum applications from provider-specific technologies.
 
-<AddedIn version="5.3.0"/>
+## Qunicorn in Qonstruct
 
-Bootstrap provides custom `:focus` styles using a combination of Sass and CSS variables that can be optionally added to specific components and elements. We do not yet globally override all `:focus` styles.
+Qonstruct uses Qunicorn as the middleware for executing quantum circuits. Once a Qonstruct model has been transformed into an executable quantum circuit, Qunicorn provides the interface between the circuit and the selected quantum cloud offering.
 
-In our Sass, we set default values that can be customized before compiling.
+This separates the execution logic of Qonstruct from the provider-specific details of quantum hardware and cloud platforms. Qonstruct can therefore generate and submit quantum circuits through a common middleware layer, while Qunicorn handles the translation and communication required by the respective quantum provider.
 
-<ScssDocs name="focus-ring-variables" file="scss/_variables.scss" />
+## Publication
 
-Those variables are then reassigned to `:root` level CSS variables that can be customized in real-time, including with options for `x` and `y` offsets (which default to their fallback value of `0`).
+Qunicorn is described in the paper **“Qunicorn: A Middleware for the Unified Execution Across Heterogeneous Quantum Cloud Offerings”**.
 
-<ScssDocs name="root-focus-variables" file="scss/_root.scss" />
-
-## Grid breakpoints
-
-While we include our grid breakpoints as CSS variables (except for `xs`), be aware that **CSS variables do not work in media queries**. This is by design in the CSS spec for variables, but may change in coming years with support for `env()` variables. Check out [this Stack Overflow answer](https://stackoverflow.com/a/47212942) for some helpful links. In the meantime, you can use these variables in other CSS situations, as well as in your JavaScript.
+Read the paper on [IEEE Xplore](https://ieeexplore.ieee.org/abstract/document/11029459?utm_source=chatgpt.com).

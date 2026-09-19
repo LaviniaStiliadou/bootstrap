@@ -1,70 +1,83 @@
 ---
+
 title: Pattern Atlas
-description: Use Bootstrap’s CSS custom properties for fast and forward-looking design and development.
+description: Pattern Atlas supports design by connecting and navigating patterns across different pattern languages.
 toc: true
----
+---------
 
-Bootstrap includes many [CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) in its compiled CSS for real-time customization without the need to recompile Sass. These provide easy access to commonly used values like our theme colors, breakpoints, and primary font stacks when working in your browser’s inspector, a code sandbox, or general prototyping.
+## Pattern Atlas
 
-**All our custom properties are prefixed with `bs-`** to avoid conflicts with third party CSS.
+Pattern Atlas is an approach for supporting the design of complex software architectures based on pattern languages.
 
-## Root variables
+Pattern languages are well-established in the software architecture community and provide documented proven solutions to recurring design problems. Different aspects of software architecture are typically addressed by different pattern languages. When designing a complex system, architects therefore often need to work with multiple pattern languages at the same time.
 
-Here are the variables we include (note that the `:root` is required) that can be accessed anywhere Bootstrap’s CSS is loaded. They’re located in our `_root.scss` file and included in our compiled dist files.
+The challenge is that these pattern languages are often isolated from each other. It can be difficult to identify which patterns from different languages are relevant to a particular architectural problem. At the same time, combining several pattern languages can result in a very large number of potentially applicable patterns.
 
-### Default
+Pattern Atlas addresses this problem by providing a tool for navigating and applying patterns across different pattern languages.
 
-These CSS variables are available everywhere, regardless of color mode.
+## Pattern Atlas and Qonstruct
 
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch=":(root,\n\[data-bs-theme=light\] {[^}]*})" />
+Qonstruct builds on the information provided by the Pattern Atlas. The pattern information is used as a source of knowledge within the Qonstruct environment.
 
-### Dark mode
+Qonstruct retrieves the relevant pattern information from the Pattern Atlas and visualizes the relationships between patterns as a pattern graph. This makes the connections between patterns directly visible and allows users to explore the quantum computing pattern language interactively.
 
-These variables are scoped to our built-in dark mode.
-
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch="(\[data-bs-theme=dark\] {[^}]*})" />
-
-## Component variables
-
-Bootstrap 5 is increasingly making use of custom properties as local variables for various components. This way we reduce our compiled CSS, ensure styles aren’t inherited in places like nested tables, and allow some basic restyling and extending of Bootstrap components after Sass compilation.
-
-Have a look at our table documentation for some [insight into how we’re using CSS variables]([[docsref:/content/tables#how-do-the-variants-and-accented-tables-work]]). Our [navbars also use CSS variables]([[docsref:/components/navbar#css]]) as of v5.2.0. We’re also using CSS variables across our grids—primarily for gutters the [new opt-in CSS grid]([[docsref:/layout/css-grid]])—with more component usage coming in the future.
-
-Whenever possible, we'll assign CSS variables at the base component level (e.g., `.navbar` for navbar and its sub-components). This reduces guessing on where and how to customize, and allows for easy modifications by our team in future updates.
-
-## Prefix
-
-Most CSS variables use a prefix to avoid collisions with your own codebase. This prefix is in addition to the `--` that’s required on every CSS variable.
-
-Customize the prefix via the `$prefix` Sass variable. By default, it’s set to `bs-` (note the trailing dash).
-
-## Examples
-
-CSS variables offer similar flexibility to Sass’s variables, but without the need for compilation before being served to the browser. For example, here we’re resetting our page’s font and link styles with CSS variables.
-
-```css
-body {
-  font: 1rem/1.5 var(--bs-font-sans-serif);
-}
-a {
-  color: var(--bs-blue);
-}
+```text
+Pattern Atlas
+      │
+      │ Pattern Information
+      ▼
+   Qonstruct
+      │
+      ▼
+ Pattern Graph
+      │
+      ├── Patterns
+      ├── Relationships
+      ├── Dependencies
 ```
 
-## Focus variables
+## An architectural map
 
-<AddedIn version="5.3.0"/>
+Just as an atlas provides maps that help navigate a complex geographical space, Pattern Atlas provides a structured view of the space of patterns. Instead of searching through isolated pattern languages, architects can navigate relationships between patterns and identify those relevant to the architecture they are creating.
 
-Bootstrap provides custom `:focus` styles using a combination of Sass and CSS variables that can be optionally added to specific components and elements. We do not yet globally override all `:focus` styles.
+```text id="o0b8m5"
+        Pattern Language A
+              │
+              │
+              ▼
+        ┌─────────────┐
+        │   Pattern   │
+        │    Atlas    │
+        └─────────────┘
+          ▲          ▲
+          │          │
+          │          │
+ Pattern Language B   Pattern Language C
+          │
+          ▼
+    Relevant Patterns
+```
 
-In our Sass, we set default values that can be customized before compiling.
+The goal is to support developers in navigating a potentially large design space while focusing on patterns that are relevant to the system and architectural problem at hand.
 
-<ScssDocs name="focus-ring-variables" file="scss/_variables.scss" />
+## Connecting pattern languages
 
-Those variables are then reassigned to `:root` level CSS variables that can be customized in real-time, including with options for `x` and `y` offsets (which default to their fallback value of `0`).
+Pattern Atlas considers patterns from multiple pattern languages as part of a larger interconnected space.
 
-<ScssDocs name="root-focus-variables" file="scss/_root.scss" />
+This makes it possible to explore relationships between patterns and move from one architectural concern to related patterns in other languages. Instead of treating each pattern language as an isolated collection, the atlas provides a way to view them as parts of a larger architectural landscape.
 
-## Grid breakpoints
+## Supporting complex systems
 
-While we include our grid breakpoints as CSS variables (except for `xs`), be aware that **CSS variables do not work in media queries**. This is by design in the CSS spec for variables, but may change in coming years with support for `env()` variables. Check out [this Stack Overflow answer](https://stackoverflow.com/a/47212942) for some helpful links. In the meantime, you can use these variables in other CSS situations, as well as in your JavaScript.
+When building complex systems, the number of potentially applicable patterns can become very large. Pattern Atlas therefore focuses on helping architects **restrict the set of relevant patterns**.
+
+By providing an encompassing view across pattern languages, the approach aims to make architectural knowledge easier to navigate and apply during system design.
+
+The underlying idea is simple:
+
+> **Instead of searching through isolated pattern languages, navigate the architectural space like a map.**
+
+## Publication
+
+Pattern Atlas is described in the paper “Pattern Atlas”, published by Springer.
+
+Read the publication on [Springer Nature Link](https://link.springer.com/chapter/10.1007/978-3-030-73203-5_5).

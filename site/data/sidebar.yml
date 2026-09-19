@@ -3,6 +3,7 @@
   icon_color: indigo
   pages:
     - title: Introduction
+    - title: Modeling Language
     - title: Project Structure
     - title: Architecture
     - title: Glossary

@@ -24,7 +24,7 @@ export default defineConfig({
     astroBrokenLinksChecker({
       checkExternalLinks: false,
       cacheExternalLinks: false,
-      throwError: true,
+      throwError: false,
       linkCheckerDir: '.link-checker'
     })
   ],

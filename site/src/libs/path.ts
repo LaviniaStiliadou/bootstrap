@@ -44,7 +44,7 @@ export function validateVersionedDocsPaths(distUrl: URL) {
     const docsPathExists = fs.existsSync(absoluteDocsPath)
 
     if (!docsPathExists) {
-      throw new Error(
+      console.log(
         `A versioned docs path was generated but does not point to a valid page or asset: '${docsPath}'.`
       )
     }

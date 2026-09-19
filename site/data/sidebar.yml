@@ -9,7 +9,7 @@
     - title: Glossary
 
 - title: Features
-  icon: book-half
+  icon: palette2
   icon_color: teal
   pages:
     - title: Math Mode
@@ -29,7 +29,7 @@
     - title: Properties Provider
 
 - title: Customization
-  icon: palette2
+  icon: sliders
   icon_color: pink
   pages:
     - title: Configuration
@@ -37,14 +37,14 @@
     - title: Add Nodes to the Palette
 
 - title: Development
-  icon: book-half
+  icon: terminal
   icon_color: orange
   pages:
     - title: Local Development
     - title: Contributing
 
 - title: Integrations & Services
-  icon: braces-asterisk
+  icon: diagram-3
   icon_color: red
   pages:
     - title: Quantum Low-Code Backend

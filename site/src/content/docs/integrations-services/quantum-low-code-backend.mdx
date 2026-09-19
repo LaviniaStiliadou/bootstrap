@@ -1,70 +1,91 @@
 ---
 title: Quantum Low-Code Backend
-description: Use Bootstrap’s CSS custom properties for fast and forward-looking design and development.
+description: Transform Qonstruct models into executable quantum circuits or quantum workflows.
 toc: true
----
+---------
 
-Bootstrap includes many [CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) in its compiled CSS for real-time customization without the need to recompile Sass. These provide easy access to commonly used values like our theme colors, breakpoints, and primary font stacks when working in your browser’s inspector, a code sandbox, or general prototyping.
+A Qonstruct model becomes executable through a transformation process that translates the visual model into an executable representation. Depending on the elements used in the model, this representation is either a **quantum circuit** or a **quantum workflow**.
 
-**All our custom properties are prefixed with `bs-`** to avoid conflicts with third party CSS.
+## From model to execution
 
-## Root variables
+The transformation starts with the Qonstruct model and analyses its structure, nodes, groups, connections, and metadata.
 
-Here are the variables we include (note that the `:root` is required) that can be accessed anywhere Bootstrap’s CSS is loaded. They’re located in our `_root.scss` file and included in our compiled dist files.
+There are two main execution paths:
 
-### Default
+* A model containing only executable quantum operations can be transformed into a **quantum circuit**.
+* A model containing **placeholders, classical or QML elements** cannot be represented as a circuit alone. In this case, it is transformed into a **quantum workflow** that preserves the higher-level structure and allows the corresponding elements to be resolved during workflow execution.
 
-These CSS variables are available everywhere, regardless of color mode.
+## Transformation process
 
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch=":(root,\n\[data-bs-theme=light\] {[^}]*})" />
+The transformation of a model into an executable representation consists of several steps.
 
-### Dark mode
+### 1. Model analysis
 
-These variables are scoped to our built-in dark mode.
+First, the model is analysed to identify its structural elements.
 
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch="(\[data-bs-theme=dark\] {[^}]*})" />
+The transformation process identifies:
 
-## Component variables
+* nodes and their types
+* groups and their hierarchy
+* connections and edges
+* classical tasks
+* service tasks
+* quantum tasks
+* placeholders
+* QML nodes
+* attached metadata
 
-Bootstrap 5 is increasingly making use of custom properties as local variables for various components. This way we reduce our compiled CSS, ensure styles aren’t inherited in places like nested tables, and allow some basic restyling and extending of Bootstrap components after Sass compilation.
+This creates an intermediate representation that can be processed by the backend.
 
-Have a look at our table documentation for some [insight into how we’re using CSS variables]([[docsref:/content/tables#how-do-the-variants-and-accented-tables-work]]). Our [navbars also use CSS variables]([[docsref:/components/navbar#css]]) as of v5.2.0. We’re also using CSS variables across our grids—primarily for gutters the [new opt-in CSS grid]([[docsref:/layout/css-grid]])—with more component usage coming in the future.
+### 2. Group identification
 
-Whenever possible, we'll assign CSS variables at the base component level (e.g., `.navbar` for navbar and its sub-components). This reduces guessing on where and how to customize, and allows for easy modifications by our team in future updates.
+Groups within the model are identified and their relationships are preserved.
 
-## Prefix
+Groups provide a way to structure complex models into meaningful sections. During transformation, these structures are analysed so that the resulting workflow retains the relevant semantic relationships of the original model.
 
-Most CSS variables use a prefix to avoid collisions with your own codebase. This prefix is in addition to the `--` that’s required on every CSS variable.
+### 3. Metadata attachment
 
-Customize the prefix via the `$prefix` Sass variable. By default, it’s set to `bs-` (note the trailing dash).
+Metadata associated with nodes, groups, and other model elements is attached to the corresponding elements of the intermediate representation.
 
-## Examples
+This metadata can provide additional information required for execution, configuration, provenance, or later processing.
 
-CSS variables offer similar flexibility to Sass’s variables, but without the need for compilation before being served to the browser. For example, here we’re resetting our page’s font and link styles with CSS variables.
+### 4. Merging
 
-```css
-body {
-  font: 1rem/1.5 var(--bs-font-sans-serif);
-}
-a {
-  color: var(--bs-blue);
-}
-```
+Related elements are then merged where required by the execution model.
 
-## Focus variables
+This step transforms the graphical representation into a more compact execution-oriented representation while preserving the semantics of the original model.
 
-<AddedIn version="5.3.0"/>
+### 5. Reassignment of edges
 
-Bootstrap provides custom `:focus` styles using a combination of Sass and CSS variables that can be optionally added to specific components and elements. We do not yet globally override all `:focus` styles.
+After elements have been transformed or merged, their connections need to be reassigned.
 
-In our Sass, we set default values that can be customized before compiling.
+The original edges of the model are therefore mapped to the corresponding elements in the transformed representation. This ensures that the execution order and dependencies defined by the original model remain intact.
 
-<ScssDocs name="focus-ring-variables" file="scss/_variables.scss" />
+## 6. Task transformation
 
-Those variables are then reassigned to `:root` level CSS variables that can be customized in real-time, including with options for `x` and `y` offsets (which default to their fallback value of `0`).
+Different types of tasks are mapped to corresponding executable tasks.
 
-<ScssDocs name="root-focus-variables" file="scss/_root.scss" />
+### Classical elements
 
-## Grid breakpoints
+Classical elements are transformed into **service tasks**. They can represent interactions with external services or other computational resources required during workflow execution.
 
-While we include our grid breakpoints as CSS variables (except for `xs`), be aware that **CSS variables do not work in media queries**. This is by design in the CSS spec for variables, but may change in coming years with support for `env()` variables. Check out [this Stack Overflow answer](https://stackoverflow.com/a/47212942) for some helpful links. In the meantime, you can use these variables in other CSS situations, as well as in your JavaScript.
+### Quantum elements
+
+Quantum elements are transformed according to their contents and execution requirements.
+
+A quantum task can ultimately become a **quantum circuit execution task**. The corresponding quantum operations are collected and transformed into a quantum circuit that can be submitted to a quantum backend.
+
+If a **measurement** is present, it is explicitly represented as part of the quantum circuit execution. The measurement result can then be passed back into the surrounding workflow and used by subsequent classical or quantum tasks.
+
+
+### 7. QRM creation
+
+Once the transformation and task mapping have been completed, the backend creates the corresponding **QRM (Quantum Resource Model)**.
+
+The QRM represents the execution-ready structure of the transformed model and contains the information required to execute and coordinate the resulting quantum and classical tasks.
+
+The overall transformation can therefore be summarized as:
+
+**Qonstruct Model → Analysis → Group Identification → Metadata Attachment → Merging → Edge Reassignment → Task Transformation → Quantum Circuit / Quantum Workflow → QRM Creation**
+
+This separation between modelling and execution allows Qonstruct to remain a low-code environment while providing a deterministic transformation process from a visual model to an executable representation.

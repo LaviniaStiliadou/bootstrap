@@ -1,60 +1,75 @@
 ---
-import { getConfig } from '@libs/config'
 import { getVersionedDocsPath } from '@libs/path'
-import Ads from '@components/Ads.astro'
-import Code from '@components/shortcodes/Code.astro'
-import ResponsiveImage from '@layouts/partials/ResponsiveImage.astro'
+import BootstrapWhiteFillIcon from '@components/icons/BootstrapWhiteFillIcon.astro'
 ---
 
 <div class="bd-masthead mb-3" id="content">
   <div class="container-xxl bd-gutter">
     <div class="col-md-8 mx-auto text-center">
-      <a
-        class="d-flex flex-column flex-lg-row justify-content-center align-items-center mb-4 text-dark lh-sm text-decoration-none"
-        href="https://www.herodevs.com/support/nes-bootstrap?utm_source=Bootstrap_site&utm_medium=Banner&utm_campaign=v3and4_eol"
-        rel="noopener"
-        target="_blank"
-      >
-        <span class="d-sm-inline-flex align-items-center gap-1 py-2 px-3 me-2 mb-2 mb-lg-0 rounded-5 masthead-notice">
-          Get Security Updates for Bootstrap 3 &amp; 4
-          <svg class="bi" style="width: 20px; height: 20px; margin-block: -2px;" aria-hidden="true"
-            ><use xlink:href="#arrow-right-short"></use></svg
-          >
-        </span>
-      </a>
-      <ResponsiveImage
-        imgPath="/assets/brand/bootstrap-logo-shadow.png"
-        alt="Bootstrap"
-        width={200}
-        height={165}
-        classes="d-none d-sm-block mx-auto mb-3"
-        lazyload={false}
+      <BootstrapWhiteFillIcon
+        class="d-block mx-auto mb-4"
+        height={64}
+        width={80}
       />
-      <h1 class="mb-3 fw-semibold lh-1">Build fast, responsive sites with&nbsp;Bootstrap</h1>
+
+      <h1 class="mb-3 fw-semibold lh-1">
+        Model and execute quantum applications with Qonstruct
+      </h1>
+
       <p class="lead mb-4">
-        Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid
-        system and components, and bring projects to life with powerful JavaScript plugins.
+        A low-code environment for modeling quantum applications.
+        Design your models visually and transform them into executable quantum
+        circuits and workflows.
       </p>
-      <div class="d-flex flex-column flex-lg-row align-items-md-stretch justify-content-md-center gap-3 mb-4">
-        <div class="d-inline-block v-align-middle fs-5">
-          <Code code={`npm i bootstrap@${getConfig().current_version}`} lang="sh" />
-        </div>
+
+      <div
+        class="d-flex flex-column flex-lg-row align-items-md-stretch justify-content-md-center gap-3 mb-4"
+      >
         <a
           href={getVersionedDocsPath('getting-started/introduction')}
           class="btn btn-lg bd-btn-lg btn-bd-primary d-flex align-items-center justify-content-center fw-semibold"
         >
-          <svg class="bi me-2" aria-hidden="true"><use xlink:href="#book-half"></use></svg>
+          <svg class="bi me-2" aria-hidden="true">
+            <use xlink:href="#book-half"></use>
+          </svg>
           Read the docs
         </a>
+
+        <a
+          href="https://github.com/LEQO-Framework/low-code-modeler"
+          class="btn btn-lg bd-btn-lg btn-outline-secondary d-flex align-items-center justify-content-center fw-semibold"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 499.36"
+            role="img"
+            class="navbar-nav-svg me-2"
+            height="16"
+            width="16"
+          >
+            <title>GitHub</title>
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z"
+            />
+          </svg>
+          View on GitHub
+        </a>
       </div>
+
       <p class="text-body-secondary mb-0">
-        Currently <strong>v{getConfig().current_version}</strong>
+        Open-source quantum low-code modeling and execution
         <span class="px-1">&middot;</span>
-        <a href={getVersionedDocsPath('getting-started/download')} class="link-secondary">Download</a>
-        <span class="px-1">&middot;</span>
-        <a href="/docs/versions/" class="link-secondary text-nowrap">All releases</a>
+        <a
+          href={getVersionedDocsPath('development/contributing')}
+          class="link-secondary"
+        >
+          Contribute
+        </a>
       </p>
-      <Ads />
     </div>
   </div>
 </div>

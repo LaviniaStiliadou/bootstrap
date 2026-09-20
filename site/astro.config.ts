@@ -13,7 +13,7 @@ const site = isDev
 
 export default defineConfig({
   site,
-  base: isDev ? '/' : '/bootstrap/',
+  base: '/bootstrap/',
 
   build: {
     assets: `docs/${getConfig().docs_version}/assets`

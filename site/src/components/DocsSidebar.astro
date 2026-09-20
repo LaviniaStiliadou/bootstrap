@@ -1,8 +1,8 @@
 ---
 import { getData } from '@libs/data'
+import { getConfig } from '@libs/config'
 import { docsPages } from '@libs/content'
 import { getSlug } from '@libs/utils'
-import { getVersionedDocsPath } from '@libs/path'
 
 const sidebar = getData('sidebar')
 ---
@@ -16,48 +16,56 @@ const sidebar = getData('sidebar')
         if (group.pages) {
           return (
             <li class="bd-links-group py-2">
-              <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
-                {group.icon && (
-                  <svg
-                    class="bi me-2"
-                    style={group.icon_color && `color: var(--bs-${group.icon_color});`}
-                    aria-hidden="true"
-                  >
-                    <use xlink:href={`#${group.icon}`} />
-                  </svg>
-                )}
-                {group.title}
-              </strong>
-              <ul class="list-unstyled fw-normal pb-2 small">
-                {group.pages?.map((page) => {
-                  const docSlug = getSlug(page.title)
-                  const unversionedPageSlug = `${groupSlug}/${docSlug}`
+              <details open>
+                <summary class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+                  {group.icon && (
+                    <svg
+                      class="bi me-2"
+                      style={group.icon_color && `color: var(--bs-${group.icon_color});`}
+                      aria-hidden="true"
+                    >
+                      <use xlink:href={`#${group.icon}`} />
+                    </svg>
+                  )}
 
-                  const url = getVersionedDocsPath(unversionedPageSlug)
-                  const active = Astro.params.slug === unversionedPageSlug
+                  <span>{group.title}</span>
+                </summary>
 
-                  const generatedPage = docsPages.find((page) => page.slug === unversionedPageSlug)
+                <ul class="list-unstyled fw-normal pb-2 small">
+                  {group.pages?.map((page) => {
+                    const docSlug = getSlug(page.title)
+                    const unversionedPageSlug = `${groupSlug}/${docSlug}`
 
-                  // This test should not be necessary, see comments for `getSlug()` in `src/libs/utils.ts`.
-                  if (!generatedPage) {
-                    throw new Error(
-                      `The page '${page.title}' referenced in 'site/data/sidebar.yml' does not exist at '${url}'.`
+                    const url = `/docs/${getConfig().docs_version}/${unversionedPageSlug}`
+                    const active = Astro.params.slug === unversionedPageSlug
+
+                    const generatedPage = docsPages.find(
+                      (page) => page.slug === unversionedPageSlug
                     )
-                  }
 
-                  return (
-                    <li>
-                      <a
-                        href={url}
-                        class:list={['bd-links-link d-inline-block rounded', { active }]}
-                        aria-current={active ? 'page' : undefined}
-                      >
-                        {page.title}
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
+                    if (!generatedPage) {
+                      throw new Error(
+                        `The page '${page.title}' referenced in 'site/data/sidebar.yml' does not exist at '${url}'.`
+                      )
+                    }
+
+                    return (
+                      <li>
+                        <a
+                          href={url}
+                          class:list={[
+                            'bd-links-link d-inline-block rounded',
+                            { active }
+                          ]}
+                          aria-current={active ? 'page' : undefined}
+                        >
+                          {page.title}
+                        </a>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </details>
             </li>
           )
         } else {
@@ -66,10 +74,14 @@ const sidebar = getData('sidebar')
           return (
             <>
               <li class="bd-links-span-all mt-1 mb-3 mx-4 border-top" />
+
               <li class="bd-links-span-all">
                 <a
-                  href={getVersionedDocsPath(`${groupSlug}/`)}
-                  class:list={['bd-links-link d-inline-block rounded small', { active }]}
+                  href={`/docs/${getConfig().docs_version}/${groupSlug}/`}
+                  class:list={[
+                    'bd-links-link d-inline-block rounded small',
+                    { active }
+                  ]}
                   aria-current={active ? 'page' : undefined}
                 >
                   {group.title}
@@ -82,3 +94,28 @@ const sidebar = getData('sidebar')
     }
   </ul>
 </nav>
+
+<style>
+  .bd-links-heading {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .bd-links-heading::-webkit-details-marker {
+    display: none;
+  }
+
+  .bd-links-heading::after {
+    content: '';
+    margin-left: auto;
+    border: solid currentColor;
+    border-width: 0 1px 1px 0;
+    padding: 3px;
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+
+  details[open] > .bd-links-heading::after {
+    transform: rotate(-135deg);
+  }
+</style>

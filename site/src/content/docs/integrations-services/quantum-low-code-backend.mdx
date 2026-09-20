@@ -5,6 +5,7 @@ toc: true
 ---------
 
 A Qonstruct model becomes executable through a transformation process that translates the visual model into an executable representation. Depending on the elements used in the model, this representation is either a **quantum circuit** or a **quantum workflow**.
+The transformation is performed by the [quantum low-code backend](https://github.com/LEQO-Framework/leqo-backend).
 
 ## From model to execution
 
@@ -80,12 +81,16 @@ If a **measurement** is present, it is explicitly represented as part of the qua
 
 ### 7. QRM creation
 
-Once the transformation and task mapping have been completed, the backend creates the corresponding **QRM (Quantum Resource Model)**.
+Once the transformation and task mapping have been completed, the backend creates the corresponding **QRM (QuantME Replacement Models)**.
 
-The QRM represents the execution-ready structure of the transformed model and contains the information required to execute and coordinate the resulting quantum and classical tasks.
+The QRM contains the execution-ready replacement of the quantum model and contains the information required to execute and coordinate the resulting quantum and classical tasks.
 
 The overall transformation can therefore be summarized as:
 
 **Qonstruct Model → Analysis → Group Identification → Metadata Attachment → Merging → Edge Reassignment → Task Transformation → Quantum Circuit / Quantum Workflow → QRM Creation**
 
-This separation between modelling and execution allows Qonstruct to remain a low-code environment while providing a deterministic transformation process from a visual model to an executable representation.
+### Publications
+
+For more information about the underlying metamodel and transformation pipeline, see:
+- [Low-Code Quantum Algorithm Modeling and Execution for Hybrid Cloud Environments](https://www.scitepress.org/Link.aspx?doi=10.5220/0014687400004039)
+- [Quantum Low-Code Metamodel and Transformation Pipeline](https://www.scitepress.org/Link.aspx?doi=10.5220/0015059600004088)

@@ -13,7 +13,6 @@ Qonstruct provides several QML elements that represent quantum machine learning 
 
 During workflow execution, the workflow engine calls the corresponding QHAna plugins whenever a workflow contains a QML element that requires execution.
 
-
 ## QML Elements as Plugins
 
 QML and ML elements in Qonstruct describe operations at the modeling level. Their concrete execution is provided by QHAna plugins.
@@ -38,3 +37,9 @@ Result
 When a Qonstruct model is transformed into a quantum workflow, QML elements are identified during the transformation process. During execution, the workflow engine invokes the corresponding QHAna plugins.
 
 The plugin receives the required inputs and metadata, performs its operation, and returns the result to the workflow.
+
+## Publication
+
+For further information about [QHAna](https://github.com/UST-QuAntiL/qhana-docker) and its use for comparing classical and quantum machine learning, see:
+
+- [QHAna: A Tool for Comparing Classical and Quantum Machine Learning](https://www.iaas.uni-stuttgart.de/publications/Barzen2022_QHAna.pdf)

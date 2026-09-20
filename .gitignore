@@ -42,4 +42,5 @@ Thumbs.db
 /site/dist
 /site/node_modules
 /site/.astro
-/site/public
+/site/public/*
+!/site/public/images/

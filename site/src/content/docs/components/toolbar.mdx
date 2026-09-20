@@ -1,22 +1,67 @@
 ---
+
 title: Toolbar
-description: Build vertically collapsing accordions in combination with our Collapse JavaScript plugin.
-aliases:
- - "/components/"
- - "/docs/[[config:docs_version]]/components/"
+description: Manage models, configure Qonstruct, and interact with backend execution services using the toolbar.
 toc: true
----
+---------
 
-## How it works
-### Toolbar
 
-The toolbar provides commands for managing models and communicating with execution services, including:
+The **Toolbar** provides commands for managing models, configuring the Qonstruct environment, and communicating with the backend and execution services.
 
-* **New Diagram**
-* **Open**
-* **Save**
-* **Save As**
-* **Upload**
-* **Configuration**
-* **Send to Backend**
-* **Send to Qunicorn**
+The available commands include:
+
+| Command              | Description                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New Diagram**      | Creates a new model on the canvas.                                                                                                                                        |
+| **Open**             | Opens an existing model for editing.                                                                                                                                      |
+| **Save As**          | Saves the current model under a new name or location.                                                                                                                     |
+| **Upload to GitHub** | Uploads the current model to GitHub.                                                                                                                                      |
+| **Templates**        | Manages and provides access to available modeling templates.                                                                                                              |
+| **Configuration**    | Opens the configuration settings for Qonstruct.                                                                                                                           |
+| **Domain Profiles**  | Manages the domain profiles used by the modeler.                                                                                                                          |
+| **Send to Backend**  | Sends the current model to the quantum low-code backend for further processing and transformation.                                                                        |
+| **Detect Algorithm** | Analyzes the model and detects the quantum algorithm represented by the model.                                                                                            |
+| **History**          | Displays previous transformations of the model. Depending on the transformation result, actions such as deploying a workflow or executing a quantum circuit are provided. |
+| **Help**             | Starts a short interactive tutorial that introduces the main features and functionality of Qonstruct.                                                                     |
+
+## Model management
+
+The model management commands allow users to create, open, and save models directly from the toolbar.
+
+**New Diagram** creates a new empty diagram, while **Open** allows an existing model to be loaded into the editor. **Save As** can be used to save the current model under a different name or location.
+
+**Upload to GitHub** provides a way to store the current model in a GitHub repository.
+
+## Templates
+
+The **Templates** functionality provides access to reusable modeling templates.
+
+Templates can be managed and used as starting points for new models. This allows users to reuse common modeling structures instead of creating them from scratch.
+
+## Configuration 
+
+The **Configuration** command provides access to Qonstruct's configuration settings.
+
+## Domain Profiles 
+
+**Domain Profiles** allow users to manage the profiles that define the domain-specific configuration used by the modeler.
+
+## Backend interaction
+
+The **Send to Backend** command sends the current model to the quantum low-code backend. The backend can then analyze and transform the model into an executable representation.
+
+The **Detect Algorithm** command analyzes the current model to identify the quantum algorithm represented by its modeling elements.
+
+## History
+
+The **History** command displays the transformations that have been performed on the model.
+
+Depending on the type of transformation, the history provides further actions. For example, a transformed model may provide a button to **deploy a workflow** or **execute a quantum circuit**.
+
+This allows users to move from modeling to execution directly through the transformation history.
+
+## Help
+
+The **Help** command starts a short interactive tutorial.
+
+The tutorial introduces the main parts of the Qonstruct interface and guides users through the basic interactions required to create and work with models.

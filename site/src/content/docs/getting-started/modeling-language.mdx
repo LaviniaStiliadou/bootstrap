@@ -1,59 +1,180 @@
 ---
 title: Modeling Language
-description: A brief overview of Bootstrap’s features and limitations for the creation of accessible content.
+description: An overview of the Qonstruct modeling language, its categories, modeling elements, and properties.
 toc: true
 ---
 
-Bootstrap provides an easy-to-use framework of ready-made styles, layout tools, and interactive components, allowing developers to create websites and applications that are visually appealing, functionally rich, and accessible out of the box.
+## Overview
 
-## Overview and limitations
+The Qonstruct modeling language provides a high-level way to model quantum algorithms and hybrid quantum-classical applications without requiring detailed circuit-level knowledge. It extends the modeling language introduced in [Quantum Low-Code Metamodel and Transformation Pipeline](https://www.scitepress.org/Link.aspx?doi=10.5220/0015059600004088) with additional elements for quantum algorithms and quantum machine learning.
 
-The overall accessibility of any project built with Bootstrap depends in large part on the author’s markup, additional styling, and scripting they’ve included. However, provided that these have been implemented correctly, it should be perfectly possible to create websites and applications with Bootstrap that fulfill [<abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.2](https://www.w3.org/TR/WCAG/) (A/AA/AAA), [Section 508](https://www.section508.gov/), and similar accessibility standards and requirements.
+The modeling language groups its elements into six categories:
 
-### Structural markup
+1. **Data types** — define the values and quantum registers used by a model.
+2. **Boundary elements** — move information between the classical and quantum parts of an application.
+3. **Operators** — perform arithmetic, logical, comparison, and other operations.
+4. **Control flow** — expresses conditional and repeated execution.
+5. **Circuit primitives** — provide direct access to circuit-level constructs.
+6. **Algorithm elements** — encapsulate established quantum algorithms and quantum machine learning procedures.
 
-Bootstrap’s styling and layout can be applied to a wide range of markup structures. This documentation aims to provide developers with best practice examples to demonstrate the use of Bootstrap itself and illustrate appropriate semantic markup, including ways in which potential accessibility concerns can be addressed.
+The categories can be combined to describe both the quantum algorithm itself and the classical logic surrounding it.
 
-### Interactive components
+The modeling language uses the data types defined by the [OpenQASM specification](https://openqasm.com/) and extends them with `File` and `String` types. Classical types include binary values (`bit` and `boolean`), collections (`array`), numeric values (`number`), and physical quantities (`angle` and `duration`). On the quantum side, the language supports `qubit` registers.
 
-Bootstrap’s interactive components—such as modal dialogs, dropdown menus, and custom tooltips—are designed to work for touch, mouse, and keyboard users. Through the use of relevant [<abbr title="Web Accessibility Initiative">WAI</abbr>-<abbr title="Accessible Rich Internet Applications">ARIA</abbr>](https://www.w3.org/WAI/standards-guidelines/aria/) roles and attributes, these components should also be understandable and operable using assistive technologies (such as screen readers).
+The following sections describe the elements available in each category from both a beginner and an expert perspective.
 
-Because Bootstrap’s components are purposely designed to be fairly generic, authors may need to include further <abbr title="Accessible Rich Internet Applications">ARIA</abbr> roles and attributes, as well as JavaScript behavior, to more accurately convey the precise nature and functionality of their component. This is usually noted in the documentation.
+## Data types
 
-### Color contrast
+Data types describe the kind of values that can be used as inputs and outputs of modeling elements. They are based on the types defined by OpenQASM and extended with additional types required for classical application logic.
 
-Some combinations of colors that currently make up Bootstrap’s default palette—used throughout the framework for things such as button variations, alert variations, form validation indicators—may lead to *insufficient* color contrast (below the recommended [WCAG 2.2 text color contrast ratio of 4.5:1](https://www.w3.org/TR/WCAG/#contrast-minimum) and the [WCAG 2.2 non-text color contrast ratio of 3:1](https://www.w3.org/TR/WCAG/#non-text-contrast)), particularly when used against a light background. Authors are encouraged to test their specific uses of color and, where necessary, manually modify/extend these default colors to ensure adequate color contrast ratios.
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `bit` | A binary value that can be either `0` or `1`. | A classical binary value corresponding to an OpenQASM bit. | Width |
+| `boolean` | A value that is either `true` or `false`. | A classical Boolean value used for conditions and logical operations. | Value |
+| `array` | A collection of values of the same or compatible type. | A classical collection used to represent multiple values as a single modeling object. | Element type, size |
+| `number` | A numerical value used for calculations. | A classical numeric value used by arithmetic, comparison, and algorithm elements. | Value |
+| `angle` | An angle such as a rotation amount. | A physical quantity used by parameterized quantum operations. | Value, unit |
+| `duration` | A period of time. | A temporal quantity used to represent the duration of an operation. | Value, unit |
+| `qubit` | A quantum bit used to represent quantum information. | A quantum register containing one or more qubits. | Width |
+| `File` | A file that can be provided as input or output. | A classical file reference used for exchanging data with external resources. | Path, format |
+| `String` | Textual data. | A classical string value used for configuration and application-level processing. | Value |
 
-### Visually hidden content
+## Boundary elements
 
-Content which should be visually hidden, but remain accessible to assistive technologies such as screen readers, can be styled using the `.visually-hidden` class. This can be useful in situations where additional visual information or cues (such as meaning denoted through the use of color) need to also be conveyed to non-visual users.
+Boundary elements connect the classical and quantum parts of a model. They include state preparation and measurement operations.
 
-```html
-<p class="text-danger">
-  <span class="visually-hidden">Danger: </span>
-  This action is not reversible
-</p>
-```
+State preparation elements initialize quantum registers either by encoding classical values or by selecting predefined quantum states. Measurement elements convert quantum information back into classical data.
 
-For visually hidden interactive controls, such as traditional “skip” links, use the `.visually-hidden-focusable` class. This will ensure that the control becomes visible once focused (for sighted keyboard users). **Watch out, compared to the equivalent `.sr-only` and `.sr-only-focusable` classes in past versions, Bootstrap 5’s `.visually-hidden-focusable` is a standalone class, and must not be used in combination with the `.visually-hidden` class.**
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `Encode Value` | Converts a classical value into a quantum state. | Encodes a classical input into a quantum register using a selected encoding strategy and an approximation bound. | Encoding type, bound |
+| `Prepare State` | Creates a predefined quantum state such as a Bell or W state. | Initializes a quantum register using a predefined state preparation procedure. | State |
+| `Measurement` | Reads information from selected qubits. | Measures selected qubits in a specified measurement basis and produces classical output. | Measurement basis, selected qubits |
 
-```html
-<a class="visually-hidden-focusable" href="#content">Skip to main content</a>
-```
+### Encoding types
 
-### Reduced motion
+The `Encode Value` element supports several encoding strategies:
 
-Bootstrap includes support for the [`prefers-reduced-motion` media feature](https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion). In browsers/environments that allow the user to specify their preference for reduced motion, most CSS transition effects in Bootstrap (for instance, when a modal dialog is opened or closed, or the sliding animation in carousels) will be disabled, and meaningful animations (such as spinners) will be slowed down.
+- **Basis encoding** maps values to computational basis states.
+- **Angle encoding** represents values using rotation angles.
+- **Amplitude encoding** represents values in the amplitudes of a quantum state.
+- **Matrix encoding** represents information using a matrix-based representation.
 
-On browsers that support `prefers-reduced-motion`, and where the user has *not* explicitly signaled that they’d prefer reduced motion (i.e. where `prefers-reduced-motion: no-preference`), Bootstrap enables smooth scrolling using the `scroll-behavior` property.
+The element also provides a **bound** property that limits the approximation error introduced during encoding.
 
-## Additional resources
+### Measurement
 
-- [Web Content Accessibility Guidelines (WCAG) 2.2](https://www.w3.org/TR/WCAG/)
-- [The A11Y Project](https://www.a11yproject.com/)
-- [MDN accessibility documentation](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
-- [Color Contrast Analyser (CCA)](https://www.tpgi.com/color-contrast-checker/)
-- ["HTML Codesniffer" bookmarklet for identifying accessibility issues](https://github.com/squizlabs/HTML_CodeSniffer)
-- [Microsoft Accessibility Insights](https://accessibilityinsights.io/)
-- [Deque Axe testing tools](https://www.deque.com/axe/)
-- [Introduction to Web Accessibility](https://www.w3.org/WAI/fundamentals/accessibility-intro/)
+A `Measurement` element specifies both the basis in which the quantum state is measured and the qubits that participate in the measurement. This allows the model to explicitly control which part of a quantum register contributes to the classical result.
+
+## Operators
+
+Operators provide reusable operations for manipulating classical and quantum-related values. They cover common arithmetic, logical, comparison, selection, and oracle operations.
+
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `Addition` | Adds two or more values. | Performs classical addition on numeric inputs. | Inputs |
+| `Subtraction` | Subtracts one value from another. | Performs classical subtraction on numeric inputs. | Inputs |
+| `Multiplication` | Multiplies values. | Performs classical multiplication on numeric inputs. | Inputs |
+| `AND` | Checks whether two values are both true. | Performs a logical or bitwise conjunction. | Inputs |
+| `OR` | Checks whether at least one value is true. | Performs a logical or bitwise disjunction. | Inputs |
+| `XOR` | Checks whether two values are different. | Performs an exclusive-or operation on binary inputs. | Inputs |
+| `NOT` | Inverts a binary or Boolean value. | Performs logical or bitwise negation. | Input |
+| `Equality` | Checks whether two values are equal. | Compares two values for equality. | Inputs |
+| `Inequality` | Checks whether two values are different. | Compares two values for inequality. | Inputs |
+| `Ordering` | Compares values such as whether one is smaller or larger. | Performs relational comparisons between classical values. | Operator, inputs |
+| `Minimum` | Finds the smallest value. | Selects the minimum from multiple classical inputs. | Inputs |
+| `Maximum` | Finds the largest value. | Selects the maximum from multiple classical inputs. | Inputs |
+| `Oracle` | Marks or evaluates a particular quantum state. | Represents an oracle operation without requiring the user to construct its gate-level implementation. | Oracle type, target state |
+| `Custom` | Defines an operation that is not provided by the standard elements. | Defines a user-specific operation with explicitly specified classical and quantum inputs and outputs. | Name, inputs, outputs, implementation |
+
+### Oracle
+
+The `Oracle` element provides a high-level representation for algorithms that need to mark or evaluate specific basis states, such as search algorithms.
+
+Instead of constructing the oracle from individual gates, the user specifies the desired behavior through properties such as the **oracle type** and **target state**.
+
+Supported oracle types include:
+
+- **Phase oracle**
+- **Boolean oracle**
+
+This allows algorithms such as Grover Search to be modeled without requiring the user to construct the complete gate-level oracle.
+
+### Custom operations
+
+The `Custom` element can be used when none of the predefined operators are suitable. It allows users to define an operation together with its classical and quantum inputs and outputs.
+
+## Control flow
+
+Control flow elements describe the classical logic that determines when operations are executed.
+
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `If` | Executes operations only when a condition is true. | Represents conditional execution based on a required classical Boolean condition. | Condition |
+| `While` | Repeats operations while a condition remains true. | Represents iterative execution controlled by a required classical condition. | Condition |
+
+Control flow elements can contain other modeling elements. This makes it possible to express hybrid algorithms in which classical conditions determine the execution of quantum operations.
+
+## Circuit primitives
+
+Circuit primitives provide lower-level modeling elements for cases where a circuit must be specified directly. They include quantum gates and elements for converting between register-level and qubit-level representations.
+
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `Gate` | Applies a quantum operation to one or more qubits. | Represents a quantum gate, optionally parameterized by a numerical or symbolic value. | Gate type, parameter type, parameter value |
+| `Splitter` | Splits a quantum register into individual qubits. | Decomposes a register-level representation into its constituent qubits. | Output count |
+| `Merger` | Combines individual qubits into a quantum register. | Combines a specified number of qubits into a register-level representation. | Input count |
+
+### Gates
+
+Gates provide direct access to quantum circuit operations. Parameterized gates contain both a **parameter type**, which specifies the unit of the parameter, and a **parameter value**, which contains the actual numerical or symbolic value.
+
+For example, a rotation gate may use an angle expressed in radians or degrees.
+
+### Splitter and merger
+
+A `Splitter` converts a quantum register into individual qubits. Its **output count** determines the number of qubits produced.
+
+A `Merger` performs the inverse operation. Its **input count** determines how many qubits are combined into a single quantum register.
+
+These elements allow users to move between high-level register representations and individual qubits when necessary.
+
+## Algorithm elements
+
+Algorithm elements provide higher-level abstractions for established quantum algorithms and recurring quantum machine learning procedures. Instead of constructing the underlying circuit manually, users can configure an algorithm through a small set of relevant properties.
+
+| Modeling element | Beginner view | Expert view | Properties |
+|---|---|---|---|
+| `QAOA` | Applies the Quantum Approximate Optimization Algorithm to an optimization problem. | Encapsulates a QAOA procedure without requiring the underlying circuit to be modeled manually. | Problem definition, parameters |
+| `Quantum Fourier Transform` | Performs a Fourier transform on quantum data. | Encapsulates the quantum Fourier transform circuit as a reusable algorithmic element. | Input register, parameters |
+| `Grover Search` | Searches for a marked state using a quantum search procedure. | Encapsulates Grover's search algorithm and its required oracle configuration. | Oracle, target state, parameters |
+| `VQE` | Finds an approximate ground-state energy of a quantum system. | Encapsulates the Variational Quantum Eigensolver and its associated parameterized procedure. | Hamiltonian, ansatz, parameters |
+| `Classification` | Uses a quantum machine learning procedure to assign data to classes. | Represents a higher-level quantum machine learning classification procedure while hiding its circuit-level implementation. | Data, model parameters |
+| `Clustering` | Groups similar data points into clusters. | Represents a quantum machine learning clustering procedure without exposing its underlying circuit implementation. | Data, model parameters |
+
+Algorithm elements expose only the properties required to configure the corresponding procedure. Their underlying implementation remains hidden from the user and can be provided by the execution environment.
+
+This abstraction allows users to model established quantum algorithms and quantum machine learning procedures without constructing their underlying circuits from individual gates and operators.
+
+## Implementations
+
+Modeling elements can be associated with an implementation that describes how they are translated into executable code for a target platform.
+
+Implementations can be specified for elements other than **gates**, **data types**, and **control flow** elements. The implementation is defined according to the specification used by the target platform.
+
+For example:
+
+| Element type | Example implementation language | Purpose |
+|---|---|---|
+| Quantum operation | OpenQASM | Describes the executable quantum operation. |
+| Classical operation | Python | Describes the executable classical operation. |
+
+Each implementation has an **implementation type** property that identifies the language used to express it.
+
+This mechanism separates the conceptual modeling of an element from its platform-specific implementation and enables the same modeling language to target different execution environments.
+
+## Further information
+
+The complete modeling language, including all elements and their properties, is available in the [Qonstruct repository](https://github.com/LEQO-Framework/low-code-modeler).
+
+For a detailed description of the modeling language and its transformation pipeline, see [Quantum Low-Code Metamodel and Transformation Pipeline](https://www.scitepress.org/Link.aspx?doi=10.5220/0015059600004088).

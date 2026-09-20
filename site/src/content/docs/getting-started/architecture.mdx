@@ -63,7 +63,7 @@ The available elements are organized into the following categories:
 
 These elements can be combined to create quantum circuits, hybrid quantum-classical applications, and workflows.
 
-See [Modeling language](#) for detailed information about the individual categories.
+See [Modeling Language](#) for detailed information about the individual categories.
 
 ## Backend architecture
 
@@ -148,44 +148,3 @@ The generated workflow can contain:
 The workflow engine coordinates these components during execution and provides runtime monitoring and logging.
 
 The **OpenTOSCA ecosystem** is used to manage the deployment models describing the services and infrastructure required by the generated workflows.
-
-
-### Palette
-
-The palette provides the available modeling constructs. Elements are organized into categories and can be searched and dragged onto the canvas.
-
-### Canvas
-
-The canvas is the main modeling workspace. It provides a grid for arranging and connecting modeling elements and supports zooming, selection, movement, and other editing operations.
-
-```{figure} images/userInterface.png
-:alt: Qonstruct user interface
-:target: images/userInterface.png
-:width: 600px
-
-The Qonstruct modeling interface.
-```
-
-For detailed information about the user interface, see [User Interface](#).
-
-## Additional modeling features
-
-Qonstruct provides additional features for inspecting and editing models.
-
-### Math Mode
-
-**Math Mode** provides a mathematical representation of the modeled quantum circuit and can be used to inspect its behavior.
-
-### QASM Editor
-
-The **QASM Editor** allows users to inspect and edit the generated OpenQASM representation of a circuit.
-
-Both Math Mode and the QASM Editor are disabled by default and can be enabled through the **Experience Mode** configuration.
-
-### Grouping
-
-Grouping allows users to organize related modeling elements and simplify larger models.
-
-See the individual guides for [Math Mode](#), [QASM Editor](#), and [Grouping](#).
-
----

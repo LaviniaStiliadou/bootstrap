@@ -1,128 +1,162 @@
 - category: Starters
-  external: true
   description: 'Get started with the quantum low-code modeler using simple, ready-to-run quantum models.'
   examples:
     - name: Empty model
       description: 'Start with an empty quantum model and build your workflow from scratch.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/empty-model.png
+      url: http://localhost:4242/models/model_a
+
     - name: Hello Quantum
       description: 'Build and run a minimal quantum circuit with qubits, gates, and measurement.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hello-quantum.png
+      url: http://localhost:4242/models/model_b
+
     - name: First measurement
       description: 'Create a simple quantum circuit and observe the resulting measurement distribution.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/first-measurement.png
+      url: http://localhost:4242/models/model_c
 
 - category: Circuit-Level Examples
   description: 'Fundamental quantum circuits demonstrating superposition, entanglement, state preparation, and multi-qubit operations.'
   examples:
     - name: Uniform Superposition
-      description: 'Prepare qubits in a uniform superposition of computational basis states.'
-      url: /models/modela
+      description: 'Prepare 3 qubits in a uniform superposition of computational basis states.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/uniform-superposition.png
+      url: http://localhost:4242/models/model_d
+
     - name: Bell State — Φ+
       description: 'Construct a two-qubit Bell state using a Hadamard gate and controlled operation.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/bell-state.png
+      url: http://localhost:4242/models/model_e
+
     - name: GHZ State
       description: 'Create a multi-qubit GHZ state and explore multipartite entanglement.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/ghz-state.png
+      url: http://localhost:4242/models/model_f
+
     - name: W State
       description: 'Construct a W state and explore its multi-qubit entanglement.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/w-state.png
+      url: http://localhost:4242/models/model_g
 
 - category: Encoding Examples
   description: 'Examples demonstrating different ways of converting classical information into quantum states.'
   examples:
     - name: Encode Value
       description: 'Encode a classical value into a quantum state using a high-level encoding block.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/encode-value.png
+      url: http://localhost:4242/models/model_h
+
     - name: Basis Encoding
       description: 'Encode classical binary data into computational basis states.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/basis-encoding.png
+      url: http://localhost:4242/models/model_i
+
     - name: Angle Encoding
       description: 'Encode classical numerical data into qubit rotation angles.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/angle-encoding.png
+      url: http://localhost:4242/models/model_j
+
     - name: Amplitude Encoding
       description: 'Encode a normalized classical vector into the amplitudes of a quantum state.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/amplitude-encoding.png
+      url: http://localhost:4242/models/model_k
 
 - category: Quantum Algorithms
   description: 'Examples showing complete quantum algorithms and different abstraction levels for constructing them.'
   examples:
     - name: Grover — Encode Value
       description: 'Implement Grover search using higher-level value encoding.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-encode-value.png
+      url: http://localhost:4242/models/model_l
+
     - name: Grover — Building Blocks
       description: 'Construct Grover search from an oracle, diffuser, encoding, and other reusable building blocks.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-building-blocks.png
+      url: http://localhost:4242/models/model_m
+
     - name: Grover — Compact
       description: 'Build Grover search using the compact high-level Grover algorithm block.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-compact.png
+      url: http://localhost:4242/models/model_n
+
     - name: Quantum Fourier Transform
       description: 'Build a circuit using the Quantum Fourier Transform and its inverse.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-fourier-transform.png
+      url: http://localhost:4242/models/model_o
+
     - name: QAOA
       description: 'Construct a parameterized QAOA model for solving an optimization problem.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/qaoa.png
+      url: http://localhost:4242/models/model_p
+    
+    - name: Grover Search
+      description: 'Ready-to-use Grover search model with configurable oracle and search parameters.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-search.png
+      url: http://localhost:4242/models/model_y
+
+    - name: Hadamard Test — Real Part
+      description: 'Estimate the real part of a quantum operation using a Hadamard test.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hadamard-test-real-part.png
+      url: http://localhost:4242/models/model_z
+
+    - name: Hadamard Test — Imaginary Part
+      description: 'Estimate the imaginary part of a quantum operation using a Hadamard test.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hadamard-test-imaginary-part.png
+      url: http://localhost:4242/models/model_aa
+
+    - name: SWAP Test
+      description: 'Compare two quantum states using the SWAP test.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/swap-test.png
+      url: http://localhost:4242/models/model_ab
+
+    - name: QAOA
+      description: 'Ready-to-use QAOA model combining a parameterized quantum circuit with classical optimization.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/qaoa-template.png
+      url: http://localhost:4242/models/model_ac
 
 - category: Quantum Machine Learning
   description: 'Examples demonstrating quantum and classical machine-learning workflows in the low-code modeler.'
   examples:
     - name: Quantum Clustering
       description: 'Build a clustering workflow using a quantum-enhanced clustering algorithm.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-clustering.png
+      url: http://localhost:4242/models/model_q
+
     - name: Quantum Classification
       description: 'Build a classification workflow using a quantum machine-learning model.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-classification.png
+      url: http://localhost:4242/models/model_r
+
     - name: Quantum Kernel
       description: 'Generate a quantum kernel for use in a machine-learning workflow.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-kernel.png
+      url: http://localhost:4242/models/model_s
+
     - name: Classical Clustering
       description: 'Build a classical clustering workflow for comparison with the quantum approach.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/classical-clustering.png
+      url: http://localhost:4242/models/model_t
 
 - category: Advanced Examples
   description: 'Examples demonstrating more advanced quantum operations, control flow, and reusable model components.'
   examples:
     - name: Multi-Controlled Gates
       description: 'Build a circuit using Toffoli, controlled-SWAP, and multi-controlled multi-target operations.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/multi-controlled-gates.png
+      url: http://localhost:4242/models/model_u
+
     - name: Quantum Arithmetic
       description: 'Construct a workflow using quantum arithmetic and logical operations.'
-      url: /models/modela
-    - name: Conditional Quantum Workflow
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-arithmetic.png
+      url: http://localhost:4242/models/model_v
+
+    - name: Conditional Quantum Model
       description: 'Use conditional logic and repetition to control a quantum workflow.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/conditional-quantum-workflow.png
+      url: http://localhost:4242/models/model_w
+
     - name: Custom Quantum Operator
       description: 'Create a reusable quantum operation from a custom low-code model.'
-      url: /models/modela
-
-- category: Templates
-  description: 'Ready-to-use quantum algorithm and machine-learning models that can be opened, explored, and modified.'
-  examples:
-    - name: Grover Search
-      description: 'Ready-to-use Grover search model with configurable oracle and search parameters.'
-      url: /models/modela
-    - name: Hadamard Test — Real Part
-      description: 'Estimate the real part of a quantum operation using a Hadamard test.'
-      url: /models/modela
-    - name: Hadamard Test — Imaginary Part
-      description: 'Estimate the imaginary part of a quantum operation using a Hadamard test.'
-      url: /models/modela
-    - name: SWAP Test
-      description: 'Compare two quantum states using the SWAP test.'
-      url: /models/modela
-    - name: QAOA
-      description: 'Ready-to-use QAOA model combining a parameterized quantum circuit with classical optimization.'
-      url: /models/modela
-    - name: Quantum K-Means
-      description: 'Cluster data points into k groups using a quantum-enhanced K-Means workflow.'
-      url: /models/modela
-
-- category: Comparisons
-  description: 'Examples that demonstrate how the same quantum task can be represented at different abstraction levels or compared with a classical implementation.'
-  examples:
-    - name: Grover — Building Blocks vs Compact
-      description: 'Compare an explicit Grover construction with the compact Grover algorithm block.'
-      url: /models/modela
-    - name: Quantum vs Classical Clustering
-      description: 'Compare quantum clustering with a classical clustering workflow.'
-      url: /models/modela
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/custom-quantum-operator.png
+      url: http://localhost:4242/models/model_x

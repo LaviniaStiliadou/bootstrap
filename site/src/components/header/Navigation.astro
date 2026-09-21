@@ -1,14 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { getConfig } from '@libs/config'
 import { getVersionedDocsPath } from '@libs/path'
 import type { Layout } from '@libs/layout'
 import BootstrapWhiteFillIcon from '@components/icons/BootstrapWhiteFillIcon.astro'
 import GitHubIcon from '@components/icons/GitHubIcon.astro'
 import HamburgerIcon from '@components/icons/HamburgerIcon.astro'
 import LinkItem from '@components/header/LinkItem.astro'
-import OpenCollectiveIcon from '@components/icons/OpenCollectiveIcon.astro'
-import XIcon from '@components/icons/XIcon.astro'
 import Versions from '@components/header/Versions.astro'
 import ThemeToggler from '@layouts/partials/ThemeToggler.astro'
 
@@ -22,7 +19,11 @@ const { addedIn, layout, title } = Astro.props
 ---
 
 <header class="navbar navbar-expand-lg bd-navbar sticky-top">
-  <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+  <nav
+    class="container-xxl bd-gutter flex-wrap flex-lg-nowrap"
+    aria-label="Main navigation"
+  >
+
     {
       layout === 'docs' && (
         <div class="bd-navbar-toggle">
@@ -34,83 +35,1288 @@ const { addedIn, layout, title } = Astro.props
             aria-controls="bdSidebar"
             aria-label="Toggle docs navigation"
           >
-            <HamburgerIcon class="bi" height={24} width={24} />
-            <span class="d-none fs-6 pe-1">Browse</span>
+            <HamburgerIcon
+              class="bi"
+              height={24}
+              width={24}
+            />
+
+            <span class="d-none fs-6 pe-1">
+              Browse
+            </span>
           </button>
         </div>
       )
     }
-    {layout !== 'docs' && <div class="d-lg-none" style="width: 4.25rem;" />}
 
-    <a class="navbar-brand p-0 me-0 me-lg-2" href="/bootstrap/" aria-label="Bootstrap">
-      <BootstrapWhiteFillIcon class="d-block my-1" height={32} width={40} />
+    {
+      layout !== 'docs' && (
+        <div
+          class="d-lg-none"
+          style="width: 4.25rem;"
+        />
+      )
+    }
+
+
+    <!-- Qonstruct logo -->
+    <a
+      class="navbar-brand p-0 me-0 me-lg-2"
+      href="/bootstrap/"
+      aria-label="Qonstruct"
+    >
+      <BootstrapWhiteFillIcon
+        class="d-block my-1"
+        height={32}
+        width={40}
+      />
     </a>
 
-    <div class="d-flex">
-      <div class="bd-search" id="docsearch" data-bd-docs-version={getConfig().docs_version}></div>
 
-      <button
-        class="navbar-toggler d-flex d-lg-none order-3 p-2"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#bdNavbar"
-        aria-controls="bdNavbar"
-        aria-label="Toggle navigation"
+    <!-- Mobile navigation button -->
+    <button
+      class="navbar-toggler d-flex d-lg-none order-3 p-2"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#bdNavbar"
+      aria-controls="bdNavbar"
+      aria-label="Toggle navigation"
+    >
+      <svg
+        class="bi"
+        aria-hidden="true"
       >
-        <svg class="bi" aria-hidden="true"><use xlink:href="#three-dots"></use></svg>
-      </button>
-    </div>
+        <use xlink:href="#three-dots"></use>
+      </svg>
+    </button>
 
+
+    <!-- Navigation -->
     <div
       class="offcanvas-lg offcanvas-end flex-grow-1"
       tabindex="-1"
       id="bdNavbar"
       aria-labelledby="bdNavbarOffcanvasLabel"
     >
+
       <div class="offcanvas-header px-4 pb-0">
-        <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Bootstrap</h5>
+
+        <h5
+          class="offcanvas-title text-white"
+          id="bdNavbarOffcanvasLabel"
+        >
+          Qonstruct
+        </h5>
+
         <button
           type="button"
           class="btn-close btn-close-white"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
-          data-bs-target="#bdNavbar"></button>
+          data-bs-target="#bdNavbar"
+        ></button>
+
       </div>
+
 
       <div class="offcanvas-body p-4 pt-0 p-lg-0">
+
         <hr class="d-lg-none text-white-50" />
+
+
+        <!-- Main navigation -->
         <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-          <LinkItem active={layout === 'docs'} href={getVersionedDocsPath('getting-started/introduction/')} track>
+
+          <LinkItem
+            active={layout === 'docs'}
+            href={getVersionedDocsPath(
+              'getting-started/introduction/'
+            )}
+            track
+          >
             Docs
           </LinkItem>
-          <LinkItem active={title === 'Examples'} href={getVersionedDocsPath('examples/')} track>Examples</LinkItem>
-          <LinkItem active={title === 'Qonstruct Papers & Tutorials'} href={getVersionedDocsPath('blog/')} track>Blog</LinkItem>
+
+
+          <LinkItem
+            active={title === 'Examples'}
+            href={getVersionedDocsPath(
+              'examples/'
+            )}
+            track
+          >
+            Examples
+          </LinkItem>
+
+
+          <LinkItem
+            active={title === 'Qonstruct Papers & Tutorials'}
+            href={getVersionedDocsPath(
+              'blog/'
+            )}
+            track
+          >
+            Blog
+          </LinkItem>
+
+
+          <!-- Search -->
+          <li class="nav-item qonstruct-search-nav">
+
+            <div class="qonstruct-search-wrapper">
+
+              <form
+                id="qonstruct-search-form"
+                role="search"
+              >
+
+                <input
+                  id="qonstruct-search"
+                  class="form-control"
+                  type="search"
+                  placeholder="Search..."
+                  aria-label="Search this page"
+                  autocomplete="off"
+                  aria-controls="qonstruct-search-results"
+                  aria-expanded="false"
+                />
+
+              </form>
+
+
+              <!-- Search results -->
+              <div
+                id="qonstruct-search-results"
+                class="qonstruct-search-results"
+                role="listbox"
+                aria-label="Search results"
+                hidden
+              ></div>
+
+            </div>
+
+          </li>
+
         </ul>
+
 
         <hr class="d-lg-none text-white-50" />
 
+
+        <!-- Right side navigation -->
         <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-          <LinkItem class="nav-link py-2 px-0 px-lg-2" href={"https://github.com/LEQO-Framework/low-code-modeler"} target="_blank" rel="noopener">
-            <GitHubIcon class="navbar-nav-svg" height={16} width={16} />
-            <small class="d-lg-none ms-2">GitHub</small>
+
+
+          <!-- GitHub -->
+          <LinkItem
+            class="nav-link py-2 px-0 px-lg-2"
+            href="https://github.com/LEQO-Framework/low-code-modeler"
+            target="_blank"
+            rel="noopener"
+          >
+
+            <GitHubIcon
+              class="navbar-nav-svg"
+              height={16}
+              width={16}
+            />
+
+            <small class="d-lg-none ms-2">
+              GitHub
+            </small>
+
           </LinkItem>
+
+
+          <!-- Separator -->
           <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
-            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-            <hr class="d-lg-none my-2 text-white-50" />
+
+            <div
+              class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"
+            ></div>
+
+            <hr
+              class="d-lg-none my-2 text-white-50"
+            />
+
           </li>
 
-          <Versions layout={layout} addedIn={addedIn} />
 
+          <!-- Versions -->
+          <Versions
+            layout={layout}
+            addedIn={addedIn}
+          />
+
+
+          <!-- Separator -->
           <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
-            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-            <hr class="d-lg-none my-2 text-white-50" />
+
+            <div
+              class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"
+            ></div>
+
+            <hr
+              class="d-lg-none my-2 text-white-50"
+            />
+
           </li>
 
+
+          <!-- Theme -->
           <li class="nav-item dropdown">
-            <ThemeToggler layout={layout} />
+
+            <ThemeToggler
+              layout={layout}
+            />
+
           </li>
+
         </ul>
+
       </div>
+
     </div>
+
   </nav>
 </header>
+
+
+<script>
+  const searchForm =
+    document.querySelector<HTMLFormElement>(
+      '#qonstruct-search-form'
+    )
+
+  const searchInput =
+    document.querySelector<HTMLInputElement>(
+      '#qonstruct-search'
+    )
+
+  const resultsContainer =
+    document.querySelector<HTMLDivElement>(
+      '#qonstruct-search-results'
+    )
+
+
+  if (
+    searchForm &&
+    searchInput &&
+    resultsContainer
+  ) {
+
+    let currentResults: HTMLElement[] = []
+
+    let selectedIndex = 0
+
+
+    /*
+     * Escape HTML.
+     */
+    const escapeHtml = (text: string) => {
+
+      const div =
+        document.createElement('div')
+
+      div.textContent = text
+
+      return div.innerHTML
+    }
+
+
+    /*
+     * Escape special RegExp characters.
+     */
+    const escapeRegExp = (value: string) => {
+
+      return value.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        '\\$&'
+      )
+
+    }
+
+
+    /*
+     * Remove all existing highlights.
+     */
+    const clearHighlights = () => {
+
+      document
+        .querySelectorAll(
+          'mark.qonstruct-search-highlight'
+        )
+        .forEach((mark) => {
+
+          const parent =
+            mark.parentNode
+
+          if (!parent) {
+            return
+          }
+
+          parent.replaceChild(
+            document.createTextNode(
+              mark.textContent || ''
+            ),
+            mark
+          )
+
+          parent.normalize()
+
+        })
+
+    }
+
+
+    /*
+     * Find all searchable text nodes
+     * on the current page.
+     */
+    const getSearchableTextNodes = () => {
+
+      const walker =
+        document.createTreeWalker(
+          document.body,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode: (node) => {
+
+              const parent =
+                node.parentElement
+
+              if (!parent) {
+                return NodeFilter.FILTER_REJECT
+              }
+
+
+              /*
+               * Don't search inside the header.
+               */
+              if (
+                parent.closest('header')
+              ) {
+                return NodeFilter.FILTER_REJECT
+              }
+
+
+              const tagName =
+                parent.tagName.toLowerCase()
+
+
+              /*
+               * Ignore elements that should
+               * not be searched.
+               */
+              if (
+                tagName === 'script' ||
+                tagName === 'style' ||
+                tagName === 'input' ||
+                tagName === 'textarea' ||
+                tagName === 'select' ||
+                tagName === 'button'
+              ) {
+                return NodeFilter.FILTER_REJECT
+              }
+
+
+              if (
+                !node.nodeValue?.trim()
+              ) {
+                return NodeFilter.FILTER_REJECT
+              }
+
+
+              return NodeFilter.FILTER_ACCEPT
+
+            }
+          }
+        )
+
+
+      const nodes: Text[] = []
+
+      let node
+
+      while (
+        (node = walker.nextNode())
+      ) {
+
+        nodes.push(
+          node as Text
+        )
+
+      }
+
+      return nodes
+    }
+
+
+    /*
+     * Perform search.
+     */
+    const search = (term: string) => {
+
+      clearHighlights()
+
+      resultsContainer.innerHTML = ''
+
+      currentResults = []
+
+      selectedIndex = 0
+
+
+      /*
+       * Empty search.
+       */
+      if (!term.trim()) {
+
+        resultsContainer.hidden = true
+
+        searchInput.setAttribute(
+          'aria-expanded',
+          'false'
+        )
+
+        return
+      }
+
+
+      const escapedTerm =
+        escapeRegExp(
+          term.trim()
+        )
+
+
+      const regex =
+        new RegExp(
+          escapedTerm,
+          'gi'
+        )
+
+
+      const textNodes =
+        getSearchableTextNodes()
+
+
+      const matches: {
+        node: Text
+        index: number
+        text: string
+      }[] = []
+
+
+      /*
+       * Find all matches.
+       */
+      textNodes.forEach((node) => {
+
+        const text =
+          node.nodeValue || ''
+
+        regex.lastIndex = 0
+
+        let match
+
+        while (
+          (match = regex.exec(text))
+            !== null
+        ) {
+
+          matches.push({
+            node,
+            index: match.index,
+            text
+          })
+
+
+          /*
+           * Prevent infinite loops.
+           */
+          if (
+            match[0].length === 0
+          ) {
+
+            regex.lastIndex++
+
+          }
+
+        }
+
+      })
+
+
+      /*
+       * No results.
+       */
+      if (
+        matches.length === 0
+      ) {
+
+        resultsContainer.innerHTML = `
+          <div class="qonstruct-no-results">
+            No results found
+          </div>
+        `
+
+        resultsContainer.hidden = false
+
+        searchInput.setAttribute(
+          'aria-expanded',
+          'true'
+        )
+
+        return
+      }
+
+
+      /*
+       * Highlight matches.
+       */
+      const processedNodes =
+        new Set<Text>()
+
+
+      matches.forEach((match) => {
+
+        if (
+          processedNodes.has(
+            match.node
+          )
+        ) {
+
+          return
+
+        }
+
+
+        processedNodes.add(
+          match.node
+        )
+
+
+        const text =
+          match.node.nodeValue || ''
+
+
+        regex.lastIndex = 0
+
+
+        const fragment =
+          document.createDocumentFragment()
+
+
+        let lastIndex = 0
+
+        let localMatch
+
+
+        while (
+          (localMatch =
+            regex.exec(text)) !== null
+        ) {
+
+          const before =
+            text.slice(
+              lastIndex,
+              localMatch.index
+            )
+
+
+          if (before) {
+
+            fragment.appendChild(
+              document.createTextNode(
+                before
+              )
+            )
+
+          }
+
+
+          const mark =
+            document.createElement(
+              'mark'
+            )
+
+
+          mark.className =
+            'qonstruct-search-highlight'
+
+
+          mark.textContent =
+            localMatch[0]
+
+
+          fragment.appendChild(
+            mark
+          )
+
+
+          lastIndex =
+            localMatch.index +
+            localMatch[0].length
+
+
+          if (
+            localMatch[0].length === 0
+          ) {
+
+            regex.lastIndex++
+
+          }
+
+        }
+
+
+        const after =
+          text.slice(lastIndex)
+
+
+        if (after) {
+
+          fragment.appendChild(
+            document.createTextNode(
+              after
+            )
+          )
+
+        }
+
+
+        match.node.parentNode?.replaceChild(
+          fragment,
+          match.node
+        )
+
+      })
+
+
+      /*
+       * Get all highlighted results.
+       */
+      currentResults =
+        Array.from(
+          document.querySelectorAll<HTMLElement>(
+            'mark.qonstruct-search-highlight'
+          )
+        )
+
+
+      /*
+       * Build result list.
+       */
+      currentResults.forEach(
+        (result, index) => {
+
+          const text =
+            result.textContent || ''
+
+
+          const parentText =
+            result.parentElement?.textContent || ''
+
+
+          const resultIndex =
+            parentText
+              .toLowerCase()
+              .indexOf(
+                text.toLowerCase()
+              )
+
+
+          let preview =
+            parentText
+
+
+          if (
+            resultIndex >= 0
+          ) {
+
+            const start =
+              Math.max(
+                0,
+                resultIndex - 60
+              )
+
+
+            const end =
+              Math.min(
+                parentText.length,
+                resultIndex +
+                text.length +
+                100
+              )
+
+
+            preview =
+              (start > 0
+                ? '... '
+                : '') +
+              parentText.slice(
+                start,
+                end
+              ) +
+              (end < parentText.length
+                ? ' ...'
+                : '')
+
+          }
+
+
+          const resultButton =
+            document.createElement(
+              'button'
+            )
+
+
+          resultButton.type =
+            'button'
+
+
+          resultButton.className =
+            'qonstruct-search-result'
+
+
+          resultButton.setAttribute(
+            'role',
+            'option'
+          )
+
+
+          resultButton.innerHTML = `
+            <span class="qonstruct-search-result-number">
+              ${index + 1}
+            </span>
+
+            <span class="qonstruct-search-result-content">
+              ${escapeHtml(preview)}
+            </span>
+          `
+
+
+          resultButton.addEventListener(
+            'click',
+            () => {
+
+              selectedIndex =
+                index
+
+              scrollToResult(
+                index
+              )
+
+              closeResults()
+
+            }
+          )
+
+
+          resultsContainer.appendChild(
+            resultButton
+          )
+
+        }
+      )
+
+
+      resultsContainer.hidden = false
+
+      searchInput.setAttribute(
+        'aria-expanded',
+        'true'
+      )
+
+
+      updateSelectedResult()
+
+    }
+
+
+    /*
+     * Scroll to a search result.
+     */
+    const scrollToResult =
+      (index: number) => {
+
+        const result =
+          currentResults[index]
+
+
+        if (!result) {
+          return
+        }
+
+
+        currentResults.forEach(
+          (item) => {
+
+            item.classList.remove(
+              'qonstruct-search-highlight-active'
+            )
+
+          }
+        )
+
+
+        result.classList.add(
+          'qonstruct-search-highlight-active'
+        )
+
+
+        result.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+
+
+        updateSelectedResult()
+
+      }
+
+
+    /*
+     * Update selected result.
+     */
+    const updateSelectedResult =
+      () => {
+
+        const buttons =
+          resultsContainer.querySelectorAll(
+            '.qonstruct-search-result'
+          )
+
+
+        buttons.forEach(
+          (button, index) => {
+
+            button.classList.toggle(
+              'active',
+              index === selectedIndex
+            )
+
+          }
+        )
+
+      }
+
+
+    /*
+     * Close result dropdown.
+     */
+    const closeResults = () => {
+
+      resultsContainer.hidden = true
+
+      searchInput.setAttribute(
+        'aria-expanded',
+        'false'
+      )
+
+    }
+
+
+    /*
+     * Enter selects the current result.
+     */
+    searchForm.addEventListener(
+      'submit',
+      (event) => {
+
+        event.preventDefault()
+
+
+        if (
+          currentResults.length === 0
+        ) {
+
+          return
+
+        }
+
+
+        scrollToResult(
+          selectedIndex
+        )
+
+
+        closeResults()
+
+      }
+    )
+
+
+    /*
+     * Search while typing.
+     */
+    searchInput.addEventListener(
+      'input',
+      () => {
+
+        search(
+          searchInput.value
+        )
+
+      }
+    )
+
+
+    /*
+     * Keyboard controls.
+     */
+    searchInput.addEventListener(
+      'keydown',
+      (event) => {
+
+        /*
+         * Next result.
+         */
+        if (
+          event.key === 'ArrowDown' &&
+          currentResults.length > 0
+        ) {
+
+          event.preventDefault()
+
+
+          selectedIndex =
+            Math.min(
+              selectedIndex + 1,
+              currentResults.length - 1
+            )
+
+
+          scrollToResult(
+            selectedIndex
+          )
+
+          return
+
+        }
+
+
+        /*
+         * Previous result.
+         */
+        if (
+          event.key === 'ArrowUp' &&
+          currentResults.length > 0
+        ) {
+
+          event.preventDefault()
+
+
+          selectedIndex =
+            Math.max(
+              selectedIndex - 1,
+              0
+            )
+
+
+          scrollToResult(
+            selectedIndex
+          )
+
+          return
+
+        }
+
+
+        /*
+         * Escape clears search.
+         */
+        if (
+          event.key === 'Escape'
+        ) {
+
+          searchInput.value = ''
+
+          clearHighlights()
+
+          closeResults()
+
+          currentResults = []
+
+          selectedIndex = 0
+
+          searchInput.blur()
+
+        }
+
+      }
+    )
+
+
+    /*
+     * Close results when clicking
+     * outside the search.
+     */
+    document.addEventListener(
+      'click',
+      (event) => {
+
+        const target =
+          event.target as Node
+
+
+        if (
+          !searchForm.contains(
+            target
+          ) &&
+          !resultsContainer.contains(
+            target
+          )
+        ) {
+
+          closeResults()
+
+        }
+
+      }
+    )
+
+  }
+</script>
+
+
+<style>
+
+  /*
+   * Search navigation item.
+   */
+  .qonstruct-search-nav {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0.25rem 0.5rem;
+
+  margin-left: 15.5rem;
+
+  margin-right: 2.5rem;
+}
+
+  /*
+   * Search wrapper.
+   */
+  .qonstruct-search-wrapper {
+    position: relative;
+
+    z-index: 1050;
+  }
+
+
+  /*
+   * Search input.
+   */
+  #qonstruct-search {
+    width: 220px;
+
+    min-width: 180px;
+  }
+
+
+  /*
+   * Search result dropdown.
+   */
+  .qonstruct-search-results {
+    position: absolute;
+
+    top: calc(100% + 0.5rem);
+
+    left: 0;
+
+    width: min(420px, 80vw);
+
+    max-height: 420px;
+
+    overflow-y: auto;
+
+    background: var(
+      --bs-body-bg,
+      #fff
+    );
+
+    color: var(
+      --bs-body-color,
+      #212529
+    );
+
+    border: 1px solid var(
+      --bs-border-color,
+      #dee2e6
+    );
+
+    border-radius: 0.5rem;
+
+    box-shadow:
+      0 0.5rem 1rem
+      rgba(0, 0, 0, 0.15);
+
+    padding: 0.35rem;
+
+    z-index: 2000;
+  }
+
+
+  /*
+   * Individual result.
+   */
+  .qonstruct-search-result {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    border: 0;
+
+    border-radius: 0.375rem;
+
+    background: transparent;
+
+    color: inherit;
+
+    padding: 0.65rem 0.75rem;
+
+    text-align: left;
+
+    cursor: pointer;
+  }
+
+
+  .qonstruct-search-result:hover,
+  .qonstruct-search-result.active {
+    background-color: var(
+      --bs-tertiary-bg,
+      #f8f9fa
+    );
+  }
+
+
+  /*
+   * Result number.
+   */
+  .qonstruct-search-result-number {
+    flex: 0 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 1.5rem;
+
+    height: 1.5rem;
+
+    border-radius: 50%;
+
+    background-color: var(
+      --bs-secondary-bg,
+      #e9ecef
+    );
+
+    font-size: 0.75rem;
+
+    font-weight: 600;
+  }
+
+
+  /*
+   * Result preview.
+   */
+  .qonstruct-search-result-content {
+    display: block;
+
+    overflow: hidden;
+
+    font-size: 0.875rem;
+
+    line-height: 1.4;
+
+    white-space: normal;
+  }
+
+
+  /*
+   * No results.
+   */
+  .qonstruct-no-results {
+    padding: 1rem;
+
+    text-align: center;
+
+    font-size: 0.875rem;
+
+    color: var(
+      --bs-secondary-color,
+      #6c757d
+    );
+  }
+
+
+  /*
+   * Search highlight.
+   */
+  mark.qonstruct-search-highlight {
+    background-color: #fff3a3;
+
+    color: #000;
+
+    padding: 0.05em 0.15em;
+
+    border-radius: 0.15rem;
+  }
+
+
+  /*
+   * Currently selected result.
+   */
+  mark.qonstruct-search-highlight-active {
+    background-color: #ffcc00;
+
+    outline: 2px solid #ff9900;
+
+    outline-offset: 2px;
+  }
+
+
+  /*
+   * Mobile layout.
+   */
+  @media (max-width: 991.98px) {
+
+    .qonstruct-search-nav {
+      width: 100%;
+
+      padding: 0.5rem 0;
+    }
+
+
+    #qonstruct-search {
+      width: 100%;
+
+      min-width: 150px;
+    }
+
+
+    .qonstruct-search-results {
+      position: fixed;
+
+      top: 4.5rem;
+
+      left: 5%;
+
+      width: 90%;
+
+      max-height: 60vh;
+    }
+
+  }
+
+</style>

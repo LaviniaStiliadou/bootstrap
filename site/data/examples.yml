@@ -65,7 +65,7 @@
 - category: Quantum Algorithms
   description: 'Examples showing complete quantum algorithms and different abstraction levels for constructing them.'
   examples:
-    - name: Grover — Encode Value
+    - name: Grover — Circuit Level
       description: 'Implement Grover search using higher-level value encoding.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-encode-value.png
       url: http://localhost:4242/models/model_l
@@ -89,12 +89,7 @@
       description: 'Construct a parameterized QAOA model for solving an optimization problem.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/qaoa.png
       url: http://localhost:4242/models/model_p
-    
-    - name: Grover Search
-      description: 'Ready-to-use Grover search model with configurable oracle and search parameters.'
-      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-search.png
-      url: http://localhost:4242/models/model_y
-
+   
     - name: Hadamard Test — Real Part
       description: 'Estimate the real part of a quantum operation using a Hadamard test.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hadamard-test-real-part.png

@@ -1,7 +1,6 @@
 ---
 import { getData } from '@libs/data'
 import { getSlug } from '@libs/utils'
-import { getConfig } from '@libs/config'
 ---
 
 {
@@ -14,6 +13,8 @@ import { getConfig } from '@libs/config'
 
         <div class="row">
           {examples.map((example) => {
+            const imageUrl = `https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/${getSlug(example.name)}.png`
+
             return (
               <article class="col-sm-6 col-md-3 mb-3">
                 <a
@@ -22,7 +23,7 @@ import { getConfig } from '@libs/config'
                 >
                   <img
                     class="img-thumbnail mb-3"
-                    src={example.image}
+                    src={imageUrl}
                     alt={example.name}
                     width="480"
                     height="300"

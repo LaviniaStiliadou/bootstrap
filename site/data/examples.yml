@@ -114,12 +114,12 @@
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-clustering.png
       url: http://localhost:4242/models/model_q
 
-    - name: Quantum Classification
+    - name: Quantum Classification (prüfen)
       description: 'Build a classification workflow using a quantum machine-learning model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-classification.png
       url: http://localhost:4242/models/model_r
 
-    - name: Quantum Kernel
+    - name: Quantum Kernel (prüfen)
       description: 'Generate a quantum kernel for use in a machine-learning workflow.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-kernel.png
       url: http://localhost:4242/models/model_s

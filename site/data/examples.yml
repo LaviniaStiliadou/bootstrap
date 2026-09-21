@@ -42,11 +42,6 @@
 - category: Encoding Examples
   description: 'Examples demonstrating different ways of converting classical information into quantum states.'
   examples:
-    - name: Encode Value
-      description: 'Encode a classical value into a quantum state using a high-level encoding block.'
-      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/encode-value.png
-      url: http://localhost:4242/models/model_h
-
     - name: Basis Encoding
       description: 'Encode classical binary data into computational basis states.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/basis-encoding.png
@@ -60,7 +55,13 @@
     - name: Amplitude Encoding
       description: 'Encode a normalized classical vector into the amplitudes of a quantum state.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/amplitude-encoding.png
-      url: http://localhost:4242/models/model_k
+      url: http://localhost:4242/models/
+    
+    - name: Encode Value
+      description: 'Encode a classical value into a quantum state using a high-level encoding block.'
+      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/encode-value.png
+      url: http://localhost:4242/models/model_h
+
 
 - category: Quantum Algorithms
   description: 'Examples showing complete quantum algorithms and different abstraction levels for constructing them.'
@@ -84,11 +85,6 @@
       description: 'Build a circuit using the Quantum Fourier Transform and its inverse.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-fourier-transform.png
       url: http://localhost:4242/models/model_o
-
-    - name: QAOA
-      description: 'Construct a parameterized QAOA model for solving an optimization problem.'
-      image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/qaoa.png
-      url: http://localhost:4242/models/model_p
    
     - name: Hadamard Test — Real Part
       description: 'Estimate the real part of a quantum operation using a Hadamard test.'

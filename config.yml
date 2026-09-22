@@ -29,8 +29,8 @@ algolia:
 
 download:
   source:               "https://github.com/twbs/bootstrap/archive/v5.3.8.zip"
-  dist:                 "https://github.com/LaviniaStiliadou/bootstrap/raw/3795afa8d8e1d5c8e5fdde77e3db6a28dd642b00/examples.zip"
-  dist_examples:        ""
+  dist:                 "https://github.com/LaviniaStiliadou/bootstrap/blob/3795afa8d8e1d5c8e5fdde77e3db6a28dd642b00/examples.zip"
+  dist_examples:        "https://github.com/LaviniaStiliadou/bootstrap/raw/3795afa8d8e1d5c8e5fdde77e3db6a28dd642b00/examples.zip"
 
 cdn:
   # See https://www.srihash.org for info on how to generate the hashes

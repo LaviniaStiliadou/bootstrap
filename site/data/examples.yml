@@ -1,7 +1,7 @@
 - category: Starters
   description: 'Get started with the quantum low-code modeler using simple, ready-to-run quantum models.'
   examples:
-    - name: Empty model
+    - name: Empty Model
       description: 'Start with an empty quantum model and build your workflow from scratch.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/empty-model.png
       url: http://localhost:4242/models/model_a
@@ -11,7 +11,7 @@
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hello-quantum.png
       url: http://localhost:4242/models/model_b
 
-    - name: First measurement
+    - name: First Measurement
       description: 'Create a simple quantum circuit and observe the resulting measurement distribution.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/first-measurement.png
       url: http://localhost:4242/models/model_c
@@ -25,17 +25,17 @@
       url: http://localhost:4242/models/model_d
 
     - name: Bell State — Φ+
-      description: 'Construct a two-qubit Bell state using a Hadamard gate and controlled operation.'
+      description: 'Build a two-qubit Bell state using a Hadamard gate and controlled operation.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/bell-state.png
       url: http://localhost:4242/models/model_e
 
     - name: GHZ State
-      description: 'Create a multi-qubit GHZ state and explore multipartite entanglement.'
+      description: 'Create a multi-qubit GHZ state and explore entanglement.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/ghz-state.png
       url: http://localhost:4242/models/model_f
 
     - name: W State
-      description: 'Construct a W state and explore its multi-qubit entanglement.'
+      description: 'Build a W state and explore its multi-qubit entanglement.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/w-state.png
       url: http://localhost:4242/models/model_g
 
@@ -43,7 +43,7 @@
   description: 'Examples demonstrating different ways of converting classical information into quantum states.'
   examples:
     - name: Basis Encoding
-      description: 'Encode classical binary data into computational basis states.'
+      description: 'Encode classical data into computational basis states.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/basis-encoding.png
       url: http://localhost:4242/models/model_i
 
@@ -67,12 +67,12 @@
   description: 'Examples showing complete quantum algorithms and different abstraction levels for constructing them.'
   examples:
     - name: Grover — Circuit Level
-      description: 'Implement Grover search using higher-level value encoding.'
+      description: 'Implement Grover search on the circuit-level.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-encode-value.png
       url: http://localhost:4242/models/model_l
 
     - name: Grover — Building Blocks
-      description: 'Construct Grover search from an oracle, diffuser, encoding, and other reusable building blocks.'
+      description: 'Build Grover search from an oracle, diffuser, encoding, and other reusable building blocks.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-building-blocks.png
       url: http://localhost:4242/models/model_m
 
@@ -82,7 +82,7 @@
       url: http://localhost:4242/models/model_n
 
     - name: Quantum Fourier Transform
-      description: 'Build a circuit using the Quantum Fourier Transform and its inverse.'
+      description: 'Build a circuit using the Quantum Fourier Transform.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-fourier-transform.png
       url: http://localhost:4242/models/model_o
    
@@ -110,22 +110,22 @@
   description: 'Examples demonstrating quantum and classical machine-learning workflows in the low-code modeler.'
   examples:
     - name: Quantum Clustering
-      description: 'Build a clustering workflow using a quantum-enhanced clustering algorithm.'
+      description: 'Build a clustering model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-clustering.png
       url: http://localhost:4242/models/model_q
 
     - name: Quantum Classification (prüfen)
-      description: 'Build a classification workflow using a quantum machine-learning model.'
+      description: 'Build a classification model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-classification.png
       url: http://localhost:4242/models/model_r
 
     - name: Quantum Kernel (prüfen)
-      description: 'Generate a quantum kernel for use in a machine-learning workflow.'
+      description: 'Generate a quantum kernel.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-kernel.png
       url: http://localhost:4242/models/model_s
 
     - name: Classical Clustering
-      description: 'Build a classical clustering workflow for comparison with the quantum approach.'
+      description: 'Build a classical clustering model for comparison with the quantum approach.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/classical-clustering.png
       url: http://localhost:4242/models/model_t
 
@@ -138,12 +138,12 @@
       url: http://localhost:4242/models/model_u
 
     - name: Quantum Arithmetic
-      description: 'Construct a workflow using quantum arithmetic and logical operations.'
+      description: 'Build a model using quantum arithmetic and logical operations.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-arithmetic.png
       url: http://localhost:4242/models/model_v
 
     - name: Conditional Quantum Model
-      description: 'Use conditional logic and repetition to control a quantum workflow.'
+      description: 'Use conditional logic to control a quantum circuit.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/conditional-quantum-workflow.png
       url: http://localhost:4242/models/model_w
 

@@ -23,7 +23,7 @@ export function getStaticPaths() {
           <!-- QUANCOM 2026 - Paper -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              QUANCOM 2026
+              QUANCOM 2026 - A Collaborative Low-Code Platform for Quantum Application Design and Execution
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -31,24 +31,16 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              QUANCOM 2026 presents a collaborative low-code approach
-              to quantum computing. The work explores how users with
-              different levels of expertise can collaborate within a
-              shared environment.
+              Quantum computing remains challenging for beginners and software practitioners due to its unfamiliar computational model and the need for specialized expertise in designing and testing quantum applications.
+In addition, developing such applications requires deep knowledge of quantum SDKs, which further increases the barrier to adoption.
+To address these challenges, low-code platforms offer a promising direction by enabling users to build applications through high-level abstractions rather than manual programming.
+However, existing quantum low-code platforms provide limited support for collaboration across users with different expertise levels.
             </p>
 
             <p>
-              The approach aims to reduce the steep learning curve of
-              quantum computing by providing accessible abstractions
-              and a common workspace. This enables users to exchange
-              knowledge and collaborate while developing quantum
-              computing solutions.
-            </p>
-
-            <p>
-              The paper discusses how such an environment can support
-              collaboration between team members with different
-              backgrounds and levels of expertise.
+              In this paper, we present an extended version of Qonstruct that introduces synchronous real-time collaboration, element-level locking, version history, collaborative validation, and experience-aware interfaces that adapt terminology and abstraction levels to users’ expertise.
+We further demonstrate how these capabilities enable beginners and quantum experts to collaboratively build and execute Grover's search algorithm using a shared low-code model.
+Our evaluation shows that experience-aware representations improve beginners' understanding of quantum concepts, while mixed-expertise collaboration enables beginners to achieve~100\% modeling correctness, matching the expert group.
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
@@ -60,7 +52,7 @@ export function getStaticPaths() {
                 Paper to be published
               </button>
 
-              <a href="#" class="btn btn-outline-secondary">
+              <a href="https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/slides/QUANCOM2026.pdf" class="btn btn-outline-secondary">
                 Slides
               </a>
             </div>
@@ -70,7 +62,7 @@ export function getStaticPaths() {
           <!-- QUANTICS 2026 - Paper -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              QUANTICS 2026
+              QUANTICS 2026 - A Multi-Domain Quantum Low-Code Platform
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -78,22 +70,19 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              QUANTICS 2026 investigates approaches for making quantum
-              application development more accessible to domain experts.
+              Quantum computing promises advantages across diverse application domains, such as finance and chemistry.
+However, developing quantum applications is currently challenging, as they involve quantum circuits whose behavior is defined by linear algebra and probability theory.
+Furthermore, programming quantum circuits relies on SDKs that require programming knowledge.
+Consequently, expertise is concentrated among specialists, and knowledge transfer to other domains is limited, slowing the practical adoption of quantum computing.
+Low-code platforms attempt to reduce this barrier by providing graphical interfaces for application creation.
+However, current quantum low-code platforms often lack domain-specific abstractions for defining problem structures and their solutions, limiting their applicability.
             </p>
 
             <p>
-              The work introduces the concepts of
-              <strong>domain blocks</strong> and
-              <strong>domain profiles</strong>, allowing domain experts
-              to describe problems using concepts and terminology from
-              their own domain rather than low-level quantum constructs.
-            </p>
-
-            <p>
-              The approach further explores AI-assisted support for
-              selecting and composing suitable quantum algorithms and
-              services based on domain-specific problem descriptions.
+              To address this gap, we introduce domain-specific elements that form a layer on top of low-code elements, encoding goals as well as constraints of concrete application domains.
+Furthermore, if a domain element can be mapped to multiple low-code elements, we combine them into a single workflow that includes all alternatives, enabling an agent to make a selection at runtime.
+We implement the approach as a prototype and evaluate it through case studies in finance and logistics.
+The results demonstrate that domain experts can specify quantum models at a higher level of abstraction, reducing the need for quantum programming knowledge.
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
@@ -105,7 +94,7 @@ export function getStaticPaths() {
                 Paper to be published
               </button>
 
-              <a href="#" class="btn btn-outline-secondary">
+              <a href="https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/slides/QUANTICS2026.pdf" class="btn btn-outline-secondary">
                 Slides
               </a>
             </div>
@@ -115,7 +104,7 @@ export function getStaticPaths() {
           <!-- ICSOFT 2026 - Paper -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              ICSOFT 2026
+              ICSOFT 2026 - Quantum Low-Code Metamodel and Transformation Pipeline
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -123,16 +112,24 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              Research paper presented at ICSOFT 2026.
+              Model-driven engineering (MDE) and low-code development treat models as primary artifacts and enable
+the systematic derivation of executable software through automated transformations. This brings the bene
+fits of modeling, such as abstraction, reuse, and early validation, into the development process by shifting
+effort from manual coding to a guided, tool-supported approach. Quantum computing, however, introduces
+challenges such as managing quantum states and entanglement. These require a deep understanding of math
+ematics and quantum software engineering principles. Several low-code and MDE-inspired approaches have
+been proposed to simplify quantum software development by abstracting quantum-specific details. However,
+existing approaches are often tied to specific platforms or application domains and do not provide a fully trans
+parent model-to-code transformation. To bridge this gap between visual modeling and execution, we present
+a metamodel and transformation pipeline that provide the backend for graph-based quantum low-code models
+and automatically translate them into executable quantum programs. A prototypical implementation and use
+case demonstrate the feasibility of the proposed model-to-code transformation. To facilitate interoperability
+across different quantum cloud providers, we generate a widely supported intermediate representation.
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
               <a href="#" class="btn btn-outline-primary">
                 Read paper
-              </a>
-
-              <a href="#" class="btn btn-outline-secondary">
-                Slides
               </a>
             </div>
           </article>
@@ -141,7 +138,7 @@ export function getStaticPaths() {
           <!-- QUANTICS 2026 - Tutorial -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              QUANTICS 2026
+              QUANTICS 2026 - Low-Code Quantum Application Development: From Visual Modeling to Real Quantum Execution
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -149,15 +146,19 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              Tutorial presented at QUANTICS 2026.
+              Quantum application development remains a complex and highly specialized task. Developers must not only understand quantum algorithms but also implement them using provider-specific SDKs, quantum programming languages, and execution environments. As the quantum ecosystem continues to diversify, maintaining and porting applications across different platforms introduces significant engineering overhead.
+
+This tutorial introduces Qonstruct, a low-code development environment that aims to accelerate quantum application engineering by raising the level of abstraction above individual SDKs and circuit representations. Instead of manually implementing quantum programs in frameworks such as Qiskit, Braket, or other provider-specific toolchains, developers can visually model quantum applications and automatically generate executable artifacts.
+
+Participants will learn how low-code techniques can be applied to quantum software development to improve productivity, portability, and maintainability. The tutorial demonstrates an end-to-end workflow from visual application modeling and automated artifact generation to execution across heterogeneous quantum backends through a middleware orchestration layer.
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
-              <a href="#" class="btn btn-outline-primary">
+              <a href="https://laviniastiliadou.github.io/quantics-tutorial/" class="btn btn-outline-primary">
                 View tutorial
               </a>
 
-              <a href="#" class="btn btn-outline-secondary">
+              <a href="https://github.com/LaviniaStiliadou/quantics-tutorial/tree/main/resources/slides" class="btn btn-outline-secondary">
                 Slides
               </a>
             </div>
@@ -167,7 +168,7 @@ export function getStaticPaths() {
           <!-- ICSOFT 2026 - Tutorial -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              ICSOFT 2026
+              ICSOFT 2026 - Collaborative Model-Driven Quantum Software Engineering: A Hands-On Tutorial with Qonstruct
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -175,51 +176,52 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              Tutorial presented at ICSOFT 2026.
-            </p>
+              Quantum software engineering remains a challenging discipline due to the interdisciplinary expertise required to design, implement, and deploy hybrid quantum-classical applications. Developers must navigate concepts from quantum computing, software architecture, cloud computing, and distributed systems while simultaneously addressing hardware heterogeneity and rapidly evolving execution platforms. Although low-code and visual development approaches have emerged to reduce this complexity, existing solutions are often restricted to specific domains such as quantum machine learning, remain tightly coupled to circuit-level modeling, or rely on proprietary ecosystems that limit extensibility and collaboration.
+
+This tutorial introduces Qonstruct, an open-source platform for collaborative model-driven quantum software engineering. Qonstruct enables developers to model quantum applications using high-level domain abstractions rather than low-level quantum circuits, allowing them to focus on application logic instead of hardware-specific implementation details. Through model-driven transformations, visual specifications are automatically translated into standard-compliant quantum representations and executable orchestration workflows that support validation, deployment, and execution across heterogeneous quantum computers. </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
-              <a href="#" class="btn btn-outline-primary">
+              <a href="https://laviniastiliadou.github.io/icsoft-tutorial/" class="btn btn-outline-primary">
                 View tutorial
               </a>
 
-              <a href="#" class="btn btn-outline-secondary">
+              <a href="https://github.com/LaviniaStiliadou/icsoft-tutorial/tree/main/resources/slides" class="btn btn-outline-secondary">
                 Slides
               </a>
             </div>
           </article>
 
 
-          <!-- DH 2026 - Paper -->
+          <!-- DH 2026 - Poster -->
           <article class="blog-post mb-5 pb-5 border-bottom">
             <h1 class="display-5 fw-bold mb-3">
-              DH 2026
+              DH 2026 - Leveraging Quantum Computing through Low-Code Approaches for the Digital Humanities
             </h1>
 
             <p class="text-body-secondary mb-4">
-              Paper
+              Extended abstract
             </p>
 
             <p>
-              Research paper presented at DH 2026.
+              Extended abstract presented at DH 2026.
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
-              <a href="#" class="btn btn-outline-primary">
+              <a href="https://doi.org/10.5281/zenodo.21495908" class="btn btn-outline-primary">
                 Read paper
               </a>
 
-              <a href="#" class="btn btn-outline-secondary">
-                Slides
+              <a href="https://zenodo.org/records/22133840" class="btn btn-outline-secondary">
+                Poster
               </a>
             </div>
           </article>
 
 
-          <!-- CLOSER 2025 - Paper -->
+          <!-- CLOSER 2026 - Paper -->
           <article class="blog-post mb-5">
             <h1 class="display-5 fw-bold mb-3">
-              CLOSER 2025
+              CLOSER 2026 - Low-Code Quantum Algorithm Modeling and Execution for Hybrid Cloud Environments
             </h1>
 
             <p class="text-body-secondary mb-4">
@@ -227,7 +229,7 @@ export function getStaticPaths() {
             </p>
 
             <p>
-              Research paper presented at CLOSER 2025.
+              The complexity of quantum algorithms, as well as their integration with classical components, pose barriers to the broader adoption of quantum computing. Although quantum programming frameworks offer capabilities such as quantum circuit construction and error mitigation, they often require deep domain expertise and advanced programming skills, limiting accessibility for non-specialists. Meanwhile, low-code development environments lower the entry barrier for programming by enabling users to visually assemble blocks, modular units that represent specific operations, rather than requiring extensive manual coding. However, existing classical low-code platforms are typically domain-specific and lack the flexibility needed to support diverse quantum applications and the usage of quantum computers. Attempts to bring these two approaches together by combining the power of quantum programming frameworks with the ease of low-code development have so far led to quantum low-code solutions that are mostly closed-source or tightly bound to a single vendor’s ecosystem. To address these limitations, we identify essential blocks for modeling quantum algorithms and introduce an open-source, provider-agnostic low-code platform that enables their integration and execution across hybrid cloud environments. By automating the transformation of visual models into executable work-flows, the platform enables orchestration between classical services and quantum computers. To demonstrate the practical feasibility of our approach, we provide a prototypical implementation and showcase it for a use case from the optimization domain. 
             </p>
 
             <div class="mt-4 d-flex flex-wrap gap-2">
@@ -235,33 +237,11 @@ export function getStaticPaths() {
                 Read paper
               </a>
 
-              <a href="#" class="btn btn-outline-secondary">
+              <a href="https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/slides/CLOSER2026.pdf" class="btn btn-outline-secondary">
                 Slides
               </a>
             </div>
           </article>
-
-
-          <!-- Older / Newer navigation -->
-          <nav
-            class="d-flex justify-content-between border-top pt-4"
-            aria-label="Publication navigation"
-          >
-            <a
-              href="#"
-              class="btn btn-outline-secondary"
-            >
-              ← Older
-            </a>
-
-            <a
-              href="#"
-              class="btn btn-outline-secondary"
-            >
-              Newer →
-            </a>
-          </nav>
-
         </div>
       </div>
     </div>

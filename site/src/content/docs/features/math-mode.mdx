@@ -1,69 +1,374 @@
 ---
-title: Architecture
-description: Learn about the browsers and devices, from modern to old, that are supported by Bootstrap, including known quirks and bugs for each.
+
+title: Math mode
+description: Learn how to use Math mode in Experience mode to combine low-code workflows with mathematical concepts, inspect every step of a computation, get AI-powered explanations, and export mathematical documentation as PDF.
 toc: true
----
+---------
 
-## Supported browsers
+## Math mode
 
-Bootstrap supports the **latest, stable releases** of all major browsers and platforms.
+**Math mode** is an optional feature in **Experience mode** that combines low-code development with mathematical concepts.
 
-Alternative browsers which use the latest version of WebKit, Blink, or Gecko, whether directly or via the platform’s web view API, are not explicitly supported. However, Bootstrap should (in most cases) display and function correctly in these browsers as well. More specific support information is provided below.
+When enabled, Math mode makes the mathematical representation of a low-code model visible. Instead of showing only the resulting model or final output, Math mode can display the mathematical steps, intermediate results, matrices, quantum states, visual representations, properties, and AI-generated explanations associated with the model.
 
-You can find our supported range of browsers and their versions [in our `.browserslistrc file`]([[config:repo]]/blob/v[[config:current_version]]/.browserslistrc):
+Math mode is designed for educational, research, and technical workflows where understanding the mathematics behind a model is as important as building the model itself.
 
-<Code lang="plaintext" filePath=".browserslistrc" />
+## Enabling Math mode
 
-We use [Autoprefixer](https://github.com/postcss/autoprefixer) to handle intended browser support via CSS prefixes, which uses [Browserslist](https://github.com/browserslist/browserslist) to manage these browser versions. Consult their documentation for how to integrate these tools into your projects.
+Math mode can be enabled from the **Experience mode** panel.
 
-### Mobile devices
+Open the Experience mode panel and enable **Math mode** to add mathematical visualization and explanation capabilities to your low-code workflow.
 
-Generally speaking, Bootstrap supports the latest versions of each major platform’s default browsers. Note that proxy browsers (such as Opera Mini, Opera Mobile’s Turbo mode, UC Browser Mini, Amazon Silk) are not supported.
+Once enabled, mathematical information is displayed alongside the corresponding low-code model.
 
-<BsTable class="table">
-| | Chrome | Firefox | Safari | Android Browser &amp; WebView |
-| --- | --- | --- | --- | --- |
-| **Android** | Supported | Supported | <span class="text-body-secondary">&mdash;</span> | v6.0+ |
-| **iOS** | Supported | Supported | Supported | <span class="text-body-secondary">&mdash;</span> |
-</BsTable>
+## Combining low-code and mathematics
 
-### Desktop browsers
+Math mode connects the visual low-code representation of a model with its underlying mathematical representation.
 
-Similarly, the latest versions of most desktop browsers are supported.
+A typical workflow is:
 
-<BsTable class="table">
-| | Chrome | Firefox | Microsoft Edge | Opera | Safari |
-| --- | --- | --- | --- | --- | --- |
-| **Mac** | Supported | Supported | Supported | Supported | Supported |
-| **Windows** | Supported | Supported | Supported | Supported | <span class="text-body-secondary">&mdash;</span> |
-</BsTable>
+1. Create or modify a model using low-code components.
+2. Enable **Math mode** in the Experience mode panel.
+3. Select a component or operation.
+4. Inspect the mathematical representation generated from the model.
+5. Review the mathematical steps and intermediate results.
+6. Explore matrices, qubit states, the Bloch sphere, or properties when available.
+7. Use **AI explanation** to understand the mathematical operations in natural language.
+8. Export the model and its mathematical explanation as a PDF.
 
-For Firefox, in addition to the latest normal stable release, we also support the latest [Extended Support Release (ESR)](https://www.mozilla.org/en-US/firefox/enterprise/) version of Firefox.
+This makes it possible to work visually while still inspecting the mathematical concepts represented by the workflow.
 
-Unofficially, Bootstrap should look and behave well enough in Chromium and Chrome for Linux, and Firefox for Linux, though they are not officially supported.
+## Mathematical steps
 
-## Internet Explorer
+Math mode can display the mathematical steps corresponding to a low-code operation.
 
-Internet Explorer is not supported. **If you require Internet Explorer support, please use Bootstrap v4.**
+When multiple operations are applied, Math mode keeps track of the resulting intermediate states.
 
-## Modals and dropdowns on mobile
+For example, a quantum workflow might apply several operations sequentially:
 
-### Overflow and scrolling
+$$
+|\psi_0\rangle
+\xrightarrow{H}
+|\psi_1\rangle
+\xrightarrow{R_z(\theta)}
+|\psi_2\rangle
+\xrightarrow{X}
+|\psi_3\rangle
+$$
 
-Support for `overflow: hidden;` on the `<body>` element is quite limited in iOS and Android. To that end, when you scroll past the top or bottom of a modal in either of those devices’ browsers, the `<body>` content will begin to scroll. See [Chrome bug #175502](https://issues.chromium.org/issues/40301599) (fixed in Chrome v40) and [WebKit bug #153852](https://bugs.webkit.org/show_bug.cgi?id=153852).
+Rather than displaying only the final state \(|\psi_3\rangle\), Math mode makes each intermediate state available for inspection.
 
-### iOS text fields and scrolling
+Each operation becomes a step in the mathematical workflow.
 
-As of iOS 9.2, while a modal is open, if the initial touch of a scroll gesture is within the boundary of a textual `<input>` or a `<textarea>`, the `<body>` content underneath the modal will be scrolled instead of the modal itself. See [WebKit bug #153856](https://bugs.webkit.org/show_bug.cgi?id=153856).
+### Inspecting intermediate results
 
-## Browser zooming
+After applying multiple operations, you can select **any intermediate result** in the workflow to inspect the state at that point.
 
-Page zooming inevitably presents rendering artifacts in some components, both in Bootstrap and the rest of the web. Depending on the issue, we may be able to fix it (search first and then open an issue if need be). However, we tend to ignore these as they often have no direct solution other than hacky workarounds.
+For example, selecting \(|\psi_1\rangle\) shows the state immediately after the Hadamard operation. Selecting \(|\psi_2\rangle\) shows the state after the rotation, while \(|\psi_3\rangle\) shows the final state.
 
-## Validators
+When an intermediate result is selected, Math mode updates its mathematical views to represent that specific point in the computation.
 
-In order to provide the best possible experience to old and buggy browsers, Bootstrap uses [CSS browser hacks](http://browserhacks.com/) in several places to target special CSS to certain browser versions in order to work around bugs in the browsers themselves. These hacks understandably cause CSS validators to complain that they are invalid. In a couple places, we also use bleeding-edge CSS features that aren’t yet fully standardized, but these are used purely for progressive enhancement.
+Depending on the model, this can include:
 
-These validation warnings don’t matter in practice since the non-hacky portion of our CSS does fully validate and the hacky portions don’t interfere with the proper functioning of the non-hacky portion, hence why we deliberately ignore these particular warnings.
+* The current mathematical state
+* The operations applied up to that point
+* The corresponding matrix representation
+* Qubit state information
+* Bloch sphere representation
+* Relevant properties
+* An **AI explanation** of the selected step
 
-Our HTML docs likewise have some trivial and inconsequential HTML validation warnings due to our inclusion of a workaround for [a certain Firefox bug](https://bugzilla.mozilla.org/show_bug.cgi?id=654072).
+This makes it possible to understand not only **what the final result is**, but also **how the model arrived at that result**.
+
+### Step-by-step inspection
+
+Each operation can be treated as a checkpoint in the mathematical workflow.
+
+For example:
+
+| Step | Operation                | Result |                 |
+| ---- | ------------------------ | ------ | --------------- |
+| 0    | Initial state            | (      | \psi_0\rangle ) |
+| 1    | Hadamard \(H\)           | (      | \psi_1\rangle ) |
+| 2    | Rotation \(R_z(\theta)\) | (      | \psi_2\rangle ) |
+| 3    | Pauli-X \(X\)            | (      | \psi_3\rangle ) |
+
+Clicking a result in the workflow selects that point in the computation. The mathematical views then update to represent the selected intermediate state.
+
+You can move backwards and forwards through the workflow and inspect the mathematical state produced by each operation.
+
+## Matrices
+
+When a model uses matrix operations, Math mode can display the associated matrices and their relationships to the low-code components.
+
+For example:
+
+$$
+U =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+The matrix view helps connect visual low-code operations with their mathematical representation.
+
+When an intermediate result is selected, the matrix view can show the transformation associated with that particular step.
+
+This makes it possible to see how individual operations contribute to the overall computation.
+
+## Qubit states
+
+For quantum models, Math mode can display the state of a qubit using Dirac notation.
+
+For example:
+
+$$
+|\psi\rangle = \alpha|0\rangle + \beta|1\rangle
+$$
+
+where \(\alpha\) and \(\beta\) describe the probability amplitudes of the two basis states.
+
+Math mode can show the state associated with the corresponding low-code model and update the representation as the model changes.
+
+When an intermediate result is selected, the qubit state is updated to show the state at that exact point in the workflow.
+
+This allows you to inspect how each operation changes the quantum state.
+
+## Bloch sphere
+
+For single-qubit states, Math mode can display a **Bloch sphere** representation.
+
+The Bloch sphere provides a geometric representation of a qubit state and makes it possible to inspect how operations change the state.
+
+The mathematical representation and the visual sphere are connected to the corresponding low-code components.
+
+When you select different intermediate results, the Bloch sphere updates to show the corresponding qubit state.
+
+For example:
+
+$$
+|\psi_0\rangle
+\rightarrow
+|\psi_1\rangle
+\rightarrow
+|\psi_2\rangle
+$$
+
+Selecting each state allows you to see how the qubit moves through the Bloch sphere as operations are applied.
+
+## Properties
+
+The **Properties** view displays relevant values and mathematical properties associated with the currently selected model state.
+
+Depending on the model, these can include:
+
+* State vectors
+* Matrix dimensions
+* Probability amplitudes
+* Measurement probabilities
+* Normalization
+* Eigenvalues
+* Other model-specific mathematical properties
+
+Properties are updated when you select a different operation or intermediate result.
+
+This means you can inspect the properties of the model at a specific point rather than only inspecting the final state.
+
+## AI explanation
+
+Math mode also includes an **AI explanation** step that explains the mathematical representation of the current model in natural language.
+
+The AI explanation connects the mathematical concepts shown by Math mode with the low-code components used to create them.
+
+Instead of requiring users to interpret every mathematical expression independently, the AI explanation can describe what an operation represents, why it is being applied, and how it affects the model.
+
+The explanation follows the currently selected step or intermediate result.
+
+### AI explanation step
+
+The **AI explanation** is available as a step in the Math mode workflow.
+
+A typical workflow can therefore be:
+
+1. Build the model using low-code components.
+2. Enable **Math mode**.
+3. Apply one or more operations.
+4. Select a mathematical step or intermediate result.
+5. Inspect the mathematical representation.
+6. Open **AI explanation**.
+7. Read an explanation of the selected operation and result.
+8. Select another intermediate result to inspect the next step.
+
+The AI explanation is associated with the selected model state, allowing it to explain different parts of the computation as you move through the workflow.
+
+### Explaining intermediate results
+
+The AI explanation can explain not only the final result but also **individual intermediate states**.
+
+For example, consider:
+
+$$
+|\psi_0\rangle
+\xrightarrow{H}
+|\psi_1\rangle
+\xrightarrow{R_z(\theta)}
+|\psi_2\rangle
+\xrightarrow{X}
+|\psi_3\rangle
+$$
+
+If you select \(|\psi_2\rangle\), the AI explanation focuses on the transformation that produced \(|\psi_2\rangle\) and its relationship to \(|\psi_1\rangle\).
+
+This allows you to understand the computation one operation at a time.
+
+### Explaining matrices
+
+The AI explanation can describe the role of a matrix in the current model.
+
+For example:
+
+$$
+U =
+\begin{bmatrix}
+0 & 1 \\
+1 & 0
+\end{bmatrix}
+$$
+
+The explanation can describe how the transformation affects the basis states and identify the corresponding operation represented by the low-code model.
+
+### Explaining qubit states
+
+For quantum models, the AI explanation can connect the algebraic representation of a state with its mathematical interpretation.
+
+For example:
+
+$$
+|\psi\rangle =
+\alpha|0\rangle + \beta|1\rangle
+$$
+
+The explanation can describe the meaning of the amplitudes and how they relate to measurement probabilities.
+
+### Explaining the Bloch sphere
+
+The AI explanation can also connect the mathematical state to its geometric representation.
+
+For example:
+
+$$
+|\psi\rangle
+\quad\longleftrightarrow\quad
+\text{Bloch sphere}
+$$
+
+This allows users to understand how changes to a qubit's mathematical state correspond to changes in its position on the Bloch sphere.
+
+## Exploring a complete computation
+
+Because every intermediate result can be selected, Math mode can be used to explore a complete computation interactively.
+
+You can:
+
+1. Apply multiple operations using the low-code workflow.
+2. Select any intermediate result.
+3. Inspect the mathematical state at that point.
+4. View the corresponding matrix or properties.
+5. Inspect the Bloch sphere when applicable.
+6. Read the AI explanation for that step.
+7. Select another intermediate result.
+8. Compare how the mathematical state changed.
+
+This provides a step-by-step view of the computation and makes the mathematical transformation of the model visible throughout the entire workflow.
+
+## Low-code, mathematics, visualization, and AI
+
+Math mode provides multiple representations of the same model:
+
+| View                     | Purpose                                                        |
+| ------------------------ | -------------------------------------------------------------- |
+| **Low-code**             | Build and modify the model visually                            |
+| **Mathematical steps**   | Inspect each mathematical operation                            |
+| **Intermediate results** | Inspect the state after any individual operation               |
+| **Matrix**               | Inspect matrix representations and transformations             |
+| **Qubit state**          | Inspect quantum state vectors                                  |
+| **Bloch sphere**         | Visualize single-qubit states geometrically                    |
+| **Properties**           | Inspect mathematical and model-specific values                 |
+| **AI explanation**       | Understand the mathematical representation in natural language |
+| **PDF**                  | Export the model and mathematical explanation                  |
+
+These views are complementary.
+
+The low-code representation provides the visual workflow, the mathematical views expose the underlying concepts, the intermediate results make each stage of the computation inspectable, the Bloch sphere provides geometric intuition where applicable, and the AI explanation provides a natural-language interpretation.
+
+## PDF export
+
+Math mode supports **PDF export**.
+
+Use PDF export to create a document containing the mathematical representation of your model and its associated visualizations.
+
+Depending on the active model and available views, the exported PDF can include:
+
+* The low-code model
+* Mathematical steps
+* Intermediate results
+* Matrices
+* Qubit states
+* Bloch sphere visualizations
+* Model properties
+* AI explanations
+
+The exported document can represent the progression from the initial state through the individual operations to the final result.
+
+For example:
+
+$$
+|\psi_0\rangle
+\rightarrow
+|\psi_1\rangle
+\rightarrow
+|\psi_2\rangle
+\rightarrow
+|\psi_3\rangle
+$$
+
+Each step can be accompanied by its mathematical representation and, where available, an AI-generated explanation.
+
+PDF export is useful for:
+
+* Documentation
+* Teaching materials
+* Research notes
+* Reports
+* Tutorials
+* Sharing mathematical explanations
+* Reviewing a model without opening the original low-code workflow
+
+## Example workflow
+
+A complete Math mode workflow can look like this:
+
+1. **Build** a model using low-code components.
+2. **Enable Math mode** from the Experience mode panel.
+3. **Apply multiple operations** to the model.
+4. **Inspect the mathematical steps** generated by the workflow.
+5. **Select any intermediate result** to inspect the model at that exact point.
+6. **Review the matrix** associated with the selected operation.
+7. **Inspect the qubit state** when working with quantum models.
+8. **Visualize the state** using the Bloch sphere.
+9. **Review properties** such as amplitudes, probabilities, or eigenvalues.
+10. **Open AI explanation** to understand the selected mathematical step.
+11. **Select another intermediate result** to continue through the computation.
+12. **Export** the complete workflow and mathematical explanation as a PDF.
+
+## Availability
+
+Math mode is available when working in **Experience mode** and can be enabled from the Experience mode panel.
+
+Some mathematical views may only be available for models or components that have a corresponding mathematical representation.
+
+For example, Bloch sphere visualization applies to single-qubit states and may not be available for unrelated models. Similarly, matrix and property views depend on the mathematical operations represented by the current model.
+
+AI explanations are generated based on the mathematical representation and the currently selected model state.
+

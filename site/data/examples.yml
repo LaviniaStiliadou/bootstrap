@@ -4,17 +4,17 @@
     - name: Empty Model
       description: 'Start with an empty quantum model and build your workflow from scratch.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/empty-model.png
-      url: http://localhost:4242/models/model_a
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_a
 
     - name: Hello Quantum
       description: 'Build and run a minimal quantum circuit with qubits, gates, and measurement.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hello-quantum.png
-      url: http://localhost:4242/models/model_b
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_b
 
     - name: First Measurement
       description: 'Create a simple quantum circuit and observe the resulting measurement distribution.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/first-measurement.png
-      url: http://localhost:4242/models/model_c
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_c
 
 - category: Circuit-Level Examples
   description: 'Fundamental quantum circuits demonstrating superposition, entanglement, state preparation, and multi-qubit operations.'
@@ -22,22 +22,22 @@
     - name: Uniform Superposition
       description: 'Prepare 3 qubits in a uniform superposition of computational basis states.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/uniform-superposition.png
-      url: http://localhost:4242/models/model_d
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_d
 
     - name: Bell State — Φ+
       description: 'Build a two-qubit Bell state using a Hadamard gate and controlled operation.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/bell-state.png
-      url: http://localhost:4242/models/model_e
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_e
 
     - name: GHZ State
       description: 'Create a multi-qubit GHZ state and explore entanglement.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/ghz-state.png
-      url: http://localhost:4242/models/model_f
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_f
 
     - name: W State
       description: 'Build a W state and explore its multi-qubit entanglement.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/w-state.png
-      url: http://localhost:4242/models/model_g
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_g
 
 - category: Encoding Examples
   description: 'Examples demonstrating different ways of converting classical information into quantum states.'
@@ -45,22 +45,22 @@
     - name: Basis Encoding
       description: 'Encode classical data into computational basis states.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/basis-encoding.png
-      url: http://localhost:4242/models/model_i
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_h
 
     - name: Angle Encoding
       description: 'Encode classical numerical data into qubit rotation angles.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/angle-encoding.png
-      url: http://localhost:4242/models/model_j
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_i
 
     - name: Amplitude Encoding
       description: 'Encode a normalized classical vector into the amplitudes of a quantum state.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/amplitude-encoding.png
-      url: http://localhost:4242/models/
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_j
     
     - name: Encode Value
       description: 'Encode a classical value into a quantum state using a high-level encoding block.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/encode-value.png
-      url: http://localhost:4242/models/model_h
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_k
 
 
 - category: Quantum Algorithms
@@ -69,42 +69,42 @@
     - name: Grover — Circuit Level
       description: 'Implement Grover search on the circuit-level.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-encode-value.png
-      url: http://localhost:4242/models/model_l
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_l
 
     - name: Grover — Building Blocks
       description: 'Build Grover search from an oracle, diffuser, encoding, and other reusable building blocks.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-building-blocks.png
-      url: http://localhost:4242/models/model_m
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_m
 
     - name: Grover — Compact
       description: 'Build Grover search using the compact high-level Grover algorithm block.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/grover-compact.png
-      url: http://localhost:4242/models/model_n
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_n
 
     - name: Quantum Fourier Transform
       description: 'Build a circuit using the Quantum Fourier Transform.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-fourier-transform.png
-      url: http://localhost:4242/models/model_o
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_o
    
     - name: Hadamard Test — Real Part
       description: 'Estimate the real part of a quantum operation using a Hadamard test.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hadamard-test-real-part.png
-      url: http://localhost:4242/models/model_z
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_p
 
     - name: Hadamard Test — Imaginary Part
       description: 'Estimate the imaginary part of a quantum operation using a Hadamard test.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/hadamard-test-imaginary-part.png
-      url: http://localhost:4242/models/model_aa
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_q
 
     - name: SWAP Test
       description: 'Compare two quantum states using the SWAP test.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/swap-test.png
-      url: http://localhost:4242/models/model_ab
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_r
 
     - name: QAOA
       description: 'Ready-to-use QAOA model combining a parameterized quantum circuit with classical optimization.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/qaoa-template.png
-      url: http://localhost:4242/models/model_ac
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_s
 
 - category: Quantum Machine Learning
   description: 'Examples demonstrating quantum and classical machine-learning workflows in the low-code modeler.'
@@ -112,22 +112,22 @@
     - name: Quantum Clustering
       description: 'Build a clustering model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-clustering.png
-      url: http://localhost:4242/models/model_q
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_t
 
     - name: Quantum Classification (prüfen)
       description: 'Build a classification model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-classification.png
-      url: http://localhost:4242/models/model_r
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_r
 
     - name: Quantum Kernel (prüfen)
       description: 'Generate a quantum kernel.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-kernel.png
-      url: http://localhost:4242/models/model_s
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_s
 
     - name: Classical Clustering
       description: 'Build a classical clustering model for comparison with the quantum approach.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/classical-clustering.png
-      url: http://localhost:4242/models/model_t
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_u
 
 - category: Advanced Examples
   description: 'Examples demonstrating more advanced quantum operations, control flow, and reusable model components.'
@@ -135,19 +135,19 @@
     - name: Multi-Controlled Gates
       description: 'Build a circuit using Toffoli, controlled-SWAP, and multi-controlled multi-target operations.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/multi-controlled-gates.png
-      url: http://localhost:4242/models/model_u
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_v
 
     - name: Quantum Arithmetic
       description: 'Build a model using quantum arithmetic and logical operations.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/quantum-arithmetic.png
-      url: http://localhost:4242/models/model_v
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_w
 
     - name: Conditional Quantum Model
       description: 'Use conditional logic to control a quantum circuit.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/conditional-quantum-workflow.png
-      url: http://localhost:4242/models/model_w
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_x
 
     - name: Custom Quantum Operator
       description: 'Create a reusable quantum operation from a custom low-code model.'
       image: https://raw.githubusercontent.com/LaviniaStiliadou/bootstrap/main/images/custom-quantum-operator.png
-      url: http://localhost:4242/models/model_x
+      url: https://low-code-modeler.lavinia-stiliadou.workers.dev?model=model_y

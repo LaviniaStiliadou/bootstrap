@@ -1,4 +1,8 @@
 import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+
 import astroBrokenLinksChecker from 'astro-broken-links-checker'
 import { bootstrap } from './src/libs/astro'
 import { getConfig } from './src/libs/config'
@@ -20,7 +24,13 @@ export default defineConfig({
   },
 
   integrations: [
+    mdx({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex]
+    }),
+
     bootstrap(),
+
     astroBrokenLinksChecker({
       checkExternalLinks: false,
       cacheExternalLinks: false,

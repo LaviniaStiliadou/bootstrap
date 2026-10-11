@@ -1,69 +1,64 @@
 ---
-title: Architecture
-description: Learn about the browsers and devices, from modern to old, that are supported by Bootstrap, including known quirks and bugs for each.
+title: OpenQASM Editor
+description: How to view the OpenQASM code of a model and how to turn OpenQASM code into a model.
 toc: true
 ---
 
-## Supported browsers
+## Overview
 
-Bootstrap supports the **latest, stable releases** of all major browsers and platforms.
+The OpenQASM editor is a text view of the modeled circuit. It works in both directions: it shows the OpenQASM code generated from the model, and it turns OpenQASM code that you enter into a model on the canvas.
 
-Alternative browsers which use the latest version of WebKit, Blink, or Gecko, whether directly or via the platform’s web view API, are not explicitly supported. However, Bootstrap should (in most cases) display and function correctly in these browsers as well. More specific support information is provided below.
+## Enabling the editor
 
-You can find our supported range of browsers and their versions [in our `.browserslistrc file`]([[config:repo]]/blob/v[[config:current_version]]/.browserslistrc):
+The editor is off by default. To turn it on:
 
-<Code lang="plaintext" filePath=".browserslistrc" />
+1. Open the **Experience Mode** panel in the top-left corner of the canvas.
+2. Set **QASM Editor** to *On*.
 
-We use [Autoprefixer](https://github.com/postcss/autoprefixer) to handle intended browser support via CSS prefixes, which uses [Browserslist](https://github.com/browserslist/browserslist) to manage these browser versions. Consult their documentation for how to integrate these tools into your projects.
+The **QASM** tab then appears in the panel on the right, next to **Properties** and **Math Mode**.
 
-### Mobile devices
+## From model to code
 
-Generally speaking, Bootstrap supports the latest versions of each major platform’s default browsers. Note that proxy browsers (such as Opera Mini, Opera Mobile’s Turbo mode, UC Browser Mini, Amazon Silk) are not supported.
+Click **Refresh** in the QASM tab. The current model is sent to the backend, compiled, and the generated OpenQASM code is shown in the editor.
 
-<BsTable class="table">
-| | Chrome | Firefox | Safari | Android Browser &amp; WebView |
-| --- | --- | --- | --- | --- |
-| **Android** | Supported | Supported | <span class="text-body-secondary">&mdash;</span> | v6.0+ |
-| **iOS** | Supported | Supported | Supported | <span class="text-body-secondary">&mdash;</span> |
-</BsTable>
+## From code to model
 
-### Desktop browsers
+1. Enter or paste OpenQASM 2 or OpenQASM 3 code into the editor.
+2. Click **Apply to Canvas**.
 
-Similarly, the latest versions of most desktop browsers are supported.
+The code is parsed in the browser, without a backend call, and the corresponding model is created on the canvas: a **Qubit Circuit** node for each declared qubit and a gate node for each gate, connected in the order of the code.
 
-<BsTable class="table">
-| | Chrome | Firefox | Microsoft Edge | Opera | Safari |
-| --- | --- | --- | --- | --- | --- |
-| **Mac** | Supported | Supported | Supported | Supported | Supported |
-| **Windows** | Supported | Supported | Supported | Supported | <span class="text-body-secondary">&mdash;</span> |
-</BsTable>
+```openqasm
+OPENQASM 3.0;
+include "stdgates.inc";
 
-For Firefox, in addition to the latest normal stable release, we also support the latest [Extended Support Release (ESR)](https://www.mozilla.org/en-US/firefox/enterprise/) version of Firefox.
+qubit[2] q;
+h q[0];
+cx q[0], q[1];
+```
 
-Unofficially, Bootstrap should look and behave well enough in Chromium and Chrome for Linux, and Firefox for Linux, though they are not officially supported.
+### Supported statements
 
-## Internet Explorer
+| Statement                                                | Result                         |
+| -------------------------------------------------------- | ------------------------------ |
+| `qubit[n] name;` (OpenQASM 3), `qreg name[n];` (OpenQASM 2) | One qubit node per qubit     |
+| `h`, `x`, `y`, `z`, `s`, `t`, `sdg`, `tdg`, `id`          | Single-qubit gates            |
+| `rx`, `ry`, `rz`, `p`, `u1`, `u2`, `u3`                  | Parameterized single-qubit gates |
+| `cx` (`cnot`), `cy`, `cz`, `ch`, `swap`                  | Two-qubit gates               |
+| `crx`, `cry`, `crz`, `cp`                                | Parameterized two-qubit gates |
+| `ccx`, `cswap`                                           | Toffoli and CSWAP             |
 
-Internet Explorer is not supported. **If you require Internet Explorer support, please use Bootstrap v4.**
+Header lines (`OPENQASM`, `include`), classical registers (`creg`, `bit`), `measure` and `barrier` are skipped. Custom `gate` definitions, `if` statements and aliases (`let`) aren't converted.
 
-## Modals and dropdowns on mobile
+## Explicit updates
 
-### Overflow and scrolling
+Changes aren't transferred while you type. Both directions run only when you click **Refresh** or **Apply to Canvas**. This avoids continuous translation calls while you edit and makes it clear when a change was applied.
 
-Support for `overflow: hidden;` on the `<body>` element is quite limited in iOS and Android. To that end, when you scroll past the top or bottom of a modal in either of those devices’ browsers, the `<body>` content will begin to scroll. See [Chrome bug #175502](https://issues.chromium.org/issues/40301599) (fixed in Chrome v40) and [WebKit bug #153852](https://bugs.webkit.org/show_bug.cgi?id=153852).
+## Opening an OpenQASM file
 
-### iOS text fields and scrolling
+To load an OpenQASM file from disk, open the **Open Diagram** menu in the toolbar, choose **Open OpenQASM** and select the file. The file is converted into a model on the canvas.
 
-As of iOS 9.2, while a modal is open, if the initial touch of a scroll gesture is within the boundary of a textual `<input>` or a `<textarea>`, the `<body>` content underneath the modal will be scrolled instead of the modal itself. See [WebKit bug #153856](https://bugs.webkit.org/show_bug.cgi?id=153856).
+## Related
 
-## Browser zooming
-
-Page zooming inevitably presents rendering artifacts in some components, both in Bootstrap and the rest of the web. Depending on the issue, we may be able to fix it (search first and then open an issue if need be). However, we tend to ignore these as they often have no direct solution other than hacky workarounds.
-
-## Validators
-
-In order to provide the best possible experience to old and buggy browsers, Bootstrap uses [CSS browser hacks](http://browserhacks.com/) in several places to target special CSS to certain browser versions in order to work around bugs in the browsers themselves. These hacks understandably cause CSS validators to complain that they are invalid. In a couple places, we also use bleeding-edge CSS features that aren’t yet fully standardized, but these are used purely for progressive enhancement.
-
-These validation warnings don’t matter in practice since the non-hacky portion of our CSS does fully validate and the hacky portions don’t interfere with the proper functioning of the non-hacky portion, hence why we deliberately ignore these particular warnings.
-
-Our HTML docs likewise have some trivial and inconsequential HTML validation warnings due to our inclusion of a workaround for [a certain Firefox bug](https://bugzilla.mozilla.org/show_bug.cgi?id=654072).
+- [Math Mode](./math-mode) shows the state that the circuit produces.
+- The OpenQASM annotations (`@leqo.input`, `@leqo.output`, …) used in custom implementations are described in the backend documentation.

@@ -6,175 +6,591 @@ toc: true
 
 ## Overview
 
-The Qonstruct modeling language provides a high-level way to model quantum algorithms and hybrid quantum-classical applications without requiring detailed circuit-level knowledge. It extends the modeling language introduced in [Quantum Low-Code Metamodel and Transformation Pipeline](https://www.scitepress.org/Link.aspx?doi=10.5220/0015059600004088) with additional elements for quantum algorithms and quantum machine learning.
+A Qonstruct model is a directed graph. **Nodes** are modeling elements, such as a gate, an encoding or a machine learning algorithm. **Edges** connect an output port of one node to an input port of another node and describe how data flows through the model.
 
-The modeling language groups its elements into six categories:
+Each port is either **classical** or **quantum**, and its edges are drawn in matching colors:
 
-1. **Data types** — define the values and quantum registers used by a model.
-2. **Boundary elements** — move information between the classical and quantum parts of an application.
-3. **Operators** — perform arithmetic, logical, comparison, and other operations.
-4. **Control flow** — expresses conditional and repeated execution.
-5. **Circuit primitives** — provide direct access to circuit-level constructs.
-6. **Algorithm elements** — encapsulate established quantum algorithms and quantum machine learning procedures.
+| Edge type | Color  | Carries                                                 |
+| --------- | ------ | ------------------------------------------------------- |
+| Classical | Orange | Classical values such as bits, numbers, arrays or files |
+| Quantum   | Blue   | Quantum registers (one or more qubits)                  |
 
-The categories can be combined to describe both the quantum algorithm itself and the classical logic surrounding it.
+The modeling elements are grouped in the palette into these categories:
 
-The modeling language uses the data types defined by the [OpenQASM specification](https://openqasm.com/) and extends them with `File` and `String` types. Classical types include binary values (`bit` and `boolean`), collections (`array`), numeric values (`number`), and physical quantities (`angle` and `duration`). On the quantum side, the language supports `qubit` registers.
+| Category                       | Purpose                                                                    |
+| ------------------------------ | -------------------------------------------------------------------------- |
+| Boundary Elements              | Convert between classical and quantum information (encoding, measurement). |
+| Circuit Primitives             | Qubits, gates and register utilities for gate-level modeling.              |
+| Data Types                     | Classical values and quantum registers used as inputs.                     |
+| Operators                      | Predefined quantum and classical operators, oracles and algorithms.        |
+| Control Structure Elements     | Conditional branching and repetition.                                      |
+| Custom Operators               | User-defined operators with their own implementation.                      |
+| Machine Learning (ML) Elements | Classical and quantum ML algorithms executed as QHAna plugins.             |
+| Templates                      | Complete, configurable models, including your own saved templates.        |
 
-The following sections describe the elements available in each category from both a beginner and an expert perspective.
+Every element has a **completion guarantee**. It means the backend has a suitable implementation for the element. When **Completion Guaranteed** is set to *Yes* in the [Experience Mode](./experience-mode), the palette only shows elements with this guarantee.
 
-## Data types
+### How to read this page
 
-Data types describe the kind of values that can be used as inputs and outputs of modeling elements. They are based on the types defined by OpenQASM and extended with additional types required for classical application logic.
+For each element, this page lists:
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `bit` | A binary value that can be either `0` or `1`. | A classical binary value corresponding to an OpenQASM bit. | Width |
-| `boolean` | A value that is either `true` or `false`. | A classical Boolean value used for conditions and logical operations. | Value |
-| `array` | A collection of values of the same or compatible type. | A classical collection used to represent multiple values as a single modeling object. | Element type, size |
-| `number` | A numerical value used for calculations. | A classical numeric value used by arithmetic, comparison, and algorithm elements. | Value |
-| `angle` | An angle such as a rotation amount. | A physical quantity used by parameterized quantum operations. | Value, unit |
-| `duration` | A period of time. | A temporal quantity used to represent the duration of an operation. | Value, unit |
-| `qubit` | A quantum bit used to represent quantum information. | A quantum register containing one or more qubits. | Width |
-| `File` | A file that can be provided as input or output. | A classical file reference used for exchanging data with external resources. | Path, format |
-| `String` | Textual data. | A classical string value used for configuration and application-level processing. | Value |
+- **Properties:** the settings you edit on the node or in the **Properties** panel. *Required* properties must be set for the model to be valid. *Optional* properties have a default or can be left empty.
+- **Rules:** the constraints the model validation checks. Most violations are reported as errors. Hints that don't stop the model, such as an unused output, are reported as warnings.
 
-## Boundary elements
+The model is validated when you click **Model Transformation** in the toolbar. The **Validation** dialog lists all errors and warnings, and you can only continue to the transformation when there are no errors.
 
-Boundary elements connect the classical and quantum parts of a model. They include state preparation and measurement operations.
+## Common properties
 
-State preparation elements initialize quantum registers either by encoding classical values or by selecting predefined quantum states. Measurement elements convert quantum information back into classical data.
+Every node has these properties. They are shown in the **Information** tab of the Properties panel or on the node itself.
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `Encode Value` | Converts a classical value into a quantum state. | Encodes a classical input into a quantum register using a selected encoding strategy and an approximation bound. | Encoding type, bound |
-| `Prepare State` | Creates a predefined quantum state such as a Bell or W state. | Initializes a quantum register using a predefined state preparation procedure. | State |
-| `Measurement` | Reads information from selected qubits. | Measures selected qubits in a specified measurement basis and produces classical output. | Measurement basis, selected qubits |
+| Property          | Required | Description                                                                                                                                         |
+| ----------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Node ID           | –        | Unique id of the node, generated when the node is created. It is read-only and can be copied, for example to find the node in a validation message. |
+| Label             | –        | Name of the element, shown on the node.                                                                                                             |
+| Output Identifier | Optional | Name of an output, used to refer to the value, for example in conditions. It can't start with a number and must be unique in the model.          |
+| Output Size       | Optional | Size of an output. It must be a positive integer. If no size is given, it is determined from the model or by the backend.                         |
+| Implementation    | Optional | A custom OpenQASM implementation that replaces the built-in implementation of the element. For some elements it is required, as noted below.     |
 
-### Encoding types
+## General rules
 
-The `Encode Value` element supports several encoding strategies:
+These rules apply to every model, independent of the element type.
 
-- **Basis encoding** maps values to computational basis states.
-- **Angle encoding** represents values using rotation angles.
-- **Amplitude encoding** represents values in the amplitudes of a quantum state.
-- **Matrix encoding** represents information using a matrix-based representation.
+### Connections
 
-The element also provides a **bound** property that limits the approximation error introduced during encoding.
+- An edge must connect two existing nodes, and it can't connect a node to itself.
+- An edge must start at an output port and end at an input port. Source elements, such as data types and qubits, have no input ports and can't be the target of an edge.
+- An edge must end at a port that exists on the target node. Some nodes, such as the Merger or QFT, only have as many ports as their settings define.
+- A classical output can only connect to a classical input, and a quantum output to a quantum input.
+- Each input port accepts at most one edge.
+- The model must not contain cycles. Repetition is modeled with the **Repeat** element instead.
+
+### Quantum data flow
+
+- **No-cloning:** a quantum output can't be connected to more than one node, because quantum states can't be copied. To use a register in two places, split it or apply the operations one after another.
+- Multi-qubit gates require registers of equal size on all of their quantum inputs.
+- **Register sizes are traced through the model.** A Splitter produces single qubits, a Merger produces a register with the sum of its input sizes, and gates pass the size of their input through. Wherever the size of a register is known, it is checked against the element that uses it, for example the measurement indices.
+- At least one gate should have a path to a Measurement. Otherwise, executing the model gives no meaningful result (warning).
+
+### Values and identifiers
+
+- An output identifier can't start with a number and must be unique in the model.
+- An output size must be a positive integer.
+- An output that is never connected is reported, because its value is unused.
+
+## Boundary Elements
+
+Boundary elements convert classical information into quantum states and back.
+
+### Encode Value
+
+Encodes a classical value into a quantum state. It has one classical input (the value) and one quantum output (the encoded register).
+
+**Properties**
+
+| Property       | Required                    | Description                                                                                                       |
+| -------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Encoding Type  | Required                    | Basis, Angle, Amplitude, Matrix, Custom Encoding or Schmidt Decomposition.                                        |
+| Bound          | Depends on the encoding     | Permitted approximation error between 0 and 1. A smaller value requires a more accurate encoding. Exact preparation (error 0) isn't always possible. |
+| Implementation | Required for Custom Encoding | The implementation that maps the classical input to the quantum state.                                          |
+
+**Rules**
+
+- A classical input must be connected.
+- The encoding type must be one of the supported types.
+- The bound must be a number between 0 and 1.
+- Amplitude encoding expects a **normalized** array (Euclidean norm 1) with a length of 2ⁿ, for example `0.6,0.8`.
+- Matrix encoding expects a flattened **unitary** 2ⁿ × 2ⁿ matrix, for example `0,1,1,0` for Pauli-X. Non-array values, non-square matrices, sizes that aren't a power of two and non-unitary matrices are rejected.
+- Custom encoding requires an implementation.
+
+### Basis Encoding
+
+Encodes classical bits into computational basis states.
+
+| Property          | Required | Description                                                                                                                                  |
+| ----------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Decimal Precision | Optional | Number of digits after the decimal point that are considered when a number is converted into its binary representation. Integer from 0 to 15. |
+| Implementation    | Optional | Custom implementation of the encoding.                                                                                                      |
+
+**Rules:** as for Encode Value.
+
+### Angle Encoding
+
+Encodes classical values into qubit rotation angles.
+
+| Property       | Required | Description                            |
+| -------------- | -------- | -------------------------------------- |
+| Implementation | Optional | Custom implementation of the encoding. |
+
+**Rules:** expects an array of angles.
+
+### Amplitude Encoding
+
+Encodes a normalized classical vector into the amplitudes of a quantum state.
+
+| Property       | Required | Description                                                       |
+| -------------- | -------- | ----------------------------------------------------------------- |
+| Bound          | Required | Permitted error between 0 and 1.                                  |
+| Implementation | Optional | Custom implementation of the encoding.                            |
+
+**Rules:** the input must be a normalized array of length 2ⁿ.
+
+### Matrix Encoding
+
+Prepares the state defined by a unitary matrix.
+
+| Property       | Required | Description                            |
+| -------------- | -------- | -------------------------------------- |
+| Bound          | Optional | Permitted error between 0 and 1.       |
+| Implementation | Optional | Custom implementation of the encoding. |
+
+**Rules:** the input must be a flattened unitary 2ⁿ × 2ⁿ matrix.
+
+### Custom Encoding
+
+Encodes classical data with a user-defined encoding.
+
+| Property       | Required | Description                                                         |
+| -------------- | -------- | ------------------------------------------------------------------- |
+| Bound          | Optional | Permitted error between 0 and 1.                                    |
+| Implementation | Required | The implementation that maps the classical input to the quantum state. |
+
+### Schmidt Decomposition
+
+Encodes a normalized classical vector using the Schmidt decomposition. It has no completion guarantee.
+
+| Property | Required | Description                      |
+| -------- | -------- | -------------------------------- |
+| Bound    | Optional | Permitted error between 0 and 1. |
+
+**Rules:** expects an array.
+
+### Prepare State
+
+Initializes a register in a predefined quantum state. It has no inputs and one quantum output.
+
+| Property       | Required                  | Description                                                                         |
+| -------------- | ------------------------- | ----------------------------------------------------------------------------------- |
+| Quantum State  | Required                  | Bell State φ+, φ-, ψ+ or ψ-, GHZ, W-State, Uniform Superposition or Custom State.   |
+| Size           | Required                  | Number of qubits of the prepared register, an integer from 1 to 64.                |
+| Implementation | Required for Custom State | Custom implementation for preparing the state.                                      |
+
+**Rules**
+
+- The size must always be specified.
+- Bell states require exactly 2 qubits.
+- GHZ and W-State require at least 3 qubits.
+- A custom state requires an implementation.
 
 ### Measurement
 
-A `Measurement` element specifies both the basis in which the quantum state is measured and the qubits that participate in the measurement. This allows the model to explicitly control which part of a quantum register contributes to the classical result.
+Measures a quantum register. It has one quantum input and two outputs: the classical measurement result and the post-measurement quantum state.
+
+| Property       | Required | Description                                                                                                      |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| Indices        | Optional | Comma-separated indices of the qubits to measure, for example `0,1`. If not specified, the whole register is measured. |
+| Basis          | Optional | Measurement basis as a string of `X`, `Y` and `Z`. The default is the Z basis.                                  |
+| Register Name  | Optional | Name of the classical output register.                                                                          |
+| Implementation | Optional | Custom implementation of the measurement.                                                                       |
+
+**Rules**
+
+- Indices may only contain numbers separated by commas. Missing indices are reported as a warning.
+- If the size of the connected register is known, every index must be inside it. For a 2-qubit register, the valid indices are 0 and 1.
+- The basis may only contain `X`, `Y` and `Z`.
+
+## Circuit Primitives
+
+### Qubit Circuit
+
+A single qubit used as the starting point of a circuit. It has no inputs and one quantum output.
+
+| Property          | Required | Description                     |
+| ----------------- | -------- | ------------------------------- |
+| Output Identifier | Optional | Name of the qubit.              |
+
+**Rules:** its output should be connected; an unused qubit is reported.
+
+### Single-qubit gates
+
+**X, Y, Z, H, S, SDG, T and TDG.** These gates have one quantum input and one quantum output.
+
+| Property       | Required | Description                         |
+| -------------- | -------- | ----------------------------------- |
+| Implementation | Optional | Custom implementation of the gate.  |
+
+**Rules**
+
+- Exactly one quantum input must be connected, and the output should be used.
+- **Broadcasting:** a gate connected to a register applies to every qubit of the register.
+
+### Rotation gates
+
+**RX(θ), RY(θ) and RZ(θ)** rotate a qubit around the X, Y or Z axis.
+
+| Property       | Required | Description                                                                                                         |
+| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| Parameter      | Required | The rotation angle, a number or an expression such as `pi/2`.                                                      |
+| Parameter Type | Required | Degree or Radian. When you switch the type, the current value is converted once.                                    |
+
+**Rules:** the parameter must be a number or a numeric expression with π.
+
+### Two-qubit gates
+
+**CNOT, CY, CZ, CH and SWAP.** Controlled gates have a **Control** and a **Target** input. SWAP has the inputs **Qubit 1** and **Qubit 2**.
+
+| Property       | Required | Description                        |
+| -------------- | -------- | ---------------------------------- |
+| Implementation | Optional | Custom implementation of the gate. |
+
+**Rules**
+
+- Exactly 2 quantum inputs must be connected.
+- Both inputs must carry registers of the **same size**. For example, a CY with a 1-qubit control and a 2-qubit target is rejected.
+
+### Controlled rotation gates
+
+**CRX(θ), CRY(θ) and CRZ(θ)** rotate the target around the X, Y or Z axis if the control qubit is 1.
+
+| Property       | Required | Description                                                      |
+| -------------- | -------- | ---------------------------------------------------------------- |
+| Parameter      | Required | The rotation angle, a number or an expression such as `pi/2`.   |
+| Parameter Type | Required | Degree or Radian.                                                |
+
+**Rules:** as for the two-qubit gates, and the parameter must be numeric.
+
+### CU
+
+A controlled U gate: applies the unitary U to the target if the control has the control value.
+
+| Property                  | Required | Description                                                         |
+| ------------------------- | -------- | ------------------------------------------------------------------- |
+| Control Value             | Required | The value of the control that activates U.                          |
+| Matrix / Parameters       | Required | The matrix of U, or its parameters θ, φ, λ and γ.                  |
+| Parameter Type            | Required | Degree or Radian.                                                   |
+| Implementation            | Optional | Custom implementation of the controlled U operation.                |
+
+**Rules:** as for the two-qubit gates.
+
+### Three-qubit gates
+
+**Toffoli (CCNOT)** has the inputs Control 1, Control 2 and Target. **CSWAP (Fredkin)** has the inputs Control, Target 1 and Target 2.
+
+| Property       | Required | Description                        |
+| -------------- | -------- | ---------------------------------- |
+| Implementation | Optional | Custom implementation of the gate. |
+
+**Rules**
+
+- Exactly 3 quantum inputs must be connected.
+- All inputs must carry registers of the same size.
+
+### MCMT Gate
+
+A multi-controlled, multi-target gate. The base gate is applied to the targets when all controls are in \|1⟩.
+
+| Property           | Required | Description                                                                   |
+| ------------------ | -------- | ----------------------------------------------------------------------------- |
+| Base Gate          | Required | `x`, `y`, `z`, `h`, `rx`, `ry`, `rz`, `s`, `sdg`, `t` or `tdg`.                |
+| Number of Controls | Required | Integer from 1 to 16.                                                        |
+| Number of Targets  | Required | Integer from 1 to 16.                                                        |
+| Parameter          | Required for `rx`, `ry`, `rz` | Rotation angle of the base gate.                          |
+| Implementation     | Optional | Custom implementation of the gate.                                           |
+
+**Rules:** an input must be connected for every control and every target.
+
+### QFT and Inverse QFT
+
+The Quantum Fourier Transform and its inverse.
+
+| Property | Required | Description                                                  |
+| -------- | -------- | ------------------------------------------------------------ |
+| Qubits   | Required | Number of qubits, an integer from 1 to 64 (default 1).       |
+
+**Rules:** every input must be connected, and every output should be used.
+
+### Splitter
+
+Splits a quantum register into single qubits.
+
+| Property | Required | Description                                      |
+| -------- | -------- | ------------------------------------------------ |
+| Outputs  | Required | Number of outputs, an integer from 1 to 64.      |
+
+**Rules**
+
+- Each output carries exactly one qubit.
+- If the size of the connected register is known, the number of outputs can't be larger than the register.
+
+### Merger
+
+Merges several qubits or registers into one register.
+
+| Property | Required | Description                                     |
+| -------- | -------- | ----------------------------------------------- |
+| Inputs   | Required | Number of inputs, an integer from 2 to 64.      |
+
+**Rules:** the size of the merged register is the sum of the input sizes, if they are known.
+
+## Data Types
+
+Data types are source elements: they have no inputs and one output.
+
+### Classical data types
+
+| Element | Value                                          | Example                        |
+| ------- | ---------------------------------------------- | ------------------------------ |
+| bit     | `0` or `1`                                     | `1`                            |
+| boolean | `true` or `false`                              | `true`                         |
+| Number  | A finite integer or decimal number             | `3.14`                         |
+| Array   | Comma-separated values, optionally nested      | `0.1,0.2` or `[0,1],[1,2]`     |
+| File    | A file name, an http(s) URL or a `data:` URL   | `https://example.org/data.csv` |
+| String  | Text of up to 4096 characters                  | `hello`                        |
+
+**Properties**
+
+| Property          | Required | Description                                                                                  |
+| ----------------- | -------- | -------------------------------------------------------------------------------------------- |
+| Value             | Required | The value of the data type.                                                                  |
+| Output Identifier | Optional | Name under which the value is used, for example in conditions.                              |
+| Size              | Optional | Size in bits. If no size is given, it is machine-dependent and resolved by the backend.      |
+
+**Rules**
+
+- The value must match the data type, for example a bit can only be 0 or 1.
+- Array brackets must be balanced, and all elements must be numbers.
+- Strings can't contain control characters.
+- Files must have a file extension or be a URL. Executables, such as `.exe` or `.sh`, are rejected.
+- A specified size must be greater than zero.
+- The output identifier can't start with a number and must be unique.
+- An unused data node is reported.
+
+### Qubit Array
+
+A quantum register used as a source of qubits.
+
+| Property          | Required | Description                                       |
+| ----------------- | -------- | ------------------------------------------------- |
+| Size              | Required | Number of qubits, an integer from 1 to 64.        |
+| Output Identifier | Optional | Name of the register.                             |
 
 ## Operators
 
-Operators provide reusable operations for manipulating classical and quantum-related values. They cover common arithmetic, logical, comparison, selection, and oracle operations.
+### Oracles and algorithms
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `Addition` | Adds two or more values. | Performs classical addition on numeric inputs. | Inputs |
-| `Subtraction` | Subtracts one value from another. | Performs classical subtraction on numeric inputs. | Inputs |
-| `Multiplication` | Multiplies values. | Performs classical multiplication on numeric inputs. | Inputs |
-| `AND` | Checks whether two values are both true. | Performs a logical or bitwise conjunction. | Inputs |
-| `OR` | Checks whether at least one value is true. | Performs a logical or bitwise disjunction. | Inputs |
-| `XOR` | Checks whether two values are different. | Performs an exclusive-or operation on binary inputs. | Inputs |
-| `NOT` | Inverts a binary or Boolean value. | Performs logical or bitwise negation. | Input |
-| `Equality` | Checks whether two values are equal. | Compares two values for equality. | Inputs |
-| `Inequality` | Checks whether two values are different. | Compares two values for inequality. | Inputs |
-| `Ordering` | Compares values such as whether one is smaller or larger. | Performs relational comparisons between classical values. | Operator, inputs |
-| `Minimum` | Finds the smallest value. | Selects the minimum from multiple classical inputs. | Inputs |
-| `Maximum` | Finds the largest value. | Selects the maximum from multiple classical inputs. | Inputs |
-| `Oracle` | Marks or evaluates a particular quantum state. | Represents an oracle operation without requiring the user to construct its gate-level implementation. | Oracle type, target state |
-| `Custom` | Defines an operation that is not provided by the standard elements. | Defines a user-specific operation with explicitly specified classical and quantum inputs and outputs. | Name, inputs, outputs, implementation |
+#### Deutsch-Jozsa
 
-### Oracle
+Decides whether a hidden boolean function is constant or balanced.
 
-The `Oracle` element provides a high-level representation for algorithms that need to mark or evaluate specific basis states, such as search algorithms.
+| Property         | Required                 | Description                                              |
+| ---------------- | ------------------------ | -------------------------------------------------------- |
+| Number of Qubits | Required                 | Number of input qubits, an integer from 1 to 32.         |
+| Behavior Type    | Required                 | Balanced or Constant.                                    |
+| Balanced Mask    | Required if balanced     | The bit mask that defines the balanced function.         |
+| Constant Value   | Required if constant     | `0` or `1`.                                              |
+| Implementation   | Optional                 | Custom implementation of the algorithm.                  |
 
-Instead of constructing the oracle from individual gates, the user specifies the desired behavior through properties such as the **oracle type** and **target state**.
+**Rules**
 
-Supported oracle types include:
+- The mask must fit into the number of qubits.
+- The constant value must be 0 or 1.
+- The output must be connected.
 
-- **Phase oracle**
-- **Boolean oracle**
+#### Grover Oracle
 
-This allows algorithms such as Grover Search to be modeled without requiring the user to construct the complete gate-level oracle.
+An oracle defined by its marked states.
 
-### Custom operations
+| Property        | Required | Description                                                      |
+| --------------- | -------- | ---------------------------------------------------------------- |
+| Oracle Mode     | Required | Phase (phase kickback) or Boolean (target qubit flip).           |
+| Marked Elements | Required | Comma-separated integers, for example `0, 3, 7`.                 |
+| Implementation  | Optional | Custom implementation of the oracle.                             |
 
-The `Custom` element can be used when none of the predefined operators are suitable. It allows users to define an operation together with its classical and quantum inputs and outputs.
+**Rules**
 
-## Control flow
+- A quantum register must be connected.
+- Every marked state must be inside the register range 0 to 2ⁿ − 1.
+- The output must be connected.
 
-Control flow elements describe the classical logic that determines when operations are executed.
+#### Grover Diffuser
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `If` | Executes operations only when a condition is true. | Represents conditional execution based on a required classical Boolean condition. | Condition |
-| `While` | Repeats operations while a condition remains true. | Represents iterative execution controlled by a required classical condition. | Condition |
+Performs inversion about the mean for amplitude amplification.
 
-Control flow elements can contain other modeling elements. This makes it possible to express hybrid algorithms in which classical conditions determine the execution of quantum operations.
+| Property       | Required | Description                            |
+| -------------- | -------- | -------------------------------------- |
+| Implementation | Optional | Custom implementation of the diffuser. |
 
-## Circuit primitives
+**Rules:** a quantum register must be connected.
 
-Circuit primitives provide lower-level modeling elements for cases where a circuit must be specified directly. They include quantum gates and elements for converting between register-level and qubit-level representations.
+#### Grover's Search Algorithm
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `Gate` | Applies a quantum operation to one or more qubits. | Represents a quantum gate, optionally parameterized by a numerical or symbolic value. | Gate type, parameter type, parameter value |
-| `Splitter` | Splits a quantum register into individual qubits. | Decomposes a register-level representation into its constituent qubits. | Output count |
-| `Merger` | Combines individual qubits into a quantum register. | Combines a specified number of qubits into a register-level representation. | Input count |
+A complete Grover search with an integrated oracle and diffuser.
 
-### Gates
+| Property           | Required | Description                                                                         |
+| ------------------ | -------- | ----------------------------------------------------------------------------------- |
+| Number of Qubits   | Required | Size of the search register, an integer from 1 to 32. It defines the search space of 2ⁿ elements. |
+| Elements to Search | Required | Comma-separated integers.                                                          |
+| Iterations         | Optional | Number of Grover iterations. If empty, the optimal number is calculated.           |
+| Implementation     | Optional | Custom implementation of the algorithm.                                            |
 
-Gates provide direct access to quantum circuit operations. Parameterized gates contain both a **parameter type**, which specifies the unit of the parameter, and a **parameter value**, which contains the actual numerical or symbolic value.
+**Rules**
 
-For example, a rotation gate may use an angle expressed in radians or degrees.
+- The elements must be inside the range 0 to 2ⁿ − 1.
+- The number of iterations must be greater than zero.
+- The number of qubits defines the size of the output register.
+- The output must be connected.
 
-### Splitter and merger
+#### QAOA Ansatz
 
-A `Splitter` converts a quantum register into individual qubits. Its **output count** determines the number of qubits produced.
+Generates a parameterized QAOA circuit for an optimization problem. Its classical inputs are the edges (or clauses), γ and β.
 
-A `Merger` performs the inverse operation. Its **input count** determines how many qubits are combined into a single quantum register.
+| Property       | Required | Description                                            |
+| -------------- | -------- | ------------------------------------------------------ |
+| Problem        | Required | MaxCut, Max-2-SAT or Graph Coloring.                   |
+| Optimizer      | Required | COBYLA, SPSA or Nelder-Mead.                           |
+| Layers (p)     | Required | Number of layers, an integer from 1 to 100.            |
+| Implementation | Optional | Custom implementation of the algorithm.                |
 
-These elements allow users to move between high-level register representations and individual qubits when necessary.
+**Rules**
 
-## Algorithm elements
+- For MaxCut and Graph Coloring, the edges must be a list of vertex pairs such as `[[0,1],[1,2]]`:
+  - every edge connects two different non-negative integer vertices;
+  - no edge appears twice, in either direction, so `[0,1]` and `[1,0]` can't both be present.
+- γ and β must each contain exactly *p* values.
 
-Algorithm elements provide higher-level abstractions for established quantum algorithms and recurring quantum machine learning procedures. Instead of constructing the underlying circuit manually, users can configure an algorithm through a small set of relevant properties.
+### Arithmetic and logic
 
-| Modeling element | Beginner view | Expert view | Properties |
-|---|---|---|---|
-| `QAOA` | Applies the Quantum Approximate Optimization Algorithm to an optimization problem. | Encapsulates a QAOA procedure without requiring the underlying circuit to be modeled manually. | Problem definition, parameters |
-| `Quantum Fourier Transform` | Performs a Fourier transform on quantum data. | Encapsulates the quantum Fourier transform circuit as a reusable algorithmic element. | Input register, parameters |
-| `Grover Search` | Searches for a marked state using a quantum search procedure. | Encapsulates Grover's search algorithm and its required oracle configuration. | Oracle, target state, parameters |
-| `VQE` | Finds an approximate ground-state energy of a quantum system. | Encapsulates the Variational Quantum Eigensolver and its associated parameterized procedure. | Hamiltonian, ansatz, parameters |
-| `Classification` | Uses a quantum machine learning procedure to assign data to classes. | Represents a higher-level quantum machine learning classification procedure while hiding its circuit-level implementation. | Data, model parameters |
-| `Clustering` | Groups similar data points into clusters. | Represents a quantum machine learning clustering procedure without exposing its underlying circuit implementation. | Data, model parameters |
+Quantum operators work on quantum registers and produce a quantum register. Classical operators work on classical values.
 
-Algorithm elements expose only the properties required to configure the corresponding procedure. Their underlying implementation remains hidden from the user and can be provided by the execution environment.
+| Property       | Required | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| Operator       | Required | The operation, see the table below.                            |
+| Implementation | Optional | Custom implementation of the operation (quantum operators).    |
 
-This abstraction allows users to model established quantum algorithms and quantum machine learning procedures without constructing their underlying circuits from individual gates and operators.
+| Element             | Operators                        | Inputs            | Classical output |
+| ------------------- | -------------------------------- | ----------------- | ---------------- |
+| Arithmetic Operator | `+`, `-`, `*`, `/`, `**`         | 2                 | Number           |
+| Bitwise Operator    | AND, OR, XOR, INVERT (`~`)       | 2, INVERT takes 1 | bit              |
+| Comparison Operator | `<`, `>`, `<=`, `>=`, `==`, `!=` | 2                 | boolean          |
+| Min & Max Operator  | Min, Max                         | 1 (a collection)  | Number           |
 
-## Implementations
+**Rules**
 
-Modeling elements can be associated with an implementation that describes how they are translated into executable code for a target platform.
+- The operator must be one of the operators listed for the element.
+- INVERT, Min and Max require exactly 1 input. All other operators require exactly 2 inputs.
+- Classical bitwise operators expect bits, and classical Min & Max expects an array.
+- The result should be used.
+- The quantum Comparison and Min & Max operators, and all classical operators, have no completion guarantee.
 
-Implementations can be specified for elements other than **gates**, **data types**, and **control flow** elements. The implementation is defined according to the specification used by the target platform.
+## Control Structure Elements
 
-For example:
+Control structures are containers. You place other elements inside them.
 
-| Element type | Example implementation language | Purpose |
-|---|---|---|
-| Quantum operation | OpenQASM | Describes the executable quantum operation. |
-| Classical operation | Python | Describes the executable classical operation. |
+### If-Then-Else
 
-Each implementation has an **implementation type** property that identifies the language used to express it.
+Executes the *Then* or the *Else* branch depending on a classical condition.
 
-This mechanism separates the conceptual modeling of an element from its platform-specific implementation and enables the same modeling language to target different execution environments.
+| Property  | Required | Description                                                                      |
+| --------- | -------- | -------------------------------------------------------------------------------- |
+| Condition | Required | A boolean expression over the classical inputs that selects the branch, e.g. `b==0`. |
 
-## Further information
+**Rules**
 
-The complete modeling language, including all elements and their properties, is available in the [Qonstruct repository](https://github.com/LEQO-Framework/low-code-modeler).
+- At least one classical input must be connected.
+- The condition should only refer to connected classical values (warning).
+- Both branches must have matching input and output types and sizes. An empty branch acts as the identity.
+- Variables defined inside a branch are local to it.
 
-For a detailed description of the modeling language and its transformation pipeline, see [Quantum Low-Code Metamodel and Transformation Pipeline](https://www.scitepress.org/Link.aspx?doi=10.5220/0015059600004088).
+### Repeat
+
+Repeats its content.
+
+| Property  | Required | Description                                                       |
+| --------- | -------- | ----------------------------------------------------------------- |
+| Condition | Required | The condition that controls the repetition, e.g. `a < 20`.        |
+| Number    | Required | Number of classical inputs.                                       |
+
+**Rules**
+
+- All declared inputs must be connected.
+- Inputs and outputs must match so that every iteration is consistent.
+
+## Custom Operators
+
+### Custom Quantum Operator and Custom Classical Operator
+
+User-defined operators with any number of classical and quantum inputs and outputs. They also cover custom elements defined by a domain profile.
+
+| Property                   | Required | Description                                                                 |
+| -------------------------- | -------- | --------------------------------------------------------------------------- |
+| Quantum Inputs / Outputs   | Optional | Custom Quantum Operator only: number of quantum ports, 0 to 32.             |
+| Classical Inputs / Outputs | Optional | Number of classical ports, 0 to 32.                                         |
+| Implementation Mode        | Required | **Implementation file** or **API connector**.                               |
+| Implementation             | Required in file mode | The code executed by the operator: `.qasm` or `.py` for quantum operators, `.py` for classical operators. Upload a file or type it in. |
+| Requirements               | Optional | Python dependencies, uploaded as a `requirements.txt` file or typed in.     |
+| API URL                    | Required in API mode | The http(s) URL of the service.                                 |
+| API Method                 | Required in API mode | GET, POST, PUT, PATCH or DELETE.                                |
+| API Inputs                 | Optional | Each with a name, a data type, and its location in the request: body, query, path or header. |
+| API Outputs                | Required in API mode | Each with a name, a data type, and its path in the JSON response, for example `data.result`. |
+
+**Rules**
+
+- Every requirement line must be a valid pip requirement such as `numpy==1.26.4`. Comments, options such as `-r` or `--index-url`, and URL or git references are allowed.
+- The API URL must be a valid http(s) URL, and the method must be one of the five supported.
+- Every input and output needs a name that is a valid identifier, and names must be unique.
+- An API connector needs at least one output.
+- A GET request can't send inputs in the body.
+- Quantum outputs should all be connected.
+
+## Machine Learning (ML) Elements
+
+ML elements are executed as QHAna plugins. Their inputs are connected data types, usually **File** (a dataset given as a URL) and **Number** (for example the number of clusters or epochs).
+
+### Quantum ML elements
+
+| Element                        | Properties                              | Inputs (required unless marked optional)                                                     | Output           |
+| ------------------------------ | --------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------- |
+| Quantum Clustering             | **Quantum Variant** (required)          | Input data (CSV)                                                                             | Clusters         |
+| Quantum Neural Network         | –                                       | Training data, training labels, test data, test labels, epochs (optional)                   | Predicted labels |
+| Quantum K-Nearest Neighbours   | –                                       | Training data, training labels, test data, *k*                                              | Predicted labels |
+| Quantum Parzen Windows         | –                                       | Training data, training labels, variant, window size, test data, test labels (optional)     | Predicted labels |
+| Quantum Kernel Estimator       | **Feature Map**: ZFeatureMap, ZZFeatureMap or PauliFeatureMap (optional) | Entity points                                           | Kernel matrix    |
+| Variational Quantum Classifier | –                                       | Training data, training labels, test data                                                   | Predicted labels |
+| Hybrid Autoencoder             | –                                       | Training points, embedding size, QNN name, training steps, number of qubits, test points (optional) | Reduced data |
+
+### Classical ML elements
+
+| Element                | Properties                                                                                                     | Inputs                                     | Output           |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ---------------- |
+| Classical Clustering   | **Algorithm** (required): k-means, k-medoids or OPTICS. **Initialization Method** and **Metric** (optional).   | Input data (CSV)                           | Clusters         |
+| Support Vector Machine | –                                                                                                              | Training data, training labels, test data  | Predicted labels |
+| Neural Network         | –                                                                                                              | Training data, training labels             | Model            |
+
+All ML elements also accept an optional custom **Implementation**.
+
+### Rules
+
+- All required inputs must be connected.
+- Each input must receive the expected data type, for example a File for training data.
+- Count inputs, such as *k*, epochs, window size or training steps, must be **positive integers**.
+- A file must have a type the plugin accepts. Most data inputs accept `.csv` and `.json` files.
+- If the file can be downloaded, its content is checked too:
+  - an HTML or Markdown page (for example a `.mdx` documentation page) isn't a data file and is rejected;
+  - a JSON file must be valid JSON;
+  - every row of a CSV file must have the same number of columns;
+  - the number of training (or test) labels must match the number of records in the training (or test) data.
+- If a file can't be downloaded, for example because of CORS, a warning is shown instead of an error.
+
+## Templates
+
+Templates are complete models that you drag onto the canvas and then configure. Their nodes have the properties described above. The following templates are included:
+
+| Template                       | Description                                                                     |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| Grover's Algorithm             | Searches an unstructured set faster than a classical search.                   |
+| Hadamard Test (Real Part)      | Estimates the real part of an expectation value.                                |
+| Hadamard Test (Imaginary Part) | Estimates the imaginary part of an expectation value.                           |
+| SWAP Test                      | Compares two quantum states and estimates their overlap.                        |
+| QAOA                           | Solves optimization problems with a quantum circuit and a classical optimizer. |
+| Quantum K-Means                | Clusters data points into *k* groups using a quantum-enhanced k-means.         |
+
+You can also save your own models as templates. See [Custom Templates](./custom-templates).

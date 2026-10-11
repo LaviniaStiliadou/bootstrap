@@ -1,67 +1,122 @@
 ---
-
 title: Toolbar
-description: Manage models, configure Qonstruct, and interact with backend execution services using the toolbar.
+description: An overview of the Qonstruct toolbar and what each button does.
 toc: true
----------
+---
 
+## Overview
 
-The **Toolbar** provides commands for managing models, configuring the Qonstruct environment, and communicating with the backend and execution services.
+The toolbar at the top of the modeler groups its buttons into sections. Hover over a button to see its name.
 
-The available commands include:
+| Section                     | Buttons                                                                   |
+| --------------------------- | ------------------------------------------------------------------------- |
+| Test Flows                  | Generate Test Flows (only if enabled)                                     |
+| Start                       | Open New Diagram, Open Diagram, Save Diagram, Upload to GitHub, Configuration |
+| User Templates              | Template Library                                                          |
+| Domain Profiles             | Profile Manager                                                           |
+| AI Features                 | Algorithm Detection, Model Generation                                     |
+| Transformation & Execution  | Model Transformation, History                                             |
+| Help                        | Help                                                                      |
 
-| Command              | Description                                                                                                                                                               |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **New Diagram**      | Creates a new model on the canvas.                                                                                                                                        |
-| **Open**             | Opens an existing model for editing.                                                                                                                                      |
-| **Save As**          | Saves the current model under a new name or location.                                                                                                                     |
-| **Upload to GitHub** | Uploads the current model to GitHub.                                                                                                                                      |
-| **Templates**        | Manages and provides access to available modeling templates.                                                                                                              |
-| **Configuration**    | Opens the configuration settings for Qonstruct.                                                                                                                           |
-| **Domain Profiles**  | Manages the domain profiles used by the modeler.                                                                                                                          |
-| **Send to Backend**  | Sends the current model to the quantum low-code backend for further processing and transformation.                                                                        |
-| **Detect Algorithm** | Analyzes the model and detects the quantum algorithm represented by the model.                                                                                            |
-| **History**          | Displays previous transformations of the model. Depending on the transformation result, actions such as deploying a workflow or executing a quantum circuit are provided. |
-| **Help**             | Starts a short interactive tutorial that introduces the main features and functionality of Qonstruct.                                                                     |
+## Test Flows
 
-## Model management
+### Generate Test Flows
 
-The model management commands allow users to create, open, and save models directly from the toolbar.
+Opens a dialog that generates erroneous test models for the selected elements, based on an error taxonomy of data and type errors, parameter and configuration errors, and flow errors. Each generated model is validated, and optionally compiled by the backend. The dialog shows a report with the generated error, the affected nodes, the expected behavior and the platform response, and lets you download the models and the report as a ZIP file.
 
-**New Diagram** creates a new empty diagram, while **Open** allows an existing model to be loaded into the editor. **Save As** can be used to save the current model under a different name or location.
+The button is only shown if `VITE_ENABLE_NODE_TESTING=true` is set (see [Configuration](./configuration)).
 
-**Upload to GitHub** provides a way to store the current model in a GitHub repository.
+## Start
 
-## Templates
+### Open New Diagram
 
-The **Templates** functionality provides access to reusable modeling templates.
+Clears the canvas and starts a new model. If the canvas isn't empty, you are asked to confirm first, because unsaved changes are lost.
 
-Templates can be managed and used as starting points for new models. This allows users to reuse common modeling structures instead of creating them from scratch.
+### Open Diagram
 
-## Configuration 
+A menu with three entries:
 
-The **Configuration** command provides access to Qonstruct's configuration settings.
+| Entry                     | Effect                                                                                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Open Diagram**          | Opens a model saved as a JSON file.                                                                  |
+| **Open Pattern Solution** | Opens the **Select Existing Low-Code Solution** dialog to load a model that is linked to a pattern in the Pattern Atlas. |
+| **Open OpenQASM**         | Opens an OpenQASM file and converts it into a model (see [OpenQASM Editor](./openqasm-editor)).       |
 
-## Domain Profiles 
+### Save Diagram
 
-**Domain Profiles** allow users to manage the profiles that define the domain-specific configuration used by the modeler.
+A menu with three entries:
 
-## Backend interaction
+| Entry                | Effect                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Save Diagram**     | Downloads the model as a JSON file, named after the model name and id in the metadata.                        |
+| **Save as SVG**      | Downloads an image of the canvas as `reactflow-diagram.svg`.                                                   |
+| **Save as Template** | Saves the model as a custom template in the palette (see [Custom Templates](./custom-templates)).              |
 
-The **Send to Backend** command sends the current model to the quantum low-code backend. The backend can then analyze and transform the model into an executable representation.
+### Upload to GitHub
 
-The **Detect Algorithm** command analyzes the current model to identify the quantum algorithm represented by its modeling elements.
+A menu with two entries:
 
-## History
+| Entry                       | Effect                                                                                                    |
+| --------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Upload File**             | Uploads the model as a JSON file to the GitHub repository from the configuration.                         |
+| **Upload Pattern Solution** | Opens the **Select Pattern** dialog to link the model as a solution to a pattern of the Pattern Atlas.   |
 
-The **History** command displays the transformations that have been performed on the model.
+The repository owner, name, branch and token are set in the **GitHub** tab of the configuration or in `.env`.
 
-Depending on the type of transformation, the history provides further actions. For example, a transformed model may provide a button to **deploy a workflow** or **execute a quantum circuit**.
+### Configuration
 
-This allows users to move from modeling to execution directly through the transformation history.
+Opens the **Configuration** dialog with the editor settings, the GitHub settings and the endpoints of the connected services (see [Configuration](./configuration)).
+
+## User Templates
+
+### Template Library
+
+Opens the **Manage User Templates** dialog. There you can search, edit, export, import and delete your custom templates (see [Custom Templates](./custom-templates)).
+
+## Domain Profiles
+
+### Profile Manager
+
+Opens the domain profile editor. A domain profile is a palette tailored to an application domain, with its own elements and their mapping to standard elements. You can create, edit, duplicate and load profiles, and select the active profile in the [Experience Mode](./experience-mode).
+
+## AI Features
+
+### Algorithm Detection
+
+Detects from a natural language description of your problem which algorithm, for example QAOA, Grover's algorithm or the QFT, and therefore which low-code model can be used to solve it. It requires an OpenAI token (`VITE_OPENAI_TOKEN` or the **Low-Code Endpoints** tab of the configuration).
+
+### Model Generation
+
+Opens the **Generate Model with AI** dialog. Describe the model you need in natural language. If the description lacks values, such as the problem type or a constant value, the **Add Required Values** step asks for them. The generated model is placed on the canvas, and the generation job is listed in the **History** with its pipeline report.
+
+Model Generation uses the generation service (`api` and `worker` in `docker-compose.yml`) at `http://localhost:3000`, which needs a `MISTRAL_TOKEN` in its `.env`.
+
+## Transformation & Execution
+
+### Model Transformation
+
+Transforms the model into a quantum circuit or a workflow:
+
+1. The model is validated. The **Validation** dialog lists all errors and warnings with the node id and node type. You can only continue if there are no errors.
+2. Choose the **Compilation Target**: **OpenQASM3** for a quantum circuit, or **Workflow** for models with classical or machine learning steps. OpenQASM3 isn't available if the model contains placeholders or workflow elements.
+3. The model is sent to the backend. The result is added to the **History**.
+
+### History
+
+Opens the **History** dialog with all transformations and generated models. For each entry it shows the name, description, creation time and status, and lets you download the model file and the result file. **Execute** runs the result: a workflow is deployed to and started in Camunda, and an OpenQASM circuit is executed with Qunicorn. Programs without measurements are marked, because executing them gives no meaningful result.
 
 ## Help
 
-The **Help** command starts a short interactive tutorial.
+### Help
 
-The tutorial introduces the main parts of the Qonstruct interface and guides users through the basic interactions required to create and work with models.
+Starts a guided tour through the modeler that explains the palette, the canvas, the panels and the toolbar.
+
+## Canvas controls
+
+These controls aren't part of the toolbar but are placed on the canvas:
+
+| Control                | Position                    | Effect                                                                    |
+| ---------------------- | --------------------------- | ------------------------------------------------------------------------- |
+| Experience Mode        | Top left                    | Experience settings (see [Experience Mode](./experience-mode)).           |
+| Group selection        | Bottom left, above the zoom controls | Lasso for creating groups (see [Grouping](./grouping)).           |
+| Zoom and fit controls  | Bottom left                 | Zoom in and out, and fit the model into the view.                         |

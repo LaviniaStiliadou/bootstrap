@@ -1,70 +1,240 @@
 ---
-title: Add Nodes to the Palette
-description: Use Bootstrap’s CSS custom properties for fast and forward-looking design and development.
+title: Adding a New Node
+description: How to add a new modeling element to the Qonstruct palette in code, from the node component to validation and backend mapping.
 toc: true
 ---
 
-Bootstrap includes many [CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) in its compiled CSS for real-time customization without the need to recompile Sass. These provide easy access to commonly used values like our theme colors, breakpoints, and primary font stacks when working in your browser’s inspector, a code sandbox, or general prototyping.
+## Overview
 
-**All our custom properties are prefixed with `bs-`** to avoid conflicts with third party CSS.
+This guide shows how to add a new modeling element to the code base. As an example, it adds a **Reverse Register** element, a quantum operator with one quantum input and one quantum output that reverses the order of the qubits of a register.
 
-## Root variables
+A node touches these files:
 
-Here are the variables we include (note that the `:root` is required) that can be accessed anywhere Bootstrap’s CSS is loaded. They’re located in our `_root.scss` file and included in our compiled dist files.
+| Step | File                                    | Purpose                                                   |
+| ---- | --------------------------------------- | --------------------------------------------------------- |
+| 1    | `src/constants/index.tsx`               | Node type constant                                         |
+| 2    | `src/components/nodes/<name>.tsx`       | React component that renders the node and its ports       |
+| 3    | `src/config/site.ts`                    | Registration of the component with React Flow             |
+| 4    | `src/components/panels/categories.tsx`  | Palette entry                                              |
+| 5    | `src/components/panels/text.tsx`        | Properties panel (optional)                               |
+| 6    | `src/backend.ts`                        | Mapping to the compile request of the backend             |
+| 7    | `src/lib/nodeSpecs.ts`                  | Validation rules and test model generation                |
 
-### Default
+> **No code needed?** If the element only needs a different name, icon or set of properties for an existing element, a [domain profile](./experience-mode#domain-profile) or a [custom template](./custom-templates) is usually enough. A **Custom Quantum Operator** or **Custom Classical Operator** with an implementation file or an API connector covers one-off operations.
 
-These CSS variables are available everywhere, regardless of color mode.
+## 1. Define the node type
 
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch=":(root,\n\[data-bs-theme=light\] {[^}]*})" />
+Add a constant for the node type in `src/constants/index.tsx` and include it in `NodeTypes`:
 
-### Dark mode
+```ts
+export const ReverseRegisterNode: string = "reverseRegisterNode";
 
-These variables are scoped to our built-in dark mode.
-
-<Code lang="css" filePath="dist/css/bootstrap.css" fileMatch="(\[data-bs-theme=dark\] {[^}]*})" />
-
-## Component variables
-
-Bootstrap 5 is increasingly making use of custom properties as local variables for various components. This way we reduce our compiled CSS, ensure styles aren’t inherited in places like nested tables, and allow some basic restyling and extending of Bootstrap components after Sass compilation.
-
-Have a look at our table documentation for some [insight into how we’re using CSS variables]([[docsref:/content/tables#how-do-the-variants-and-accented-tables-work]]). Our [navbars also use CSS variables]([[docsref:/components/navbar#css]]) as of v5.2.0. We’re also using CSS variables across our grids—primarily for gutters the [new opt-in CSS grid]([[docsref:/layout/css-grid]])—with more component usage coming in the future.
-
-Whenever possible, we'll assign CSS variables at the base component level (e.g., `.navbar` for navbar and its sub-components). This reduces guessing on where and how to customize, and allows for easy modifications by our team in future updates.
-
-## Prefix
-
-Most CSS variables use a prefix to avoid collisions with your own codebase. This prefix is in addition to the `--` that’s required on every CSS variable.
-
-Customize the prefix via the `$prefix` Sass variable. By default, it’s set to `bs-` (note the trailing dash).
-
-## Examples
-
-CSS variables offer similar flexibility to Sass’s variables, but without the need for compilation before being served to the browser. For example, here we’re resetting our page’s font and link styles with CSS variables.
-
-```css
-body {
-  font: 1rem/1.5 var(--bs-font-sans-serif);
-}
-a {
-  color: var(--bs-blue);
-}
+export const NodeTypes = [
+  // ...
+  ReverseRegisterNode,
+];
 ```
 
-## Focus variables
+The type is the `type` of the node in saved models, so don't change it once models use it.
 
-<AddedIn version="5.3.0"/>
+## 2. Create the node component
 
-Bootstrap provides custom `:focus` styles using a combination of Sass and CSS variables that can be optionally added to specific components and elements. We do not yet globally override all `:focus` styles.
+Create `src/components/nodes/reverseRegister.tsx`. A node is a React component that receives the React Flow node and renders its ports as `Handle`s.
 
-In our Sass, we set default values that can be customized before compiling.
+```tsx
+import { memo } from "react";
+import { Handle, Position, Node } from "reactflow";
 
-<ScssDocs name="focus-ring-variables" file="scss/_variables.scss" />
+export const ReverseRegisterNode = memo((node: Node) => {
+  const { id, data, selected } = node;
 
-Those variables are then reassigned to `:root` level CSS variables that can be customized in real-time, including with options for `x` and `y` offsets (which default to their fallback value of `0`).
+  return (
+    <div
+      className={`rounded-md border bg-white px-4 py-6 ${
+        selected ? "border-blue-500" : "border-gray-400"
+      }`}
+    >
+      <div className="font-semibold">{data.label}</div>
 
-<ScssDocs name="root-focus-variables" file="scss/_root.scss" />
+      <Handle
+        type="target"
+        id={`quantumHandleReverseRegisterInput0${id}`}
+        position={Position.Left}
+        className="!bg-blue-300 !border-black"
+        isConnectableStart={false}
+      />
+      <Handle
+        type="source"
+        id={`quantumHandlereverseRegisterNodeOutput0${id}`}
+        position={Position.Right}
+        className="!bg-blue-300 !border-black"
+        isConnectableEnd={false}
+      />
+    </div>
+  );
+});
+```
 
-## Grid breakpoints
+### Port naming
 
-While we include our grid breakpoints as CSS variables (except for `xs`), be aware that **CSS variables do not work in media queries**. This is by design in the CSS spec for variables, but may change in coming years with support for `env()` variables. Check out [this Stack Overflow answer](https://stackoverflow.com/a/47212942) for some helpful links. In the meantime, you can use these variables in other CSS situations, as well as in your JavaScript.
+Port ids follow a naming convention that the rest of the modeler relies on:
+
+- **Prefix:** `classicalHandle` for classical ports, `quantumHandle` for quantum ports, `ancillaHandle` and `dirtyAncillaHandle` for ancilla ports. The prefix decides which edge type is drawn and which connections are allowed.
+- **Inputs:** `<prefix><Name>Input<index><nodeId>`, for example `quantumHandleGateInput0<id>`.
+- **Outputs:** `<prefix><nodeType>Output<index><nodeId>`, for example `quantumHandlegateNodeOutput0<id>`.
+
+The node id at the end makes every port id unique in the model.
+
+### Default values
+
+Properties are stored in `node.data`. Read them from `data`, and write them through the store so that undo, redo and collaboration work:
+
+```tsx
+import { useStore } from "@/config/store";
+
+const updateNodeValue = useStore((state) => state.updateNodeValue);
+
+useEffect(() => {
+  if (data.reverseOrder === undefined) {
+    updateNodeValue(id, "reverseOrder", "true");
+  }
+}, [id]);
+```
+
+If the number of ports depends on a property, as for the Splitter or the QFT, call `useUpdateNodeInternals()(id)` after the property changes so React Flow recalculates the port positions.
+
+## 3. Register the component
+
+Add the component to `nodeTypes` in `src/config/site.ts`, both in `nodesConfig` and in `initialDiagram`:
+
+```ts
+import { ReverseRegisterNode } from "@/components/nodes/reverseRegister";
+
+export const nodesConfig = {
+  // ...
+  nodeTypes: {
+    // ...
+    [consts.ReverseRegisterNode]: ReverseRegisterNode,
+  } as any,
+};
+```
+
+Without this step, React Flow renders the node as a default node.
+
+## 4. Add the palette entry
+
+Add the element to a category in `src/components/panels/categories.tsx`. For the example, the entry goes into **Circuit Primitives → Utilities**:
+
+```ts
+{
+  label: "Reverse Register",
+  type: consts.ReverseRegisterNode,
+  icon: "ReverseRegister_palette.png",
+  description: "Reverses the order of the qubits of a register.",
+  completionGuaranteed: true,
+  compactOptions: [true, false],
+},
+```
+
+| Field                  | Meaning                                                                                                     |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `label`                | Name in the palette and initial label of the node. Several palette entries may share a type and differ by label, like the encodings. |
+| `type`                 | The node type from step 1.                                                                                  |
+| `icon`                 | File name of the icon in `public/`. With two icons, the first is used for **Pioneer** and the second for **Explorer**. |
+| `description`          | Tooltip in the palette.                                                                                     |
+| `aliases`              | Further names the palette search finds, for example `["Controlled-X"]` for CNOT.                            |
+| `completionGuaranteed` | Whether the backend has an implementation. With **Completion Guaranteed: Yes**, only these elements are shown. |
+| `compactOptions`       | In which display the element is offered: `true` in compact mode, `false` in normal mode, or both.          |
+| `properties`, `constraints`, `mapping`, `outputType`, `isDataType` | Optional; copied into `node.data` when the node is dropped.      |
+
+Place the icon in `public/`, for example `public/ReverseRegister_palette.png`.
+
+When the element is dropped, `addNodeToCanvas` in `src/App.tsx` creates the node with a new UUID, the palette `label`, empty `inputs` and `outputs`, and the optional fields of the palette entry.
+
+## 5. Add properties to the Properties panel (optional)
+
+Simple settings can be edited directly on the node. Settings that belong in the **Properties** panel go into `src/components/panels/text.tsx`, in a block for the node type:
+
+```tsx
+{selectedNode?.type === ReverseRegisterNode && (
+  <div className="mb-4">
+    <label htmlFor="reverseOrder">Reverse order</label>
+    <select
+      id="reverseOrder"
+      value={selectedNode.data.reverseOrder ?? "true"}
+      onChange={(e) => updateField("reverseOrder", e.target.value)}
+    >
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+)}
+```
+
+The **Information** tab of the panel shows the node id and the explanations from `PROPERTIES_EXPLANATIONS` in the same file. Add an entry there to explain the properties of the new element.
+
+## 6. Map the node to the backend
+
+`src/backend.ts` converts the model into the compile request of the LEQO backend. Add a case to `mapNode`:
+
+```ts
+case consts.ReverseRegisterNode:
+  return {
+    id: node.id,
+    type: "reverse-register",
+    reverseOrder: node.data.reverseOrder === "true",
+  };
+```
+
+The request types in `src/backend.types.ts` are generated from the backend's OpenAPI schema with `openapi-typescript`. A new node `type` must therefore exist in the backend first. Then regenerate the types instead of editing the file.
+
+Until the backend supports the node, you can give the node an OpenQASM implementation: if `node.data.implementation` is set, `mapNode` sends the node as `type: "implementation"`.
+
+## 7. Add validation rules
+
+The model validation and the generator for erroneous test models use the spec registry in `src/lib/nodeSpecs.ts`. Add a spec to `TESTABLE_NODE_REGISTRY`:
+
+```ts
+{
+  id: "reverseRegister",
+  label: "Reverse Register",
+  category: CAT_CIRCUIT,
+  nodeType: "reverseRegisterNode",
+  defaultData: { label: "Reverse Register", reverseOrder: "true", outputs: [] },
+  width: 160,
+  height: 120,
+  options: [
+    {
+      key: "reverseOrder",
+      label: "Reverse order",
+      values: ["true"],
+      allowed: ["true", "false"],
+      required: true,
+    },
+  ],
+  inputs: [
+    quantumPort("in", "Register", (id) => `quantumHandleReverseRegisterInput0${id}`),
+  ],
+  outputHandle: (id) => `quantumHandlereverseRegisterNodeOutput0${id}`,
+},
+```
+
+| Field                    | Effect                                                                                          |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| `options`                | Settings and their constraints: `required`, `allowed`, `numeric`, `integer`, `min`, `max`, `pattern`. |
+| `inputs`                 | Ports with their kind (`quantum` or classical), the expected data type and whether they are required. |
+| `targetHandles`          | All valid input ports of a node, if they depend on its settings. `null` disables the port check. |
+| `check`                  | Node-specific checks, for example indices against the connected register size.                 |
+| `equalQuantumInputSizes` | All quantum inputs must carry registers of the same size.                                       |
+
+If the node changes the size of a register, add it to the register size tracing in `registerSize` in `src/lib/modelValidation.ts`. A node that keeps the size, like this example, belongs to `PASS_THROUGH`.
+
+The spec also adds the element to the **Generate Test Flows** dialog, which builds a valid control model and erroneous variants of it.
+
+## 8. Test the node
+
+1. Run `pnpm dev` and drag the element from the palette onto the canvas.
+2. Connect it, change its properties, and check that undo and redo work.
+3. Save and reopen the model to make sure all properties are stored.
+4. Open **Generate Test Flows** (requires `VITE_ENABLE_NODE_TESTING=true`), select the new element, and check that the control model is accepted and the erroneous models are rejected.
+5. Run `pnpm build` and `pnpm lint` before you open a pull request.

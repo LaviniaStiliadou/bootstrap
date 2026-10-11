@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
-import rehypeKatex from 'rehype-katex'
 
 import astroBrokenLinksChecker from 'astro-broken-links-checker'
 import { bootstrap } from './src/libs/astro'

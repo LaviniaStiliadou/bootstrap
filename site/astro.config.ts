@@ -1,6 +1,4 @@
 import { defineConfig } from 'astro/config'
-import mdx from '@astrojs/mdx'
-
 import astroBrokenLinksChecker from 'astro-broken-links-checker'
 import { bootstrap } from './src/libs/astro'
 import { getConfig } from './src/libs/config'
@@ -22,11 +20,7 @@ export default defineConfig({
   },
 
   integrations: [
-    mdx({
-    }),
-
     bootstrap(),
-
     astroBrokenLinksChecker({
       checkExternalLinks: false,
       cacheExternalLinks: false,

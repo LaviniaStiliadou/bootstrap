@@ -24,7 +24,6 @@ export default defineConfig({
 
   integrations: [
     mdx({
-      rehypePlugins: [rehypeKatex]
     }),
 
     bootstrap(),

@@ -35,6 +35,7 @@
     - title: Configuration
     - title: Create New Nodes
     - title: Add Nodes to the Palette
+    - title: Custom Operations
 
 - title: Development
   icon: terminal

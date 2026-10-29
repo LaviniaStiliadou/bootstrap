@@ -1,0 +1,369 @@
+---
+title: Custom Operations
+description: Add your own operations to a Qonstruct model with the Custom Quantum Operator and Custom Classical Operator, and execute them as a workflow on Camunda.
+toc: true
+---
+
+## Overview
+
+The **Custom Quantum Operator** and the **Custom Classical Operator** let you add your own operations to a model. Each operator gets an implementation, for example a Python file, and any number of classical and quantum inputs and outputs. When the model is transformed, the operator becomes a task in the generated workflow, which is then deployed and executed on [Camunda]([[docsref:/integrations-services/camunda-engine]]).
+
+For a full list of the operator properties and validation rules, see [Custom Operators]([[docsref:/getting-started/modeling-language#custom-operators]]) in the modeling language.
+
+## Writing the implementation
+
+The inputs and outputs of a Python implementation are declared with comment annotations at the top of the file:
+
+```python
+# @input a
+# @output result
+result = 2 * a
+```
+
+- `# @input <name>` declares a variable that receives the value of a connected input.
+- `# @output <name>` declares the variable whose value is returned as the output of the operator.
+
+In this example, the operator takes the number `a`, doubles it, and returns it as `result`.
+
+## Prerequisites
+
+Executing a model with custom operations requires the workflow services and the LEQO backend.
+
+1. Start the ICSE Docker setup by following the instructions in the [QuantME Use Cases repository](https://github.com/UST-QuAntiL/QuantME-UseCases/tree/fix/2025-icse-docker/2025-icse). Use the [Docker Compose file](#docker-compose-file) below instead of the one in the repository. It leaves out services that aren't required.
+2. Set `PUBLIC_HOSTNAME` to the hostname or IP address of your Docker engine. Don't use `localhost`.
+3. Start the [LEQO backend](https://github.com/LEQO-Framework/leqo-backend):
+
+   ```bash
+   docker compose -f compose-dev.yaml up --build
+   ```
+
+## Running the example
+
+1. Set your IP address in the `.env` file of the low-code-modeler repository. On Windows, you can find your IP address by running `ipconfig` in the command prompt.
+2. Start Qonstruct and open the configuration window. Check that your IP address has been loaded correctly and that the Camunda endpoint contains the correct IP address.
+3. Load the [example model](#example-model) below, or your own model with a custom operation.
+4. Transform the model by clicking **Model Transformation**.
+5. Open **History** and click **Deploy Workflow**. Wait until the green confirmation message *Workflow is deployed on Camunda* appears.
+6. Open Camunda and log in with the following credentials:
+   - Username: `demo`
+   - Password: `demo`
+7. Click **Start Process** and select `process_workflow_process_no_placeholder`. Enter your IP address again where required.
+8. Click the home icon in the upper-right corner and select **Cockpit**. Then, open the process.
+9. Select the process instance and check the `result` variable. It should contain the final computed value. In the example model, the input is `2`, so `result` is `4`.
+
+## Example model
+
+The example model connects a **Number** with the value `2` to a **Custom Quantum Operator** that runs the Python implementation shown [above](#writing-the-implementation). Save it as a `.json` file and load it in Qonstruct.
+
+```json
+{
+  "metadata": {
+    "version": "1.0.0",
+    "name": "My Model",
+    "description": "This is a model.",
+    "author": "",
+    "containsPlaceholder": false,
+    "id": "flow-1792842155251",
+    "timestamp": "2026-10-24T15:22:35.251Z"
+  },
+  "nodes": [
+    {
+      "id": "cf134b0f-fbc4-4aea-99cb-026c2661b21c",
+      "type": "algorithmNode",
+      "position": {
+        "x": 795,
+        "y": 900
+      },
+      "selected": true,
+      "selectable": true,
+      "draggable": true,
+      "data": {
+        "label": "Custom Quantum Operator",
+        "inputs": [
+          {
+            "id": "f376a6b8-c482-4171-b962-d8663e49a55e",
+            "edgeId": "a43082a5-ca61-4e2e-b6ae-dc619c18bc5a",
+            "outputIdentifier": "a",
+            "identifiers": [
+              "q922100"
+            ],
+            "targetHandle": "classicalHandleOperationInput0cf134b0f-fbc4-4aea-99cb-026c2661b21c"
+          }
+        ],
+        "outputs": [
+          {
+            "identifier": "",
+            "size": "",
+            "type": "classical"
+          }
+        ],
+        "children": [],
+        "implementation": "# @input a\n# @output  result\nresult = 2* a",
+        "implementationType": "",
+        "uncomputeImplementationType": "",
+        "uncomputeImplementation": "",
+        "completionGuaranteed": true,
+        "compactOptions": [
+          true,
+          false
+        ],
+        "description": "Encapsulates a reusable quantum operation defined by the user.",
+        "icon": [
+          "PaletteIcon_CustomQuantumOperator.png",
+          "PaletteIcon_Ancilla_CustomQuantumOperator.png"
+        ],
+        "identifiers": [],
+        "inputTypes": [
+          "number"
+        ],
+        "outputTypes": [
+          "any"
+        ],
+        "language": "python",
+        "numberQuantumInputs": 0,
+        "numberClassicalInputs": 1,
+        "numberClassicalOutputs": 1,
+        "fileName": "example.py"
+      },
+      "width": 360,
+      "height": 265,
+      "positionAbsolute": {
+        "x": 795,
+        "y": 900
+      },
+      "dragging": false,
+      "hidden": false
+    },
+    {
+      "id": "f376a6b8-c482-4171-b962-d8663e49a55e",
+      "type": "dataTypeNode",
+      "position": {
+        "x": 150,
+        "y": 690
+      },
+      "selected": false,
+      "selectable": true,
+      "draggable": true,
+      "data": {
+        "label": "Number",
+        "inputs": [],
+        "outputs": [
+          {
+            "identifier": "a",
+            "size": "",
+            "type": "classical"
+          }
+        ],
+        "children": [],
+        "implementation": "",
+        "implementationType": "",
+        "uncomputeImplementationType": "",
+        "uncomputeImplementation": "",
+        "completionGuaranteed": true,
+        "compactOptions": [
+          true,
+          false
+        ],
+        "description": "Integer value (whole number) or floating-point number (decimal).",
+        "icon": "PaletteIcon_Number.png",
+        "identifiers": [
+          "q922100"
+        ],
+        "dataType": "number",
+        "value": "2",
+        "outputIdentifier": "a",
+        "inputTypes": [],
+        "outputTypes": [
+          "number"
+        ]
+      },
+      "width": 450,
+      "height": 270,
+      "positionAbsolute": {
+        "x": 150,
+        "y": 690
+      },
+      "dragging": false,
+      "hidden": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "f376a6b8-c482-4171-b962-d8663e49a55e",
+      "sourceHandle": "classicalHandleDataTypeOutput0f376a6b8-c482-4171-b962-d8663e49a55e",
+      "target": "cf134b0f-fbc4-4aea-99cb-026c2661b21c",
+      "targetHandle": "classicalHandleOperationInput0cf134b0f-fbc4-4aea-99cb-026c2661b21c",
+      "type": "classicalEdge",
+      "id": "a43082a5-ca61-4e2e-b6ae-dc619c18bc5a",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 20,
+        "height": 20,
+        "color": "#F5A843"
+      },
+      "redoStack": [],
+      "hidden": false
+    }
+  ],
+  "viewport": {
+    "x": -49.5,
+    "y": -440,
+    "zoom": 1
+  }
+}
+```
+
+## Docker Compose file
+
+This Docker Compose file starts the Workflow Modeler, the Camunda engine, and the OpenTOSCA ecosystem. Use it in place of the `docker-compose.yml` of the ICSE setup.
+
+```yaml
+# Settings and configurations that are common for all containers
+x-minio-common: &minio-common
+  # breaking changes in later versions
+  image: quay.io/minio/minio:RELEASE.2022-01-27T03-53-02Z
+  command: server --console-address ":9001"  http://minio{1...2}/data{1...2}
+  expose:
+    - "9000"
+    - "9001"
+  environment:
+    MINIO_ROOT_USER: minio
+    MINIO_ROOT_PASSWORD: minio123
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval: 30s
+    timeout: 20s
+    retries: 3
+
+services:
+
+  ### Workflow Modeler ###
+  workflow-modeler:
+    image: planqk/workflow-modeler:v1.5.4
+    environment:
+      CAMUNDA_ENDPOINT: http://${PUBLIC_HOSTNAME}:8090/engine-rest
+      ENABLE_DATA_FLOW_PLUGIN: 'false'
+      ENABLE_OPENTOSCA_PLUGIN: 'true'
+      ENABLE_PATTERN_PLUGIN: 'true'
+      ENABLE_PLANQK_PLUGIN: 'false'
+      ENABLE_QHANA_PLUGIN: 'false'
+      ENABLE_QUANTME_PLUGIN: 'true'
+      OPENTOSCA_ENDPOINT: http://${PUBLIC_HOSTNAME}:1337/csars
+      PATTERN_ATLAS_ENDPOINT: http://${PUBLIC_HOSTNAME}:1977/patternatlas/patternLanguages/af7780d5-1f97-4536-8da7-4194b093ab1d
+      PATTERN_ATLAS_UI_ENDPOINT: "http://${PUBLIC_HOSTNAME}:1978"
+      QC_ATLAS_ENDPOINT: "http://${PUBLIC_HOSTNAME}:6626"
+      QPROV_ENDPOINT: http://${PUBLIC_HOSTNAME}:8094/qprov
+      QRM_USERNAME: ${QRM_USERNAME}
+      QRM_REPONAME: ${QRM_REPONAME}
+      QRM_REPOPATH: ${QRM_REPOPATH}
+      SCRIPT_SPLITTER_ENDPOINT: http://${PUBLIC_HOSTNAME}:8891
+      WINERY_ENDPOINT: http://${PUBLIC_HOSTNAME}:8093/winery
+    ports:
+      - 1893:8080
+    networks:
+      - pattern-based-adaptation
+
+
+  ### Camunda Engine ###
+  camunda-engine:
+    image: planqk/camunda-process-view-plugins:v1.0.4
+    ports:
+      - 8090:8080
+    networks:
+      - pattern-based-adaptation
+  #######################
+
+
+  #######################
+  ### OpenTOSCA Ecosystem ###
+  container:
+    image: opentosca/container:v3.1.6
+    ports:
+      - '1337:1337'
+      - '8081-8087:8081-8087'
+    environment:
+      CONTAINER_HOSTNAME: $PUBLIC_HOSTNAME
+      ENGINE_IA_HOSTNAME: engine-ia-jdk8
+      ENGINE_IA_PORT: 8080
+      ENGINE_IA_JAVA17_HOSTNAME: engine-ia-jdk17
+      ENGINE_IA_JAVA17_PORT: 8080
+      ENGINE_PLAN_BPEL_HOSTNAME: engine-plan
+      CONTAINER_DEPLOYMENT_TESTS: 'false'
+    networks:
+      - pattern-based-adaptation
+
+  engine-plan:
+    image: opentosca/ode:v2.4.0
+    ports:
+      - '9763:9763'
+    networks:
+      - pattern-based-adaptation
+
+  engine-ia-jdk8:
+    image: opentosca/engine-ia:v2.1.0
+    ports:
+      - '8091:8080'
+    networks:
+      - pattern-based-adaptation
+  engine-ia-jdk17:
+    image: opentosca/engine-ia:latest-jdk17
+    ports:
+      - '7424:8080'
+    networks:
+      - pattern-based-adaptation
+  winery:
+    build: initialized-winery
+    logging:
+      driver: none
+    ports:
+      - '8093:8080'
+    environment:
+      WINERY_HOSTNAME: $PUBLIC_HOSTNAME
+      WORKFLOWMODELER_HOSTNAME: $PUBLIC_HOSTNAME
+      TOPOLOGYMODELER_HOSTNAME: $PUBLIC_HOSTNAME
+      CONTAINER_HOSTNAME: $PUBLIC_HOSTNAME
+    networks:
+      - pattern-based-adaptation
+  ui:
+    image: opentosca/ui:latest
+    environment:
+      API_ENDPOINT_HOST: ${PUBLIC_HOSTNAME}
+      API_ENDPOINT_PORT: 1337
+      WINERY_HOST: ${PUBLIC_HOSTNAME}
+      WINERY_PORT: 8093
+    ports:
+      - '8088:8080'
+    networks:
+      - pattern-based-adaptation
+
+  dind:
+    image: docker:20.10-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    ports:
+      - '2222:2375'
+      - '9990-9999:9990-9999'
+      - '9990-9999:9990-9999/udp'
+    networks:
+      - pattern-based-adaptation
+  # end of OpenTOSCA Ecosystem
+  #######################
+
+
+
+
+## By default this config uses default local driver,
+## For custom volumes replace with volume driver configuration.
+volumes:
+  data1-1:
+  data1-2:
+  data2-1:
+  data2-2:
+  script_data:
+  exec_data:
+
+networks:
+  pattern-based-adaptation:
+    driver: bridge
+```

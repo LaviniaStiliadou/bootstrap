@@ -9,112 +9,193 @@ aliases:
 toc: true
 ---
 
-## Choose a setup
+Qonstruct is a collaborative low-code modeling environment for designing, transforming, and executing quantum applications.
 
-Qonstruct provides different setups depending on what you want to build and model.
+It provides a visual modeling interface that allows users to create quantum application models without manually implementing every underlying technical detail. Qonstruct integrates domain profiles, reusable pattern solutions, AI-assisted model generation, and backend services to support the development and execution of quantum applications.
 
-### Basic setup
+## Features
 
-Build quantum application models and execute them as quantum circuits or workflows.
+- **Visual low-code modeling**  
+  Create and edit quantum application models using an intuitive graphical modeling environment.
 
-[Get started with the basic setup →](#basic-setup)
+- **Collaborative modeling**  
+  Work collaboratively on models through the integrated collaboration backend.
 
-### QML setup
+- **Quantum application execution**  
+  Transform models into executable quantum workflows or quantum circuits and interact with connected execution services.
 
-Use QML elements to model quantum applications with QML-specific constructs.
+- **AI-assisted model generation**  
+  Generate low-code models from natural-language descriptions.
 
-[Get started with the QML setup →](#qml-setup)
+- **Algorithm detection**  
+  Analyze natural-language descriptions to identify suitable low-code modeling models.
 
-### Domain profile setup
+- **Domain profiles**  
+  Define, load, and manage domain-specific modeling constructs and reusable profiles.
 
-Use domain profiles to extend Qonstruct with domain-specific modeling elements.
+- **Pattern integration**  
+  Create, update, and inspect pattern solutions associated with quantum applications.
 
-[Get started with the domain profile setup →](#domain-profile-setup)
+- **User Templates**  
+  Create and manage reusable templates to extend the modeling environment.
 
----
+- **OpenQASM support**  
+  Import OpenQASM representations directly into the modeling environment.
 
-## Basic setup
+- **JSON and diagram import/export**  
+  Import and export models using supported JSON and diagram formats.
 
-The basic setup provides everything you need to create quantum application models and execute them as quantum circuits or workflows.
+## Requirements
 
-### Prerequisites
+Before running Qonstruct locally, make sure the following software is installed:
 
-Before you begin, make sure you have:
+- [Node.js](https://nodejs.org/) 22.x or newer
+- [pnpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/)
 
-* Node.js 22.x or later
-* pnpm
-* Docker and Docker Compose
+## Quick Start
 
-### 1. Start the required services
-
-Clone and start the LEQO backend:
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/LEQO-Framework/leqo-backend
-cd leqo-backend
-docker compose -f compose-dev.yaml up -d
+git clone https://github.com/LEQO-Framework/low-code-modeler.git
+cd low-code-modeler
 ```
 
-The backend runs on port `8000`.
+### 2. Start Qonstruct with Docker
 
-### 2. Configure Qonstruct
+To start Qonstruct together with its Docker-based services, run:
 
-Create a `.env` file in the Qonstruct project root:
-
-```env
-VITE_LOW_CODE_BACKEND=http://localhost:8000
+```bash
+docker-compose up --build
 ```
 
-### 3. Start Qonstruct
+### 3. Open Qonstruct
 
-Install the dependencies and start the development server:
+Once the application has started, open the following URL in your browser:
+
+```text
+http://localhost:4242
+```
+
+### Local Development
+
+Alternatively, Qonstruct can be started directly using the local development environment.
+
+From the Qonstruct project root, install the dependencies:
 
 ```bash
 pnpm install
+```
+
+Then start the development server:
+
+```bash
 npm run dev
 ```
 
-Qonstruct runs on port `4242`.
+The application is available at:
 
-### 4. Open Qonstruct
+```text
+http://localhost:4242
+```
 
-Open http://localhost:4242 in your browser.
+## Domain Profiles
 
-You can now create quantum application models and execute them as quantum circuits or workflows.
+Qonstruct supports loading domain profiles directly from a shared repository.
 
-## QML setup
+To enable repository-based domain profiles, set the following environment variable to the raw base URL of a publicly accessible repository:
 
-The QML setup adds QML-specific elements to Qonstruct for modeling quantum applications.
+```env
+VITE_DOMAIN_PROFILES_URL=https://raw.githubusercontent.com/<owner>/<repo>/main
+```
 
-[QML setup guide →](#)
+Once configured, the **Domain Profile** dialog provides a **Load from Repository** option. Users can select a domain and revision and load the corresponding profile directly into Qonstruct.
 
-## Domain profile setup
+### Repository Structure
 
-The domain profile setup allows you to use domain-specific modeling elements in Qonstruct.
+The domain profile repository is a static file tree and does not require a dedicated backend.
 
-[Domain profile setup guide →](#)
+```text
+index.json
+<directory>/<version>.json
+```
 
-## Next steps
+The `index.json` file describes the available domains and revisions:
 
-Once Qonstruct is running, you can:
+```json
+{
+  "domains": [
+    {
+      "name": "Example Domain",
+      "directory": "example",
+      "versions": ["1.0.0", "1.1.0"],
+      "latest": "1.1.0"
+    }
+  ]
+}
+```
 
-* [Create and edit a model](#)
-* [Execute a quantum circuit or workflow](#)
-* [Use QML elements](#)
-* [Create and use domain profiles](#)
+Each profile contains the corresponding domain model, including its blocks grouped by category.
 
----
+The repository can be hosted using:
 
-## Developer documentation
+- GitHub Raw
+- GitHub Pages
+- Another raw Git hosting service
+- A static file server
 
-For developing and extending Qonstruct, see the developer documentation:
+If `VITE_DOMAIN_PROFILES_URL` is not configured, repository-based domain profiles are disabled and the corresponding UI option is hidden.
 
-* [Development environment](#)
-* [Collaboration backend](#)
-* [Docker](#)
-* [Repository-based domain profiles](#)
-* [Pattern integration](#)
-* [Linting and CI](#)
-* [Project structure](#)
+## Linting
 
----
+Qonstruct uses **Oxlint** for static analysis.
+
+Oxlint is included as a development dependency and is installed automatically with the project dependencies.
+
+Run Oxlint using pnpm:
+
+```bash
+pnpm exec oxlint .
+```
+
+Alternatively, using npm:
+
+```bash
+npm install
+npx oxlint .
+```
+
+The linting configuration is located in:
+
+```text
+oxlint.config.ts
+```
+
+Oxlint is also executed automatically by GitHub Actions for pull requests targeting `main`.
+
+## Pattern Integration
+
+Qonstruct can be used to create and update pattern solutions and to visualize the underlying quantum computing patterns of an algorithm.
+
+Full pattern integration requires the following services:
+
+- Database
+- QC-Atlas
+- Pattern Atlas API
+- Pattern Atlas UI
+
+The required services can be started using the Docker setup provided by the **QuantME Use Cases** repository:
+
+[QuantME Use Cases – Docker Setup](https://github.com/UST-QuAntiL/QuantME-UseCases/tree/fix/2025-icse-docker/2025-icse/docker)
+
+## Project Structure
+
+```text
+├── src/                    # Modeling logic and validation
+├── public/                 # Public assets
+├── backend/                # Collaboration backend
+├── oxlint.config.ts        # Oxlint configuration
+├── Dockerfile              # Docker image definition
+└── THIRD_PARTY_LICENSES    # Third-party licenses and dependencies
+```

@@ -10,6 +10,18 @@ This glossary explains some of the key concepts, models, and reusable components
 
 A **Block** is a reusable building element within a quantum low-code model. Blocks encapsulate a specific operation and can be combined with other blocks to create more complex models.
 
+### Domain Block
+
+A **Domain Block** is a block defined by a domain profile. It represents a concept of an application domain, such as a relation or a schema, under a domain-specific name, icon, and description. Each domain block belongs to a palette category and defines its own inputs, outputs, properties, and constraints, as well as a mapping to the standard Qonstruct elements that implement it.
+
+Models that contain domain blocks are executed on Camunda 8.
+
+### Domain Profile
+
+A **Domain Profile** is a collection of domain blocks tailored to a specific application domain. When a domain profile is selected in the Experience Mode, it replaces the standard palette with its domain blocks, so that users can model in the terminology of their domain without detailed knowledge of quantum computing.
+
+Domain profiles are created and managed with **Manage Domain Profiles** in the toolbar, stored as JSON files, and can be loaded from a shared profile repository.
+
 ### Low-Code Model
 
 A **Low-Code Model** is a visual representation of a quantum application that can be created with minimal hand-written code. Users can build and configure models using graphical elements, properties, and predefined templates.
